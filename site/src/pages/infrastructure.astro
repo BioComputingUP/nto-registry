@@ -1,59 +1,164 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { ICONS, GITHUB_ICON } from "../lib/icons";
 import infrastructure from "../generated/infrastructure-catalogue.json";
+
+const base = import.meta.env.BASE_URL;
+
+const FLAGSHIP_IDS = new Set(["apicuron", "orcid", "bip-scholar"]);
+
+type LogoEntry =
+  | { type: "img"; src: string }
+  | { type: "svg"; markup: string }
+  | { type: "icon"; key: string; color: string };
+
+// Real logos, fetched from each platform's own site/official asset (ORCID's
+// hosted icon, the GitHub mark already used elsewhere on the site, favicons
+// pulled directly from each domain). Where no reliable real asset could be
+// confirmed (Zenodo, OpenEBench — see AGENTS.md's "never fabricate" rule),
+// a consistent icon-tile fallback is used instead of a generic placeholder.
+const LOGOS: Record<string, LogoEntry> = {
+  apicuron: { type: "img", src: `${base}img/logos/apicuron.png` },
+  orcid: { type: "img", src: "https://orcid.org/assets/vectors/orcid.logo.icon.svg" },
+  "bio-tools": { type: "img", src: `${base}img/logos/bio-tools.png` },
+  workflowhub: { type: "img", src: `${base}img/logos/workflowhub.png` },
+  "elixir-tess": { type: "img", src: `${base}img/logos/elixir-tess.png` },
+  zenodo: { type: "icon", key: "database", color: "var(--color-teal-500)" },
+  github: { type: "svg", markup: GITHUB_ICON },
+  "openaire-graph": { type: "img", src: `${base}img/logos/openaire-graph.png` },
+  "bip-finder": { type: "img", src: `${base}img/logos/bip.png` },
+  openebench: { type: "icon", key: "server", color: "var(--color-navy-700)" },
+  "bip-scholar": { type: "img", src: `${base}img/logos/bip.png` },
+  fairsharing: { type: "img", src: `${base}img/logos/fairsharing.png` },
+};
+
+const flagship = infrastructure.filter((i) => FLAGSHIP_IDS.has(i.id));
+const registration = infrastructure.filter((i) => !FLAGSHIP_IDS.has(i.id));
 ---
 
 <BaseLayout title="Infrastructure" description="Technical infrastructure capable of capturing credit for Non-Traditional Research Artefacts.">
   <section class="section page-header-section">
     <div class="container">
-      <p class="eyebrow">Credit-capture infrastructure</p>
-      <h1>Supporting Infrastructure</h1>
+      <div class="infra-title-row">
+        <div>
+          <p class="eyebrow">Credit-capture infrastructure</p>
+          <h1>Non-Traditional Research Artefact Infrastructure</h1>
+        </div>
+        <div class="infra-hero-badge" aria-hidden="true">
+          <svg viewBox="0 0 260 240" xmlns="http://www.w3.org/2000/svg" role="presentation">
+            <circle cx="196" cy="56" r="52" fill="var(--color-teal-500)" opacity="0.14" />
+            <circle cx="44" cy="184" r="40" fill="var(--color-accent)" opacity="0.12" />
+            <circle cx="232" cy="192" r="20" fill="var(--color-teal-500)" opacity="0.18" />
+            <circle cx="18" cy="26" r="16" fill="var(--color-navy-700)" opacity="0.1" />
+
+            <g transform="translate(34,24)">
+              <rect width="192" height="192" rx="30" fill="var(--color-surface)" stroke="var(--color-border)" />
+              <g transform="translate(48,48) scale(4)" stroke="var(--color-teal-500)" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="4" width="16" height="16" rx="2.5" />
+                <rect x="9" y="9" width="6" height="6" rx="1" />
+                <path d="M9 4v2M15 4v2M9 18v2M15 18v2M4 9h2M4 15h2M18 9h2M18 15h2" />
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
       <p class="section-intro" style="margin-left:0;">
-        The platforms that turn NTRA effort into machine-readable, citable credit — from
-        persistent identifiers to granular contribution tracking to aggregated researcher
-        profiles. Each entry links to its source and shows which artefact types it currently
-        captures credit for versus where that coverage is still planned.
+        The platforms that turn artefact-level effort into machine-readable, citable credit —
+        from persistent identifiers to granular contribution tracking to aggregated researcher
+        profiles.
       </p>
     </div>
   </section>
 
-  <section class="section" style="padding-top:0;">
+  <section class="section infra-flagship-section">
     <div class="container">
-      <div class="grid grid-2">
-        {infrastructure.map((infra) => (
-          <article class="card infra-card">
-            <div class="infra-card-title">
+      <p class="eyebrow">Flagship infrastructure</p>
+      <h2 class="section-heading-left">Flagship Credit-Capture Infrastructure</h2>
+      <p class="section-intro-left">
+        The three platforms with the broadest general-purpose functionality for crediting
+        non-traditional research artefacts and the activity behind them — the artefact itself,
+        rather than just the activity, is the primary focus.
+      </p>
+      <div class="grid grid-3">
+        {flagship.map((infra) => {
+          const logo = LOGOS[infra.id];
+          return (
+            <article class="card infra-card infra-card-flagship">
+              <div class="infra-logo-wrap">
+                {logo.type === "img" && <img class="infra-logo" src={logo.src} alt="" loading="lazy" />}
+                {logo.type === "svg" && <span class="infra-logo-icon" set:html={logo.markup} />}
+                {logo.type === "icon" && (
+                  <span class="infra-logo-icon" style={`color:${logo.color}`} set:html={ICONS[logo.key]} />
+                )}
+              </div>
               <h3><a href={infra.url} target="_blank" rel="noopener">{infra.name}</a></h3>
-            </div>
-            <p>{infra.function}</p>
+              <p>{infra.function}</p>
+              <details class="infra-details">
+                <summary class="btn btn-outline registry-toggle">Show details</summary>
+                <div class="registry-card-details">
+                  <h4>Currently captures credit for</h4>
+                  {infra.activeFor.length > 0 ? (
+                    <ul class="infra-focus-list">
+                      {infra.activeFor.map((ref) => (
+                        <li><strong>{ref.artefact}</strong> ({ref.category})</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p class="infra-focus-empty">No active mappings yet.</p>
+                  )}
+                </div>
+              </details>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
 
-            <div>
-              <h4>Currently captures credit for</h4>
-              {infra.activeFor.length > 0 ? (
-                <ul class="infra-focus-list">
-                  {infra.activeFor.map((ref) => (
-                    <li><strong>{ref.artefact}</strong> ({ref.category})</li>
-                  ))}
-                </ul>
-              ) : (
-                <p class="infra-focus-empty">No active mappings yet.</p>
-              )}
-            </div>
-
-            <div>
-              <h4>Planned focus</h4>
-              {infra.plannedFor.length > 0 ? (
-                <ul class="infra-focus-list">
-                  {infra.plannedFor.map((ref) => (
-                    <li><strong>{ref.artefact}</strong> ({ref.category})</li>
-                  ))}
-                </ul>
-              ) : (
-                <p class="infra-focus-empty">No planned mappings recorded.</p>
-              )}
-            </div>
-          </article>
-        ))}
+  <section class="section section-subtle infra-registration-section">
+    <div class="container">
+      <p class="eyebrow">Registration &amp; discovery</p>
+      <h2 class="section-heading-left">Registration Services for Artefacts</h2>
+      <p class="section-intro-left">
+        Platforms that give an artefact itself a live, registered digital presence — a
+        discoverable record with a persistent identifier — which can then feed into the
+        credit-capture platforms above. Registering software in bio.tools, for example, gives
+        it a persistent identifier that ORCID or APICURON records can point back to; registering
+        a database in FAIRsharing does the same for data. DOI-issuing registries such as Zenodo
+        offer an even stronger guarantee of long-term permanence.
+      </p>
+      <div class="grid grid-3">
+        {registration.map((infra) => {
+          const logo = LOGOS[infra.id];
+          return (
+            <article class="card infra-card">
+              <div class="infra-logo-wrap">
+                {logo.type === "img" && <img class="infra-logo" src={logo.src} alt="" loading="lazy" />}
+                {logo.type === "svg" && <span class="infra-logo-icon" set:html={logo.markup} />}
+                {logo.type === "icon" && (
+                  <span class="infra-logo-icon" style={`color:${logo.color}`} set:html={ICONS[logo.key]} />
+                )}
+              </div>
+              <h3><a href={infra.url} target="_blank" rel="noopener">{infra.name}</a></h3>
+              <p>{infra.function}</p>
+              <details class="infra-details">
+                <summary class="btn btn-outline registry-toggle">Show details</summary>
+                <div class="registry-card-details">
+                  <h4>Currently captures credit for</h4>
+                  {infra.activeFor.length > 0 ? (
+                    <ul class="infra-focus-list">
+                      {infra.activeFor.map((ref) => (
+                        <li><strong>{ref.artefact}</strong> ({ref.category})</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p class="infra-focus-empty">No active mappings yet.</p>
+                  )}
+                </div>
+              </details>
+            </article>
+          );
+        })}
       </div>
     </div>
   </section>
@@ -62,8 +167,8 @@ import infrastructure from "../generated/infrastructure-catalogue.json";
     <div class="container cta-inner">
       <h2>Know of infrastructure that should be here?</h2>
       <p>
-        Propose a platform that captures credit for an NTRA type — comparable to APICURON,
-        ORCID, or bio.tools.
+        Propose a platform that captures credit for an NTRA (Non-Traditional Research Artefact)
+        type — comparable to APICURON, ORCID, or bio.tools.
       </p>
       <a class="btn btn-primary" href="https://github.com/gavinf97/ntra-registry/issues/new?template=submit_ntra_example.yml" target="_blank" rel="noopener">
         Submit new infrastructure
@@ -72,7 +177,115 @@ import infrastructure from "../generated/infrastructure-catalogue.json";
   </section>
 
   <style>
-    .cta-section { text-align: center; }
-    .cta-inner { max-width: 600px; margin: 0 auto; }
+    .infra-title-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-5);
+    }
+
+    .infra-hero-badge {
+      flex-shrink: 0;
+      width: 150px;
+      margin-top: -8px;
+    }
+
+    .infra-hero-badge svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    @media (max-width: 820px) {
+      .infra-hero-badge {
+        display: none;
+      }
+    }
+
+    .infra-flagship-section {
+      padding-top: var(--space-6);
+    }
+
+    .section-heading-left {
+      margin-bottom: var(--space-2);
+    }
+
+    .section-intro-left {
+      color: var(--color-text-muted);
+      font-size: 1.1rem;
+      max-width: 760px;
+      margin-bottom: var(--space-7);
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    .infra-card-flagship {
+      border-width: 2px;
+      border-color: var(--color-accent);
+    }
+
+    .infra-logo-wrap {
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: var(--space-3);
+    }
+
+    .infra-logo {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: var(--radius-sm);
+    }
+
+    .infra-logo-icon {
+      display: inline-flex;
+    }
+
+    .infra-logo-icon :global(svg) {
+      width: 40px;
+      height: 40px;
+    }
+
+    .infra-card h3 {
+      margin-bottom: var(--space-2);
+    }
+
+    .infra-details {
+      margin-top: auto;
+      padding-top: var(--space-3);
+    }
+
+    .infra-details summary {
+      list-style: none;
+      cursor: pointer;
+    }
+
+    .infra-details summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .infra-details summary::marker {
+      content: "";
+    }
+
+    .infra-details[open] summary {
+      margin-bottom: var(--space-3);
+    }
+
+    .cta-section {
+      text-align: center;
+      background: var(--color-bg-subtle);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .cta-inner {
+      max-width: 600px;
+      margin: 0 auto;
+    }
   </style>
 </BaseLayout>

@@ -17,15 +17,20 @@ const infrastructureNames: Record<string, string> = Object.fromEntries(
       <h1>Non-Traditional Research Artefact Registry</h1>
       <p class="section-intro" style="margin-left:0;">
         All {stats.artefactCount} non-traditional research artefact types across {stats.categoryCount} categories.
-        You can search, filter by category, or filter by whether credit-capture infrastructure is already active
-        or still planned.
+        You can search, filter by category, or filter by whether active credit-capture infrastructure exists.
       </p>
     </div>
   </section>
 
-  <section class="section" style="padding-top:0;">
+  <section class="section registry-explorer-section">
     <div class="container">
       <RegistryExplorer client:load artefacts={catalogue.artefacts} categories={stats.categories} infrastructureNames={infrastructureNames} />
     </div>
   </section>
+
+  <style>
+    .registry-explorer-section {
+      padding-top: var(--space-6);
+    }
+  </style>
 </BaseLayout>

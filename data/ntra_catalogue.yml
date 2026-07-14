@@ -47,7 +47,7 @@
 #   added-in-version:
 #   last-modified-version:
 
-catalogue-version: 1.1.0
+catalogue-version: 1.2.0
 
 entries:
 
@@ -86,8 +86,14 @@ entries:
       - infrastructure-id: bip-scholar
         capture-function: Aggregates service stewardship into a discipline-tailored researcher profile.
         status: active
+      - infrastructure-id: fairsharing
+        capture-function: >-
+          Registers the data service itself as a discoverable, citable
+          standard/database record, independent of the credit given to
+          individual maintainers.
+        status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.0.0
+    last-modified-version: 1.2.0
 
   - id: curated-knowledgebase-entry
     category: Data
@@ -117,8 +123,13 @@ entries:
       - infrastructure-id: orcid
         capture-function: Links curator identity to sustained curation contributions.
         status: active
+      - infrastructure-id: fairsharing
+        capture-function: >-
+          Registers the parent knowledgebase as a discoverable, citable
+          database/standard record.
+        status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.0.0
+    last-modified-version: 1.2.0
 
   - id: fair-metadata-record
     category: Data

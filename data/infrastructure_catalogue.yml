@@ -123,3 +123,13 @@
     human-readable researcher profiles tailored to discipline/contribution type.
   added-in-version: 1.0.0
   last-modified-version: 1.0.0
+
+- id: fairsharing
+  name: FAIRsharing
+  url: https://fairsharing.org
+  function: >-
+    Publishing & PID provision. Curated registry of data and metadata
+    standards, databases, and repositories, giving each a discoverable,
+    citable record independent of where the underlying data is hosted.
+  added-in-version: 1.2.0
+  last-modified-version: 1.2.0

@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/) — see
 CONTRIBUTING.md for the exact MAJOR/MINOR/PATCH bump policy applied to
 `catalogue-version`.
 
+## [1.2.0] - 2026-07-14
+
+### Added
+- `fairsharing` added to `data/infrastructure_catalogue.yml` — FAIRsharing
+  registers data/metadata standards, databases, and repositories with a
+  discoverable, citable record independent of where the underlying data is
+  hosted. Linked as active supporting infrastructure on the `public-data-
+  service` and `curated-knowledgebase-entry` artefacts in
+  `data/ntra_catalogue.yml`.
+
 ## [1.1.0] - 2026-07-14
 
 ### Added

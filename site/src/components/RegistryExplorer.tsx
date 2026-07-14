@@ -7,7 +7,7 @@ interface Props {
   infrastructureNames: Record<string, string>;
 }
 
-type StatusFilter = "any" | "active" | "planned";
+type StatusFilter = "any" | "active";
 
 // For now, only show these infrastructure platforms on registry cards, and
 // only where the credit-capture pathway is already active — no "planned"
@@ -96,7 +96,6 @@ export default function RegistryExplorer({ artefacts, categories, infrastructure
           >
             <option value="any">Any</option>
             <option value="active">Has active infrastructure</option>
-            <option value="planned">Has planned infrastructure</option>
           </select>
         </div>
         {(query || category !== "all" || statusFilter !== "any") && (
