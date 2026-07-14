@@ -43,6 +43,15 @@
   --color-badge-planned-bg: #fff4e5;
   --color-badge-planned-text: #a15c00;
 
+  /* One distinct colour per NTRA category, used for the registry card
+     badge + border so the five categories are visually distinguishable
+     at a glance (not just as text). */
+  --cat-data: #1a9e82;
+  --cat-training: #f66729;
+  --cat-software: #5b6ee1;
+  --cat-research-support: #c98a1e;
+  --cat-peer-review: #c94f75;
+
   /* Type scale */
   --font-body: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --fs-h1: clamp(2rem, 1.6rem + 1.6vw, 3.25rem);
@@ -329,6 +338,8 @@ img {
   gap: var(--space-4);
   align-items: flex-end;
   margin-bottom: var(--space-4);
+  background: var(--color-bg-subtle);
+  border-color: var(--color-border);
 }
 
 .filter-field {
@@ -348,11 +359,16 @@ img {
 .filter-field select {
   padding: 0.6rem 0.8rem;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--color-border);
+  border: 1.5px solid var(--color-border);
   background: var(--color-surface);
   color: var(--color-text);
   font-family: var(--font-body);
   font-size: 1rem;
+}
+
+.filter-field input:focus,
+.filter-field select:focus {
+  border-color: var(--color-accent);
 }
 
 .filter-clear {
@@ -364,6 +380,12 @@ img {
   color: var(--color-text-muted);
   font-size: var(--fs-small);
   margin-bottom: var(--space-4);
+}
+
+.registry-card {
+  display: flex;
+  flex-direction: column;
+  border-width: 2px;
 }
 
 .registry-card-header {
@@ -381,7 +403,9 @@ img {
 .registry-toggle {
   padding: 0.5rem 1.1rem;
   font-size: var(--fs-small);
-  margin-top: var(--space-2);
+  margin-top: auto;
+  padding-top: 0.5rem;
+  align-self: flex-start;
 }
 
 .registry-card-details {

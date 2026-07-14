@@ -9,6 +9,18 @@ interface Props {
 
 type StatusFilter = "any" | "active" | "planned";
 
+const CATEGORY_COLOR_VAR: Record<string, string> = {
+  Data: "--cat-data",
+  Training: "--cat-training",
+  Software: "--cat-software",
+  "Research support": "--cat-research-support",
+  "Peer review": "--cat-peer-review",
+};
+
+function categoryColor(category: string) {
+  return `var(${CATEGORY_COLOR_VAR[category] ?? "--color-navy-800"})`;
+}
+
 export default function RegistryExplorer({ artefacts, categories, infrastructureNames }: Props) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<string>("all");
@@ -103,10 +115,11 @@ export default function RegistryExplorer({ artefacts, categories, infrastructure
       <div className="grid grid-2 registry-grid">
         {filtered.map((a) => {
           const isOpen = expanded.has(a.id);
+          const color = categoryColor(a.category);
           return (
-            <article className="card registry-card" key={a.id}>
+            <article className="card registry-card" key={a.id} style={{ borderColor: color }}>
               <div className="registry-card-header">
-                <span className="badge badge-category">{a.category}</span>
+                <span className="badge badge-category" style={{ background: color }}>{a.category}</span>
                 <h3>{a.artefact}</h3>
               </div>
               <p>{a.explanation}</p>

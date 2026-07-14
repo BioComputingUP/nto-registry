@@ -75,19 +75,21 @@ const sorted = [...reforms].sort((a, b) => a.year - b.year);
     /* Alternating column tint (not row zebra-striping) so each column reads
        as a distinct band — column 1 (Initiative) and column 3 (Core
        philosophy) share a tint, column 2 (Year) and column 4 (Relevance)
-       share the other. */
+       share the other. Uses color-mix against the theme's own surface
+       color (rather than two already-similar neutral tokens) so the two
+       bands are clearly distinguishable in both light and dark mode. */
     .reforms-table tbody th:nth-child(1),
     .reforms-table tbody td:nth-child(1),
     .reforms-table tbody th:nth-child(3),
     .reforms-table tbody td:nth-child(3) {
-      background: var(--color-bg-subtle);
+      background: var(--color-surface);
     }
 
     .reforms-table tbody th:nth-child(2),
     .reforms-table tbody td:nth-child(2),
     .reforms-table tbody th:nth-child(4),
     .reforms-table tbody td:nth-child(4) {
-      background: var(--color-surface);
+      background: color-mix(in srgb, var(--color-teal-500) 12%, var(--color-surface));
     }
 
     .initiative-link {
