@@ -444,6 +444,13 @@ img {
   color: var(--color-text-muted);
 }
 
+.infra-empty {
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+  font-style: italic;
+  margin: 0;
+}
+
 .empty-state {
   text-align: center;
   color: var(--color-text-muted);

@@ -9,6 +9,12 @@ interface Props {
 
 type StatusFilter = "any" | "active" | "planned";
 
+// For now, only show these infrastructure platforms on registry cards, and
+// only where the credit-capture pathway is already active — no "planned"
+// entries are shown here (that nuance still lives on the Infrastructure
+// page, which lists every platform regardless of status).
+const VISIBLE_INFRA_IDS = new Set(["apicuron", "orcid", "bip-scholar"]);
+
 const CATEGORY_COLOR_VAR: Record<string, string> = {
   Data: "--cat-data",
   Training: "--cat-training",
@@ -158,15 +164,24 @@ export default function RegistryExplorer({ artefacts, categories, infrastructure
 
                   <div>
                     <h4>Supporting infrastructure</h4>
-                    <ul className="infra-list">
-                      {a["supporting-infrastructure"].map((ref, i) => (
-                        <li key={i}>
-                          <span className={`badge badge-${ref.status}`}>{ref.status}</span>{" "}
-                          <strong>{infrastructureNames[ref["infrastructure-id"]] ?? ref["infrastructure-id"]}</strong>
-                          <span className="infra-capture"> — {ref["capture-function"]}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    {(() => {
+                      const visible = a["supporting-infrastructure"].filter(
+                        (ref) => ref.status === "active" && VISIBLE_INFRA_IDS.has(ref["infrastructure-id"])
+                      );
+                      if (visible.length === 0) {
+                        return <p className="infra-empty">No active infrastructure from APICURON, ORCID, or BIP! Scholar yet.</p>;
+                      }
+                      return (
+                        <ul className="infra-list">
+                          {visible.map((ref, i) => (
+                            <li key={i}>
+                              <strong>{infrastructureNames[ref["infrastructure-id"]] ?? ref["infrastructure-id"]}</strong>
+                              <span className="infra-capture"> — {ref["capture-function"]}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      );
+                    })()}
                   </div>
                 </div>
               )}
