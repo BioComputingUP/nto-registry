@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { ICONS, GITHUB_ICON } from "../lib/icons";
 
 const base = import.meta.env.BASE_URL;
 
@@ -20,11 +21,22 @@ function initials(name: string) {
     .slice(0, 3);
 }
 
-// Author list mirrors the paper's byline order. Photo + ORCID are only
-// included where independently confirmed (see AGENTS.md "never fabricate a
-// URL/identifier" rule) — reused from BioComputingUP/OSAI_ecosystem's about
-// page for the two authors who overlap with that project's team, and from
-// OSAI's own public author-ORCID listing for the others who overlap.
+// Author list mirrors the paper's byline order. Photo credit: reused from
+// BioComputingUP/OSAI_ecosystem's about page for the two authors who overlap
+// with that project's team. ORCID iDs are independently verified via the
+// public ORCID API (https://pub.orcid.org), cross-checked against each
+// person's listed employer/works to confirm the match — see AGENTS.md's
+// "never fabricate a URL/identifier" rule. Verification notes:
+//   - Alloza, Zoubiri: single unambiguous ORCID match with employment record
+//     at the exact institution listed in the paper.
+//   - Hermjakob, Makaronidou, Quaglia, Capella-Gutierrez, Goble, Sufi,
+//     Vergoulis: single unambiguous match, institution matches the paper.
+//   - Bouhraoua: single ORCID record for this surname; credit-name matches
+//     exactly, and its listed works (DisProt, CAID) are the same Padova
+//     bioinformatics group's projects.
+//   - Andrew Smith: a common name (284 ORCID records), disambiguated via
+//     employment record "Head of External Relations @ ELIXIR, Hinxton, GB" —
+//     an exact match to the paper's ELIXIR Europe Hub / Hinxton affiliation.
 const authors: Author[] = [
   {
     name: "Gavin Farrell",
@@ -36,10 +48,12 @@ const authors: Author[] = [
   {
     name: "Eva Alloza",
     affiliation: "Barcelona Supercomputing Center (BSC), Spain",
+    orcid: "0000-0001-8385-9336",
   },
   {
     name: "Adel Bouhraoua",
     affiliation: "University of Padova, Italy",
+    orcid: "0000-0001-9531-6339",
   },
   {
     name: "Salvador Capella-Gutierrez",
@@ -54,14 +68,17 @@ const authors: Author[] = [
   {
     name: "Henning Hermjakob",
     affiliation: "EMBL-EBI, United Kingdom",
+    orcid: "0000-0001-8479-0262",
   },
   {
     name: "Maria Makaronidou",
     affiliation: "Athena Research & Innovation Center, Greece",
+    orcid: "0009-0006-4575-3526",
   },
   {
     name: "Andrew Smith",
     affiliation: "ELIXIR Europe Hub, EMBL-EBI, United Kingdom",
+    orcid: "0000-0002-6025-9271",
   },
   {
     name: "Shoaib Sufi",
@@ -76,11 +93,13 @@ const authors: Author[] = [
   {
     name: "Mehdi Zoubiri",
     affiliation: "University of Padova, Italy",
+    orcid: "0009-0009-3602-3558",
   },
   {
     name: "Federica Quaglia",
     affiliation: "University of Padova, Italy",
     role: "Co-corresponding author",
+    orcid: "0000-0002-0341-4888",
   },
   {
     name: "Silvio C.E. Tosatto",
@@ -138,8 +157,8 @@ const authors: Author[] = [
             {author.role && <p class="author-role">{author.role}</p>}
             <p class="author-affiliation">{author.affiliation}</p>
             {author.orcid && (
-              <a href={`https://orcid.org/${author.orcid}`} target="_blank" rel="noopener" class="orcid-link">
-                ORCID: {author.orcid}
+              <a href={`https://orcid.org/${author.orcid}`} target="_blank" rel="noopener" class="orcid-link" aria-label={`${author.name}'s ORCID iD`} title="View ORCID iD">
+                <img src="https://orcid.org/assets/vectors/orcid.logo.icon.svg" alt="" width="20" height="20" loading="lazy" />
               </a>
             )}
           </div>
@@ -151,8 +170,11 @@ const authors: Author[] = [
   <section class="section">
     <div class="container">
       <div class="grid grid-2">
-        <div class="card">
-          <h3>ELIXIR Focus Group</h3>
+        <div class="card contact-card">
+          <div class="contact-card-head">
+            <span class="contact-card-icon" set:html={ICONS.users} />
+            <h3>ELIXIR Focus Group</h3>
+          </div>
           <p>
             This work is carried out in collaboration with the ELIXIR Europe Credit,
             Recognition & Usage Focus Group, which brings together the wider community
@@ -162,8 +184,11 @@ const authors: Author[] = [
             Visit the focus group
           </a>
         </div>
-        <div class="card">
-          <h3>The Registry on GitHub</h3>
+        <div class="card contact-card">
+          <div class="contact-card-head">
+            <span class="contact-card-icon" set:html={GITHUB_ICON} />
+            <h3>The Registry on GitHub</h3>
+          </div>
           <p>
             The data behind this site — the artefact catalogue, infrastructure catalogue,
             and reform initiatives — is versioned and openly maintained on GitHub.
@@ -192,8 +217,40 @@ const authors: Author[] = [
       max-width: 760px;
     }
 
+    .contact-card-head {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-2);
+    }
+
+    .contact-card-head h3 {
+      margin: 0;
+    }
+
+    .contact-card-icon {
+      display: inline-flex;
+      flex-shrink: 0;
+      color: var(--color-accent);
+    }
+
+    .contact-card-icon :global(svg) {
+      width: 28px;
+      height: 28px;
+    }
+
     .orcid-link {
-      font-size: var(--fs-small);
+      display: inline-flex;
+      margin-top: var(--space-2);
+    }
+
+    .orcid-link img {
+      opacity: 0.85;
+      transition: opacity 0.15s ease;
+    }
+
+    .orcid-link:hover img {
+      opacity: 1;
     }
   </style>
 </BaseLayout>
