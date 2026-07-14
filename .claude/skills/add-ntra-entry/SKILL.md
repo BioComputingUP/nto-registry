@@ -1,13 +1,17 @@
 ---
 name: add-ntra-entry
-description: Use when adding a new example, a new artefact type, or a new supporting-infrastructure platform to the NTRA Registry, or when correcting an existing entry — whether the source is a filed GitHub issue (submit_ntra_example / suggest_change) or an ad hoc request from a maintainer. Appends/edits data/ntra_catalogue.yml and data/infrastructure_catalogue.yml correctly and validates before finishing.
+description: Use when adding a new example, a new artefact type, a new supporting-infrastructure platform, or a new assessment reform initiative to the NTRA Registry, or when correcting an existing entry — whether the source is a filed GitHub issue (submit_ntra_example / suggest_change) or an ad hoc request from a maintainer. Appends/edits data/ntra_catalogue.yml, data/infrastructure_catalogue.yml, and data/reform_initiatives.yml correctly and validates before finishing.
 ---
 
 # Add / Correct an NTRA Registry Entry
 
 **Purpose:** Resolve a submission — filed as a GitHub issue or requested ad
-hoc — into a correctly formatted entry in `data/ntra_catalogue.yml` and/or
-`data/infrastructure_catalogue.yml`.
+hoc — into a correctly formatted entry in `data/ntra_catalogue.yml`,
+`data/infrastructure_catalogue.yml`, and/or `data/reform_initiatives.yml`.
+
+The public website (`site/`) reads these files at build time and needs no
+manual update — see AGENTS.md's "Website" section. Never edit anything under
+`site/src/generated/` to reflect a data change; it's regenerated automatically.
 
 This skill only handles the *content* change. After it, always invoke the
 `semver-maintenance` skill to bump the version consistently — do not bump
@@ -89,6 +93,18 @@ artefact type).
 2. Apply the minimal fix requested (wording, URL, category, infrastructure
    reference). Do not rewrite unrelated fields.
 3. Bump that entry's `last-modified-version` (value TBD by `semver-maintenance`).
+
+### E. New assessment reform initiative
+
+1. Check `data/reform_initiatives.yml` for an existing entry first.
+2. Fill in every field using the template at the top of that file: `id`
+   (kebab-case of `initiative`), `initiative` (full name), `year`,
+   `core-philosophy` (1-2 sentences), `relevance-to-ntras` (how it
+   specifically supports non-traditional research artefacts), `url`. Only
+   set `url` to a real, confident homepage — `''` otherwise.
+3. Append to `data/reform_initiatives.yml`. This file has no top-level
+   version field of its own — it shares `catalogue-version` from
+   `data/ntra_catalogue.yml`.
 
 ## Step 3 — Show the draft, then write
 

@@ -1,0 +1,78 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import infrastructure from "../generated/infrastructure-catalogue.json";
+---
+
+<BaseLayout title="Infrastructure" description="Technical infrastructure capable of capturing credit for Non-Traditional Research Artefacts.">
+  <section class="section page-header-section">
+    <div class="container">
+      <p class="eyebrow">Credit-capture infrastructure</p>
+      <h1>Supporting Infrastructure</h1>
+      <p class="section-intro" style="margin-left:0;">
+        The platforms that turn NTRA effort into machine-readable, citable credit — from
+        persistent identifiers to granular contribution tracking to aggregated researcher
+        profiles. Each entry links to its source and shows which artefact types it currently
+        captures credit for versus where that coverage is still planned.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="grid grid-2">
+        {infrastructure.map((infra) => (
+          <article class="card infra-card">
+            <div class="infra-card-title">
+              <h3><a href={infra.url} target="_blank" rel="noopener">{infra.name}</a></h3>
+            </div>
+            <p>{infra.function}</p>
+
+            <div>
+              <h4>Currently captures credit for</h4>
+              {infra.activeFor.length > 0 ? (
+                <ul class="infra-focus-list">
+                  {infra.activeFor.map((ref) => (
+                    <li><strong>{ref.artefact}</strong> ({ref.category})</li>
+                  ))}
+                </ul>
+              ) : (
+                <p class="infra-focus-empty">No active mappings yet.</p>
+              )}
+            </div>
+
+            <div>
+              <h4>Planned focus</h4>
+              {infra.plannedFor.length > 0 ? (
+                <ul class="infra-focus-list">
+                  {infra.plannedFor.map((ref) => (
+                    <li><strong>{ref.artefact}</strong> ({ref.category})</li>
+                  ))}
+                </ul>
+              ) : (
+                <p class="infra-focus-empty">No planned mappings recorded.</p>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section cta-section">
+    <div class="container cta-inner">
+      <h2>Know of infrastructure that should be here?</h2>
+      <p>
+        Propose a platform that captures credit for an NTRA type — comparable to APICURON,
+        ORCID, or bio.tools.
+      </p>
+      <a class="btn btn-primary" href="https://github.com/gavinf97/ntra-registry/issues/new?template=submit_ntra_example.yml" target="_blank" rel="noopener">
+        Submit new infrastructure
+      </a>
+    </div>
+  </section>
+
+  <style>
+    .cta-section { text-align: center; }
+    .cta-inner { max-width: 600px; margin: 0 auto; }
+  </style>
+</BaseLayout>

@@ -1,5 +1,5 @@
 name: Submit a New NTRA Example/Type
-description: Propose a new example, a new artefact type, or a new supporting infrastructure platform for the NTRA Registry.
+description: Propose a new example, a new artefact type, a new supporting infrastructure platform, or a new assessment reform initiative for the NTRA Registry.
 title: "[New NTRA]: <Name>"
 labels: ["enhancement", "new entry"]
 body:
@@ -22,6 +22,7 @@ body:
         - New example for an existing artefact type
         - New artefact type
         - New supporting infrastructure platform
+        - New assessment reform initiative
     validations:
       required: true
 
@@ -29,7 +30,7 @@ body:
     id: category
     attributes:
       label: Category
-      description: "One of: Data, Training, Software, Research support, Peer review. Leave blank if proposing new infrastructure not tied to one category."
+      description: "One of: Data, Training, Software, Research support, Peer review. Leave blank if proposing new infrastructure or a reform initiative not tied to one category."
     validations:
       required: false
 
@@ -37,15 +38,15 @@ body:
     id: artefact
     attributes:
       label: Artefact Type
-      description: The existing artefact type this belongs to (e.g. "Curated Knowledgebase Entry"), or your proposed name if this is a new artefact type. See ARTEFACT_TAXONOMY.md for the current list.
+      description: The existing artefact type this belongs to (e.g. "Curated Knowledgebase Entry"), or your proposed name if this is a new artefact type. Leave blank for infrastructure/reform-initiative submissions. See ARTEFACT_TAXONOMY.md for the current list.
     validations:
-      required: true
+      required: false
 
   - type: input
     id: name
     attributes:
       label: Name
-      description: The full, human-readable name of the example or platform.
+      description: The full, human-readable name of the example, platform, or reform initiative (e.g. "DORA (San Francisco Declaration on Research Assessment)").
     validations:
       required: true
 
@@ -57,11 +58,19 @@ body:
     validations:
       required: false
 
+  - type: input
+    id: year
+    attributes:
+      label: Year (reform initiatives only)
+      description: The year the initiative was launched/published.
+    validations:
+      required: false
+
   - type: textarea
     id: explanation
     attributes:
       label: Explanation / Justification
-      description: For a new artefact type, explain what it is and how it differs from existing types. For a new example, briefly explain why it fits. For new infrastructure, explain what credit-capture function it performs.
+      description: For a new artefact type, explain what it is and how it differs from existing types. For a new example, briefly explain why it fits. For new infrastructure, explain what credit-capture function it performs. For a reform initiative, describe its core philosophy and relevance to non-traditional research artefacts.
     validations:
       required: true
 

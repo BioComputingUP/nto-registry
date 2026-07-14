@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/) — see
 CONTRIBUTING.md for the exact MAJOR/MINOR/PATCH bump policy applied to
 `catalogue-version`.
 
+## [1.1.0] - 2026-07-14
+
+### Added
+- `data/reform_initiatives.yml`, seeding the 5 key international research
+  assessment reform initiatives from Table 1 of Farrell et al. (2025) — DORA,
+  Leiden Manifesto, Hong Kong Principles, Hidden REF, and CoARA — each with
+  its core philosophy, relevance to non-traditional research artefacts, and
+  homepage URL. Validated by an extended `scripts/validate_yaml.py`.
+- A public GitHub Pages website (`site/`), built with Astro + React and
+  deployed automatically via GitHub Actions, presenting the registry as a
+  filterable Home / Registry / Assessment Reforms / Infrastructure / About
+  site. See `AGENTS.md` for the site's build/deploy contract.
+
 ## [1.0.0] - 2026-07-14
 
 ### Added

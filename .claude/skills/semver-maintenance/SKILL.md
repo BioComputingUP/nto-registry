@@ -21,8 +21,8 @@ be followed exactly — never bump ad hoc or skip a file.
 ## Step 1 — Classify the change
 
 Look at the diff (or the change about to be made) against
-`data/ntra_catalogue.yml` and `data/infrastructure_catalogue.yml` and
-classify it:
+`data/ntra_catalogue.yml`, `data/infrastructure_catalogue.yml`, and
+`data/reform_initiatives.yml` and classify it:
 
 | Change | Bump |
 |---|---|
@@ -32,6 +32,7 @@ classify it:
 | Add a new artefact type | **MINOR** |
 | Add a new category (if deliberately expanding scope, not a breaking rename) | **MINOR** |
 | Add a new supporting-infrastructure platform | **MINOR** |
+| Add a new assessment reform initiative | **MINOR** |
 | Add a new example to an existing artefact | **MINOR** |
 | Add a new optional field to the schema | **MINOR** |
 | Fix a typo, correct a description's wording | **PATCH** |
@@ -63,9 +64,11 @@ Update, in this order:
    touched by this change; leave untouched entries' `last-modified-version`
    as-is. For brand-new entries, set both `added-in-version` and
    `last-modified-version` to the new version.
-2. **`data/infrastructure_catalogue.yml`** — same `last-modified-version` /
-   `added-in-version` treatment for any touched/new infrastructure entries.
-   (This file has no separate top-level version — it shares the catalogue's.)
+2. **`data/infrastructure_catalogue.yml`** and **`data/reform_initiatives.yml`**
+   — same `last-modified-version` / `added-in-version` treatment for any
+   touched/new entries in either file. (Neither file has a separate
+   top-level version — both share `catalogue-version` from
+   `data/ntra_catalogue.yml`.)
 3. **`CITATION.cff`** — update `version: vX.Y.Z` and `date-released:` to
    today's date (`YYYY-MM-DD`).
 4. **`README.md`** — update the catalogue-version badge:

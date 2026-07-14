@@ -1,0 +1,188 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const base = import.meta.env.BASE_URL;
+
+interface Author {
+  name: string;
+  affiliation: string;
+  role?: string;
+  orcid?: string;
+  photo?: string;
+}
+
+function initials(name: string) {
+  return name
+    .split(" ")
+    .filter((p) => /^[A-Z]/.test(p))
+    .map((p) => p[0])
+    .join("")
+    .slice(0, 3);
+}
+
+// Author list mirrors the paper's byline order. Photo + ORCID are only
+// included where independently confirmed (see AGENTS.md "never fabricate a
+// URL/identifier" rule) — reused from BioComputingUP/OSAI_ecosystem's about
+// page for the two authors who overlap with that project's team, and from
+// OSAI's own public author-ORCID listing for the others who overlap.
+const authors: Author[] = [
+  {
+    name: "Gavin Farrell",
+    affiliation: "University of Padova, Italy",
+    role: "Lead author & registry maintainer",
+    orcid: "0000-0001-5166-8551",
+    photo: "img/authors/gavin.jpeg",
+  },
+  {
+    name: "Eva Alloza",
+    affiliation: "Barcelona Supercomputing Center (BSC), Spain",
+  },
+  {
+    name: "Adel Bouhraoua",
+    affiliation: "University of Padova, Italy",
+  },
+  {
+    name: "Salvador Capella-Gutierrez",
+    affiliation: "Barcelona Supercomputing Center (BSC), Spain",
+    orcid: "0000-0002-0309-604X",
+  },
+  {
+    name: "Carole Goble",
+    affiliation: "University of Manchester, United Kingdom",
+    orcid: "0000-0003-1219-2137",
+  },
+  {
+    name: "Henning Hermjakob",
+    affiliation: "EMBL-EBI, United Kingdom",
+  },
+  {
+    name: "Maria Makaronidou",
+    affiliation: "Athena Research & Innovation Center, Greece",
+  },
+  {
+    name: "Andrew Smith",
+    affiliation: "ELIXIR Europe Hub, EMBL-EBI, United Kingdom",
+  },
+  {
+    name: "Shoaib Sufi",
+    affiliation: "University of Manchester, United Kingdom",
+    orcid: "0000-0001-6390-2616",
+  },
+  {
+    name: "Thanasis Vergoulis",
+    affiliation: "Athena Research & Innovation Center, Greece",
+    orcid: "0000-0003-0555-4128",
+  },
+  {
+    name: "Mehdi Zoubiri",
+    affiliation: "University of Padova, Italy",
+  },
+  {
+    name: "Federica Quaglia",
+    affiliation: "University of Padova, Italy",
+    role: "Co-corresponding author",
+  },
+  {
+    name: "Silvio C.E. Tosatto",
+    affiliation: "University of Padova, Italy / CNR-IBIOM, Italy",
+    role: "Co-corresponding author",
+    orcid: "0000-0003-4525-7793",
+    photo: "img/authors/silvio-tosatto.gif",
+  },
+];
+---
+
+<BaseLayout title="About" description="The paper, authors, and ELIXIR Europe community behind the NTRA Registry.">
+  <section class="section page-header-section">
+    <div class="container">
+      <p class="eyebrow">About</p>
+      <h1>The paper behind this registry</h1>
+      <p class="section-intro" style="margin-left:0;">
+        This registry operationalises the landscaping presented in a preprint from members
+        of the ELIXIR Europe community.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="card preprint-card">
+        <p class="eyebrow">Preprint</p>
+        <h2>Credit, recognition, and reward for non-traditional research artefacts in the Life Sciences</h2>
+        <p>
+          Publication metrics remain the primary academic performance assessment in modern
+          academia, leaving a gap in recognition for impactful non-traditional research
+          artefacts such as curated datasets, research software, and training materials.
+          Through a mapping of valuable non-traditional artefacts illustrated by Life Science
+          examples from ELIXIR Europe, this paper examines the technical solutions and
+          sociological barriers to credit, recognition, and reward — the landscaping this
+          registry hosts as versioned, machine-readable data.
+        </p>
+        <a class="btn btn-primary" href="https://osf.io/preprints/metaarxiv/praxg_v1" target="_blank" rel="noopener">
+          Read the preprint on OSF
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-subtle">
+    <div class="container">
+      <h2 class="section-heading" style="text-align:center;">Authors</h2>
+      <p class="section-intro">The authors of the paper this registry is built from.</p>
+      <div class="grid grid-4">
+        {authors.map((author) => (
+          <div class="card author-card">
+            {author.photo ? (
+              <img class="author-photo" src={`${base}${author.photo}`} alt={author.name} loading="lazy" />
+            ) : (
+              <div class="author-initials" aria-hidden="true">{initials(author.name)}</div>
+            )}
+            <h4 class="author-name">{author.name}</h4>
+            {author.role && <p class="author-role">{author.role}</p>}
+            <p class="author-affiliation">{author.affiliation}</p>
+            {author.orcid && (
+              <a href={`https://orcid.org/${author.orcid}`} target="_blank" rel="noopener" class="orcid-link">
+                ORCID: {author.orcid}
+              </a>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>ELIXIR Focus Group</h3>
+          <p>
+            This work is carried out in collaboration with the ELIXIR Europe Credit,
+            Recognition & Usage Focus Group, which brings together the wider community
+            working on these challenges.
+          </p>
+          <a class="btn btn-outline" href="https://elixir-europe.org/focus-groups/credit-recognition-usage" target="_blank" rel="noopener">
+            Visit the focus group
+          </a>
+        </div>
+        <div class="card">
+          <h3>The Registry on GitHub</h3>
+          <p>
+            The data behind this site — the artefact catalogue, infrastructure catalogue,
+            and reform initiatives — is versioned and openly maintained on GitHub.
+            Contributions are welcome.
+          </p>
+          <a class="btn btn-outline" href="https://github.com/gavinf97/ntra-registry" target="_blank" rel="noopener">
+            View the repository
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .orcid-link {
+      font-size: var(--fs-small);
+    }
+  </style>
+</BaseLayout>

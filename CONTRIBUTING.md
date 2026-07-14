@@ -26,7 +26,7 @@ have an idea for improving the registry's structure:
 
 1.  **Check existing issues:** See if someone has already reported the same thing or made a similar suggestion.
 2.  **Open the right form:**
-    * [Submit a New NTRA Example/Type](../../issues/new?template=submit_ntra_example.yml) — for a new example resource, a new artefact type, or a new supporting-infrastructure platform.
+    * [Submit a New NTRA Example/Type](../../issues/new?template=submit_ntra_example.yml) — for a new example resource, a new artefact type, a new supporting-infrastructure platform, or a new assessment reform initiative.
     * [Suggest a Change](../../issues/new?template=suggest_change.yml) — for corrections to an existing entry (broken link, wording, wrong category, etc).
     * [General Issue](../../issues/new?template=general_issue.yml) — for questions, CI/validation bugs, documentation issues, or anything else. Blank issues are also enabled if none of the templates fit.
 
@@ -39,12 +39,16 @@ This is the preferred way to add or modify entries directly.
     git checkout -b name-of-your-new-branch
     ```
 3.  **Make Your Changes:**
-    * New examples/artefact types/infrastructure go in `data/ntra_catalogue.yml` and/or `data/infrastructure_catalogue.yml` — see [ARTEFACT_TAXONOMY.md](ARTEFACT_TAXONOMY.md) for the taxonomy and each file's in-file template comment for exact field formatting.
+    * New examples/artefact types/infrastructure/reform initiatives go in `data/ntra_catalogue.yml`, `data/infrastructure_catalogue.yml`, and/or `data/reform_initiatives.yml` — see [ARTEFACT_TAXONOMY.md](ARTEFACT_TAXONOMY.md) for the taxonomy and each file's in-file template comment for exact field formatting.
     * Bump `catalogue-version` per the [Versioning Policy](#versioning-policy-semver) below, and add a `CHANGELOG.md` entry.
     * Run the validator before opening your PR:
       ```bash
       python3 scripts/validate_yaml.py
       ```
+    * You do **not** need to touch anything under `site/` — the website
+      regenerates from the YAML on every build. If you want to preview your
+      change on the site locally, see `site/README.md` (`npm run dev` or
+      `docker compose up` from `site/`).
 4.  **Commit Your Changes:**
     ```bash
     git add .
@@ -58,6 +62,7 @@ We welcome contributions that add or improve:
 * **New examples** for an existing artefact type (a named database, tool, training course, report, etc., with a URL where one stably exists).
 * **New artefact types** not yet represented, with a clear explanation, corresponding activities, and at least one example — see [ARTEFACT_TAXONOMY.md](ARTEFACT_TAXONOMY.md).
 * **New supporting infrastructure** — platforms that capture credit for an artefact type (comparable to APICURON, ORCID, bio.tools).
+* **New assessment reform initiatives** — international efforts supporting non-traditional research assessment (comparable to DORA, CoARA).
 * **Corrections** — fixes for typos, broken links, outdated information, or mis-categorised entries.
 
 ## What Not to Contribute
@@ -73,7 +78,7 @@ We welcome contributions that add or improve:
 [Semantic Versioning](https://semver.org/):
 
 * **MAJOR** — a breaking schema change: a required field is renamed/removed, the category set is restructured, or an existing artefact `id` is removed.
-* **MINOR** — a backward-compatible addition: a new artefact type, a new category, a new infrastructure entry, a new example, or a new optional field.
+* **MINOR** — a backward-compatible addition: a new artefact type, a new category, a new infrastructure entry, a new reform initiative, a new example, or a new optional field.
 * **PATCH** — a correction that adds/removes nothing: typo fixes, broken-URL fixes, wording clarifications.
 
 Every PR that changes `data/**` must bump `catalogue-version` accordingly and

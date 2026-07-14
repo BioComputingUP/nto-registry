@@ -1,0 +1,228 @@
+---
+import "../styles/tokens.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "A versioned, community-extensible catalogue of Non-Traditional Research Artefacts (NTRAs) in the Life Sciences." } = Astro.props;
+
+const nav = [
+  { href: "/", label: "Home" },
+  { href: "/registry", label: "Registry" },
+  { href: "/reforms", label: "Assessment Reforms" },
+  { href: "/infrastructure", label: "Infrastructure" },
+  { href: "/about", label: "About" },
+];
+
+const base = import.meta.env.BASE_URL;
+const currentPath = Astro.url.pathname;
+
+function isActive(href: string) {
+  const target = (base + href.replace(/^\//, "")).replace(/\/+$/, "") || "/";
+  const current = currentPath.replace(/\/+$/, "") || "/";
+  if (href === "/") return current === (base.replace(/\/+$/, "") || "/");
+  return current === target || current.startsWith(target + "/");
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title} | NTRA Registry</title>
+  </head>
+  <body>
+    <a class="skip-link visually-hidden" href="#main">Skip to content</a>
+
+    <header class="site-nav">
+      <div class="container site-nav-inner">
+        <a class="brand" href={`${base}`}>
+          <span class="brand-mark" aria-hidden="true">NTRA</span>
+          <span class="brand-text">NTRA Registry</span>
+        </a>
+        <nav aria-label="Primary">
+          <ul class="nav-links">
+            {nav.map((item) => (
+              <li>
+                <a
+                  href={item.href === "/" ? base : `${base}${item.href.replace(/^\//, "")}/`}
+                  aria-current={isActive(item.href) ? "page" : undefined}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <a class="btn btn-outline nav-github" href="https://github.com/gavinf97/ntra-registry" target="_blank" rel="noopener">
+          GitHub
+        </a>
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div>
+          <strong>NTRA Registry</strong>
+          <p class="footer-tagline">Credit, recognition, and reward for non-traditional research artefacts in the Life Sciences.</p>
+        </div>
+        <ul class="footer-links">
+          <li><a href="https://github.com/gavinf97/ntra-registry" target="_blank" rel="noopener">GitHub Repository</a></li>
+          <li><a href="https://github.com/gavinf97/ntra-registry/blob/main/LICENSE.md" target="_blank" rel="noopener">License (CC BY 4.0)</a></li>
+          <li><a href="https://github.com/gavinf97/ntra-registry/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Contribute</a></li>
+          <li><a href="https://github.com/gavinf97/ntra-registry/issues" target="_blank" rel="noopener">Issues</a></li>
+        </ul>
+      </div>
+      <div class="container footer-bottom">
+        <span>&copy; {new Date().getFullYear()} NTRA Registry contributors. Content licensed CC BY 4.0.</span>
+      </div>
+    </footer>
+
+    <style>
+      .site-nav {
+        background: var(--color-nav-bg);
+        color: var(--color-nav-text);
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .site-nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-5);
+        min-height: 76px;
+        flex-wrap: wrap;
+        padding-top: var(--space-2);
+        padding-bottom: var(--space-2);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        color: #fff;
+        font-weight: 700;
+        font-size: 1.1rem;
+      }
+
+      .brand:hover {
+        text-decoration: none;
+      }
+
+      .brand-mark {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        border-radius: var(--radius-sm);
+        background: var(--color-accent);
+        color: #fff;
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: var(--space-5);
+        margin: 0;
+        padding: 0;
+        flex-wrap: wrap;
+      }
+
+      .nav-links a {
+        color: rgba(255, 255, 255, 0.85);
+        font-weight: 500;
+        padding: 0.4rem 0.1rem;
+        border-bottom: 2px solid transparent;
+      }
+
+      .nav-links a:hover {
+        color: #fff;
+        text-decoration: none;
+      }
+
+      .nav-links a[aria-current="page"] {
+        color: #fff;
+        border-bottom-color: var(--color-accent);
+      }
+
+      .nav-github {
+        border-color: rgba(255, 255, 255, 0.5);
+        color: #fff;
+        padding: 0.5rem 1.1rem;
+        font-size: 0.9rem;
+      }
+
+      .nav-github:hover {
+        background: #fff;
+        color: var(--color-navy-800);
+        border-color: #fff;
+      }
+
+      .site-footer {
+        background: var(--color-navy-900);
+        color: rgba(255, 255, 255, 0.85);
+        margin-top: var(--space-8);
+      }
+
+      .footer-inner {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: var(--space-6);
+        padding: var(--space-7) var(--space-5);
+      }
+
+      .footer-inner strong {
+        color: #fff;
+        font-size: 1.1rem;
+      }
+
+      .footer-tagline {
+        max-width: 380px;
+        color: rgba(255, 255, 255, 0.7);
+        margin-top: var(--space-2);
+      }
+
+      .footer-links {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+      }
+
+      .footer-links a {
+        color: rgba(255, 255, 255, 0.75);
+      }
+
+      .footer-links a:hover {
+        color: #fff;
+      }
+
+      .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+        padding: var(--space-4) var(--space-5);
+        font-size: var(--fs-small);
+        color: rgba(255, 255, 255, 0.6);
+      }
+    </style>
+  </body>
+</html>

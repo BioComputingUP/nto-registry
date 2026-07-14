@@ -1,0 +1,23 @@
+# Local live-reloading dev server — no local Node install required.
+#
+#   docker compose up
+#
+# Then open http://localhost:4321/ntra-registry/ — edits to files in site/
+# or ../data/*.yml (after a container restart to re-run build-data) are
+# reflected live. Ctrl+C or `docker compose down` to stop.
+services:
+  site:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4321:4321"
+    volumes:
+      - .:/app
+      - ../data:/data
+      - site_node_modules:/app/node_modules
+    working_dir: /app
+    command: npm run dev
+
+volumes:
+  site_node_modules:

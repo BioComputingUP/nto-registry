@@ -1,0 +1,64 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import reforms from "../generated/reform-initiatives.json";
+
+const sorted = [...reforms].sort((a, b) => a.year - b.year);
+---
+
+<BaseLayout title="Assessment Reforms" description="Key international research assessment reform initiatives supporting non-traditional research artefacts.">
+  <section class="section page-header-section">
+    <div class="container">
+      <p class="eyebrow">Policy landscape</p>
+      <h1>Assessment Reform Initiatives</h1>
+      <p class="section-intro" style="margin-left:0;">
+        The international reform movement this registry builds on — each initiative's core
+        philosophy and its specific relevance to recognising non-traditional research
+        artefacts.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="reforms-table-wrap">
+        <table class="reforms-table">
+          <thead>
+            <tr>
+              <th scope="col">Initiative</th>
+              <th scope="col">Year</th>
+              <th scope="col">Core philosophy</th>
+              <th scope="col">Relevance to non-traditional artefacts</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sorted.map((r) => (
+              <tr>
+                <th scope="row">
+                  <a href={r.url} target="_blank" rel="noopener">{r.initiative}</a>
+                </th>
+                <td>{r.year}</td>
+                <td>{r["core-philosophy"]}</td>
+                <td>{r["relevance-to-ntras"]}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section cta-section">
+    <div class="container cta-inner">
+      <h2>Know of another reform initiative?</h2>
+      <p>Suggest it for inclusion in this list.</p>
+      <a class="btn btn-primary" href="https://github.com/gavinf97/ntra-registry/issues/new?template=submit_ntra_example.yml" target="_blank" rel="noopener">
+        Suggest a reform initiative
+      </a>
+    </div>
+  </section>
+
+  <style>
+    .cta-section { text-align: center; }
+    .cta-inner { max-width: 600px; margin: 0 auto; }
+  </style>
+</BaseLayout>

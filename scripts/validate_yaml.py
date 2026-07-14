@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Validate data/ntra_catalogue.yml and data/infrastructure_catalogue.yml.
+"""Validate data/ntra_catalogue.yml, data/infrastructure_catalogue.yml, and
+data/reform_initiatives.yml.
 
 Checks structural integrity so that community contributions (issues/PRs) can be
 merged with confidence: required fields present, ids unique and kebab-case,
@@ -19,10 +20,12 @@ import yaml
 REPO_ROOT = Path(__file__).resolve().parent.parent
 CATALOGUE_PATH = REPO_ROOT / "data" / "ntra_catalogue.yml"
 INFRA_PATH = REPO_ROOT / "data" / "infrastructure_catalogue.yml"
+REFORMS_PATH = REPO_ROOT / "data" / "reform_initiatives.yml"
 
 KNOWN_CATEGORIES = {"Data", "Training", "Software", "Research support", "Peer review"}
 KEBAB_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 SEMVER_RE = re.compile(r"^\d+\.\d+\.\d+$")
+YEAR_RE = re.compile(r"^\d{4}$")
 
 REQUIRED_ARTEFACT_FIELDS = [
     "id",
@@ -37,6 +40,17 @@ REQUIRED_ARTEFACT_FIELDS = [
 ]
 
 REQUIRED_INFRA_FIELDS = ["id", "name", "url", "function", "added-in-version", "last-modified-version"]
+
+REQUIRED_REFORM_FIELDS = [
+    "id",
+    "initiative",
+    "year",
+    "core-philosophy",
+    "relevance-to-ntras",
+    "url",
+    "added-in-version",
+    "last-modified-version",
+]
 
 
 def load_yaml(path):
@@ -168,10 +182,49 @@ def validate_catalogue(known_infra_ids, errors):
                 check_semver(entry[v_field], f"{where} ({entry_id}).{v_field}", errors)
 
 
+def validate_reform_initiatives(errors):
+    data = load_yaml(REFORMS_PATH)
+    if not isinstance(data, list) or not data:
+        errors.append(f"{REFORMS_PATH}: expected a non-empty top-level list of reform initiatives")
+        return
+
+    seen_ids = set()
+    for i, entry in enumerate(data):
+        where = f"{REFORMS_PATH} entry #{i + 1}"
+        if not isinstance(entry, dict):
+            errors.append(f"{where}: not a mapping")
+            continue
+
+        for field in REQUIRED_REFORM_FIELDS:
+            if field not in entry or entry[field] in (None, ""):
+                errors.append(f"{where} ({entry.get('id', '?')}): missing required field '{field}'")
+
+        entry_id = entry.get("id")
+        if entry_id:
+            if not KEBAB_RE.match(entry_id):
+                errors.append(f"{where}: id '{entry_id}' is not lowercase kebab-case")
+            if entry_id in seen_ids:
+                errors.append(f"{REFORMS_PATH}: duplicate reform initiative id '{entry_id}'")
+            seen_ids.add(entry_id)
+
+        year = entry.get("year")
+        if year is not None and not YEAR_RE.match(str(year)):
+            errors.append(f"{where} ({entry_id}): year '{year}' is not a 4-digit year")
+
+        url = entry.get("url", "")
+        if url and not url.startswith("http"):
+            errors.append(f"{where} ({entry_id}): url '{url}' does not start with http")
+
+        for v_field in ("added-in-version", "last-modified-version"):
+            if entry.get(v_field):
+                check_semver(entry[v_field], f"{where} ({entry_id}).{v_field}", errors)
+
+
 def main():
     errors = []
     known_infra_ids = validate_infrastructure(errors)
     validate_catalogue(known_infra_ids, errors)
+    validate_reform_initiatives(errors)
 
     if errors:
         print(f"validate_yaml.py: {len(errors)} error(s) found\n", file=sys.stderr)

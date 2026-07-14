@@ -1,0 +1,213 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import stats from "../generated/stats.json";
+
+const base = import.meta.env.BASE_URL;
+
+const features = [
+  {
+    href: "registry",
+    title: "Registry",
+    body: "Browse and filter all 24 artefact types across Data, Training, Software, Research support, and Peer review — with real examples and the infrastructure that can capture credit for each.",
+  },
+  {
+    href: "reforms",
+    title: "Assessment Reforms",
+    body: "The key international initiatives — DORA, the Leiden Manifesto, the Hong Kong Principles, Hidden REF, and CoARA — driving the shift toward recognising non-traditional research output.",
+  },
+  {
+    href: "infrastructure",
+    title: "Infrastructure",
+    body: "The technical platforms — APICURON, ORCID, bio.tools, Zenodo, and more — that turn NTRA effort into machine-readable, citable credit, and where that coverage still has gaps.",
+  },
+  {
+    href: "about",
+    title: "About",
+    body: "The paper behind this registry, its authors, and the ELIXIR Europe community effort this work builds on.",
+  },
+];
+---
+
+<BaseLayout title="Home" description="A versioned, community-extensible catalogue of Non-Traditional Research Artefacts (NTRAs) in the Life Sciences.">
+  <section class="hero">
+    <div class="container hero-inner">
+      <p class="eyebrow">Life Sciences &middot; ELIXIR Europe</p>
+      <h1>NTRA Registry</h1>
+      <p class="hero-subtitle">Credit, recognition, and reward for non-traditional research artefacts in the Life Sciences.</p>
+      <p class="hero-lead">
+        Publications alone don't capture the curated datasets, research software, training
+        materials, research support, and peer review that sustain modern science. This
+        registry catalogues those <strong>Non-Traditional Research Artefacts (NTRAs)</strong> —
+        versioned, machine-readable, and open for the community to extend.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href={`${base}registry/`}>Explore the Registry</a>
+        <a class="btn btn-outline hero-btn-outline" href={`${base}about/`}>Read the paper</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-4 stats-row">
+        <div class="stat-tile card">
+          <div class="stat-number">{stats.artefactCount}</div>
+          <div class="stat-label">Artefact types</div>
+        </div>
+        <div class="stat-tile card">
+          <div class="stat-number">{stats.categoryCount}</div>
+          <div class="stat-label">Categories</div>
+        </div>
+        <div class="stat-tile card">
+          <div class="stat-number">{stats.infrastructureCount}</div>
+          <div class="stat-label">Infrastructure platforms</div>
+        </div>
+        <div class="stat-tile card">
+          <div class="stat-number">{stats.reformInitiativeCount}</div>
+          <div class="stat-label">Reform initiatives</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-subtle">
+    <div class="container">
+      <p class="eyebrow" style="text-align:center; display:block;">What is an NTRA?</p>
+      <h2 class="section-heading">Beyond the publication</h2>
+      <p class="section-intro">
+        A Non-Traditional Research Artefact is any output or activity that sustains modern
+        research but is systematically under-represented in publication-centric assessment —
+        from a curated database entry to a FAIR software release to a grant peer-review
+        report. This registry gives each type a shared definition, real examples, and a path
+        to credit capture.
+      </p>
+      <div class="grid grid-4 category-chips">
+        {stats.categories.map((category) => (
+          <div class="card category-chip">
+            <span class="badge badge-category">{category}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-heading" style="text-align:center;">Browse the registry</h2>
+      <p class="section-intro">Four ways into the same versioned dataset — all sourced live from this repository's YAML.</p>
+      <div class="grid grid-2">
+        {features.map((feature) => (
+          <a class="card feature-card" href={`${base}${feature.href}/`}>
+            <h3>{feature.title}</h3>
+            <p>{feature.body}</p>
+            <span class="feature-link">Explore &rarr;</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section cta-section">
+    <div class="container cta-inner">
+      <h2>Missing something?</h2>
+      <p>Propose a new example, artefact type, infrastructure platform, or reform initiative.</p>
+      <a class="btn btn-primary" href="https://github.com/gavinf97/ntra-registry/issues/new/choose" target="_blank" rel="noopener">
+        Submit on GitHub
+      </a>
+    </div>
+  </section>
+
+  <style>
+    .hero {
+      background: linear-gradient(135deg, var(--color-navy-800), var(--color-navy-900));
+      color: #fff;
+      padding: var(--space-8) 0 var(--space-7);
+    }
+
+    .hero-inner {
+      max-width: 800px;
+    }
+
+    .hero .eyebrow {
+      color: var(--color-teal-500);
+    }
+
+    .hero h1 {
+      color: #fff;
+      margin-bottom: var(--space-2);
+    }
+
+    .hero-subtitle {
+      font-size: 1.3rem;
+      color: rgba(255, 255, 255, 0.92);
+      font-weight: 500;
+      margin-bottom: var(--space-4);
+    }
+
+    .hero-lead {
+      font-size: 1.05rem;
+      color: rgba(255, 255, 255, 0.8);
+      max-width: 640px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+      margin-top: var(--space-6);
+    }
+
+    .hero-btn-outline {
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.6);
+    }
+
+    .hero-btn-outline:hover {
+      background: #fff;
+      color: var(--color-navy-800);
+    }
+
+    .stats-row .stat-tile {
+      padding: var(--space-6) var(--space-4);
+    }
+
+    .category-chips {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .category-chip {
+      text-align: center;
+      padding: var(--space-4);
+    }
+
+    .feature-card {
+      color: var(--color-text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .feature-card:hover {
+      text-decoration: none;
+      transform: translateY(-3px);
+    }
+
+    .feature-card h3 {
+      color: var(--color-navy-800);
+    }
+
+    .feature-link {
+      margin-top: auto;
+      color: var(--color-accent);
+      font-weight: 600;
+    }
+
+    .cta-section {
+      text-align: center;
+    }
+
+    .cta-inner {
+      max-width: 600px;
+    }
+  </style>
+</BaseLayout>

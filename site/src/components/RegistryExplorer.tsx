@@ -1,0 +1,170 @@
+import { useMemo, useState } from "react";
+import type { Artefact } from "../lib/types";
+
+interface Props {
+  artefacts: Artefact[];
+  categories: string[];
+  infrastructureNames: Record<string, string>;
+}
+
+type StatusFilter = "any" | "active" | "planned";
+
+export default function RegistryExplorer({ artefacts, categories, infrastructureNames }: Props) {
+  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState<string>("all");
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>("any");
+  const [expanded, setExpanded] = useState<Set<string>>(new Set());
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return artefacts.filter((a) => {
+      if (category !== "all" && a.category !== category) return false;
+      if (statusFilter !== "any") {
+        const hasStatus = a["supporting-infrastructure"].some((ref) => ref.status === statusFilter);
+        if (!hasStatus) return false;
+      }
+      if (!q) return true;
+      const haystack = [
+        a.artefact,
+        a.explanation,
+        ...a.activities,
+        ...a.examples.map((e) => e.name),
+      ]
+        .join(" ")
+        .toLowerCase();
+      return haystack.includes(q);
+    });
+  }, [artefacts, query, category, statusFilter]);
+
+  function toggle(id: string) {
+    setExpanded((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
+  return (
+    <div className="registry-explorer">
+      <div className="registry-filters card">
+        <div className="filter-field">
+          <label htmlFor="registry-search">Search</label>
+          <input
+            id="registry-search"
+            type="search"
+            placeholder="Search artefacts, activities, examples…"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </div>
+        <div className="filter-field">
+          <label htmlFor="registry-category">Category</label>
+          <select id="registry-category" value={category} onChange={(e) => setCategory(e.target.value)}>
+            <option value="all">All categories</option>
+            {categories.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="filter-field">
+          <label htmlFor="registry-status">Credit-capture status</label>
+          <select
+            id="registry-status"
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value as StatusFilter)}
+          >
+            <option value="any">Any</option>
+            <option value="active">Has active infrastructure</option>
+            <option value="planned">Has planned infrastructure</option>
+          </select>
+        </div>
+        {(query || category !== "all" || statusFilter !== "any") && (
+          <button
+            type="button"
+            className="btn btn-outline filter-clear"
+            onClick={() => {
+              setQuery("");
+              setCategory("all");
+              setStatusFilter("any");
+            }}
+          >
+            Clear filters
+          </button>
+        )}
+      </div>
+
+      <p className="result-count" role="status">
+        {filtered.length} of {artefacts.length} artefact types
+      </p>
+
+      <div className="grid grid-2 registry-grid">
+        {filtered.map((a) => {
+          const isOpen = expanded.has(a.id);
+          return (
+            <article className="card registry-card" key={a.id}>
+              <div className="registry-card-header">
+                <span className="badge badge-category">{a.category}</span>
+                <h3>{a.artefact}</h3>
+              </div>
+              <p>{a.explanation}</p>
+
+              <button type="button" className="btn btn-outline registry-toggle" onClick={() => toggle(a.id)} aria-expanded={isOpen}>
+                {isOpen ? "Hide details" : "Show details"}
+              </button>
+
+              {isOpen && (
+                <div className="registry-card-details">
+                  <div>
+                    <h4>Corresponding activities</h4>
+                    <ul>
+                      {a.activities.map((act, i) => (
+                        <li key={i}>{act}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h4>Examples</h4>
+                    <ul>
+                      {a.examples.map((ex, i) => (
+                        <li key={i}>
+                          {ex.url ? (
+                            <a href={ex.url} target="_blank" rel="noopener">
+                              {ex.name}
+                            </a>
+                          ) : (
+                            ex.name
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h4>Supporting infrastructure</h4>
+                    <ul className="infra-list">
+                      {a["supporting-infrastructure"].map((ref, i) => (
+                        <li key={i}>
+                          <span className={`badge badge-${ref.status}`}>{ref.status}</span>{" "}
+                          <strong>{infrastructureNames[ref["infrastructure-id"]] ?? ref["infrastructure-id"]}</strong>
+                          <span className="infra-capture"> — {ref["capture-function"]}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
+            </article>
+          );
+        })}
+      </div>
+
+      {filtered.length === 0 && (
+        <p className="empty-state">No artefact types match your filters. Try clearing them.</p>
+      )}
+    </div>
+  );
+}
