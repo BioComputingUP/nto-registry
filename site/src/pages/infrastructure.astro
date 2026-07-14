@@ -17,17 +17,23 @@ type LogoEntry =
   | { type: "icon"; key: string; color: string };
 
 // Real logos, fetched from each platform's own official asset: ORCID's
-// hosted icon, the GitHub mark already used elsewhere on the site, each
-// platform's own GitHub organisation avatar where that gave a cleaner
-// result than its favicon (Zenodo, FAIRsharing, ELIXIR TeSS), and favicons
-// pulled directly from the remaining domains.
+// hosted icon, the GitHub mark already used elsewhere on the site,
+// Zenodo's official logo (Wikimedia Commons, sourced from their own
+// Wikipedia article), ELIXIR TeSS's dedicated service logo (from the
+// ELIXIR UK Node's own site, not just the generic ELIXIR org mark),
+// dedicated GitHub-org logos for FAIRsharing/OpenAIRE Graph/bio.tools/
+// WorkflowHub/BIP! where that was a cleaner result than their favicon.
+// FAIRsharing's own hosted SVG (fairsharing.org/assets/fairsharing-logo.svg)
+// could not be fetched directly from this environment (network-blocked),
+// so its GitHub org avatar is used instead — also their real logo, just a
+// different official asset than the one specified.
 const LOGOS: Record<string, LogoEntry> = {
   apicuron: { type: "img", src: `${base}img/logos/apicuron.png` },
   orcid: { type: "img", src: "https://orcid.org/assets/vectors/orcid.logo.icon.svg" },
   "bio-tools": { type: "img", src: `${base}img/logos/bio-tools.png` },
   workflowhub: { type: "img", src: `${base}img/logos/workflowhub.png` },
   "elixir-tess": { type: "img", src: `${base}img/logos/elixir-tess.png` },
-  zenodo: { type: "img", src: `${base}img/logos/zenodo.png` },
+  zenodo: { type: "img", src: `${base}img/logos/zenodo.svg` },
   github: { type: "svg", markup: GITHUB_ICON },
   "openaire-graph": { type: "img", src: `${base}img/logos/openaire-graph.png` },
   "bip-finder": { type: "img", src: `${base}img/logos/bip.png` },
@@ -35,8 +41,36 @@ const LOGOS: Record<string, LogoEntry> = {
   fairsharing: { type: "img", src: `${base}img/logos/fairsharing.png` },
 };
 
-const primary = infrastructure.filter((i) => PRIMARY_IDS.has(i.id));
-const registration = infrastructure.filter((i) => !PRIMARY_IDS.has(i.id) && !HIDDEN_IDS.has(i.id));
+// Which NTRA category each registration service is most associated with
+// (shown as a colour tag on its card, reusing the Registry page's category
+// colours). Services that register/enrich artefacts broadly, not tied to
+// one category, get "Generic" instead of being forced into one.
+const REGISTRATION_CATEGORY: Record<string, string> = {
+  "bio-tools": "Software",
+  workflowhub: "Software",
+  "elixir-tess": "Training",
+  zenodo: "Generic",
+  github: "Software",
+  "openaire-graph": "Generic",
+  "bip-finder": "Generic",
+  fairsharing: "Data",
+};
+
+const CATEGORY_COLOR_VAR: Record<string, string> = {
+  Data: "--cat-data",
+  Training: "--cat-training",
+  Software: "--cat-software",
+  "Research support": "--cat-research-support",
+  "Peer review": "--cat-peer-review",
+  Generic: "--cat-generic",
+};
+
+const primary = infrastructure
+  .filter((i) => PRIMARY_IDS.has(i.id))
+  .sort((a, b) => a.name.localeCompare(b.name));
+const registration = infrastructure
+  .filter((i) => !PRIMARY_IDS.has(i.id) && !HIDDEN_IDS.has(i.id))
+  .sort((a, b) => a.name.localeCompare(b.name));
 ---
 
 <BaseLayout title="Infrastructure" description="Technical infrastructure capable of capturing credit for Non-Traditional Research Artefacts.">
@@ -121,7 +155,7 @@ const registration = infrastructure.filter((i) => !PRIMARY_IDS.has(i.id) && !HID
   <section class="section section-subtle infra-registration-section">
     <div class="container">
       <p class="eyebrow">Registration &amp; discovery</p>
-      <h2 class="section-heading-left">Registration Services for Artefacts</h2>
+      <h2 class="section-heading-left">Registration Services for Non-Traditional Research Artefacts</h2>
       <p class="section-intro-left">
         Platforms that give an artefact itself a live, registered digital presence — a
         discoverable record with a persistent identifier — which can then feed into the
@@ -133,6 +167,8 @@ const registration = infrastructure.filter((i) => !PRIMARY_IDS.has(i.id) && !HID
       <div class="grid grid-3">
         {registration.map((infra) => {
           const logo = LOGOS[infra.id];
+          const tagCategory = REGISTRATION_CATEGORY[infra.id] ?? "Generic";
+          const tagColor = `var(${CATEGORY_COLOR_VAR[tagCategory]})`;
           return (
             <article class="card infra-card">
               <div class="infra-logo-wrap">
@@ -144,6 +180,7 @@ const registration = infrastructure.filter((i) => !PRIMARY_IDS.has(i.id) && !HID
               </div>
               <h3><a href={infra.url} target="_blank" rel="noopener">{infra.name}</a></h3>
               <p>{infra.function}</p>
+              <span class="badge badge-category infra-category-tag" style={`background:${tagColor}`}>{tagCategory}</span>
               <details class="infra-details">
                 <summary class="btn btn-outline registry-toggle">Show details</summary>
                 <div class="registry-card-details">
@@ -170,8 +207,7 @@ const registration = infrastructure.filter((i) => !PRIMARY_IDS.has(i.id) && !HID
     <div class="container cta-inner">
       <h2>Know of infrastructure that should be here?</h2>
       <p>
-        Propose a platform that captures credit for an NTRA (Non-Traditional Research Artefact)
-        type — comparable to APICURON, ORCID, or bio.tools.
+        Propose a platform that captures credit for a non-traditional research artefact type.
       </p>
       <a class="btn btn-primary" href="https://github.com/gavinf97/ntra-registry/issues/new?template=submit_ntra_example.yml" target="_blank" rel="noopener">
         Submit new infrastructure
@@ -258,6 +294,10 @@ const registration = infrastructure.filter((i) => !PRIMARY_IDS.has(i.id) && !HID
       margin-bottom: var(--space-2);
     }
 
+    .infra-category-tag {
+      align-self: flex-start;
+    }
+
     .infra-details {
       margin-top: auto;
       padding-top: var(--space-3);
@@ -282,7 +322,7 @@ const registration = infrastructure.filter((i) => !PRIMARY_IDS.has(i.id) && !HID
 
     .cta-section {
       text-align: center;
-      background: var(--color-bg-subtle);
+      background: var(--color-surface);
       border-top: 1px solid var(--color-border);
     }
 
