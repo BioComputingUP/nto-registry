@@ -112,105 +112,49 @@ const authors: Author[] = [
 ---
 
 <BaseLayout title="About" description="The paper, authors, and ELIXIR Europe community behind the NTRA Registry.">
-  <section class="section page-header-section about-hero">
-    <div class="container about-hero-grid">
-      <div>
-        <p class="eyebrow">About</p>
-        <h1>The paper behind this work</h1>
-        <p class="section-intro about-lede" style="margin-left:0;">
-          This registry operationalises the landscaping presented in a preprint from members
-          of the ELIXIR Europe community.
-        </p>
+  <section class="section page-header-section">
+    <div class="container">
+      <div class="about-title-row">
+        <div>
+          <p class="eyebrow">About</p>
+          <h1>The paper behind this work</h1>
+        </div>
+        <div class="about-hero-badge" aria-hidden="true">
+          <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" role="presentation">
+            <circle cx="70" cy="70" r="64" fill="var(--color-teal-500)" opacity="0.12" />
+            <g transform="translate(22,22)">
+              <rect width="96" height="96" rx="18" fill="var(--color-surface)" stroke="var(--color-border)" />
+              <g transform="translate(24,24) scale(2)" stroke="var(--color-teal-500)" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm7 0v5h5M9 13h6M9 17h6" />
+              </g>
+            </g>
+          </svg>
+        </div>
       </div>
-      <div class="about-hero-art" aria-hidden="true">
-        <svg viewBox="0 0 380 320" xmlns="http://www.w3.org/2000/svg" role="presentation">
-          <circle cx="300" cy="70" r="120" fill="var(--color-teal-500)" opacity="0.1" />
-          <circle cx="70" cy="260" r="100" fill="var(--color-accent)" opacity="0.08" />
-
-          <g transform="translate(14,14) rotate(-6)">
-            <rect width="96" height="96" rx="16" fill="var(--color-surface)" stroke="var(--color-border)" />
-            <g transform="translate(24,24) scale(2)" stroke="var(--color-teal-500)" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm7 0v5h5M9 13h6M9 17h6" />
-            </g>
-          </g>
-
-          <g transform="translate(196,0) rotate(4)">
-            <rect width="104" height="104" rx="16" fill="var(--color-surface)" stroke="var(--color-border)" />
-            <g transform="translate(28,28) scale(2)" stroke="var(--color-accent)" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M7 8c-2 0-3.5 1.5-3.5 4S5 15.5 7 15.5c0-3.5 1-4.5 3-4.5V8H7Zm10 0c-2 0-3.5 1.5-3.5 4s1.5 3.5 3.5 3.5c0-3.5 1-4.5 3-4.5V8h-3Z" />
-            </g>
-          </g>
-
-          <g transform="translate(238,150) rotate(-3)">
-            <rect width="92" height="92" rx="16" fill="var(--color-surface)" stroke="var(--color-border)" />
-            <g transform="translate(22,22) scale(2)" stroke="var(--color-navy-800)" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="10" cy="10" r="6" />
-              <path d="m20 20-5.5-5.5" />
-            </g>
-          </g>
-
-          <g transform="translate(24,188) rotate(5)">
-            <rect width="96" height="96" rx="16" fill="var(--color-surface)" stroke="var(--color-border)" />
-            <g transform="translate(24,24) scale(2)" stroke="var(--color-teal-500)" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 15 15 9" />
-              <path d="M11 7l1-1a4 4 0 0 1 5.7 5.7l-1 1" />
-              <path d="M13 17l-1 1a4 4 0 0 1-5.7-5.7l1-1" />
-            </g>
-          </g>
-        </svg>
-      </div>
+      <p class="section-intro about-lede" style="margin-left:0;">
+        This registry operationalises the landscaping presented in a preprint from members
+        of the ELIXIR Europe community.
+      </p>
     </div>
   </section>
 
   <section class="section preprint-section">
-    <div class="container preprint-grid">
-      <div>
-        <p class="eyebrow">Preprint</p>
-        <h2>Credit, recognition, and reward for non-traditional research artefacts<br />in the Life Sciences</h2>
-        <p>
-          Publication metrics remain the primary academic performance assessment in modern
-          academia, leaving a gap in recognition for impactful non-traditional research
-          artefacts such as curated datasets, research software, and training materials.
-          Through a mapping of valuable non-traditional artefacts illustrated by Life Science
-          examples from ELIXIR Europe, this paper examines the technical solutions and
-          sociological barriers to credit, recognition, and reward — the landscaping this
-          registry hosts as versioned, machine-readable data.
-        </p>
-        <a class="btn btn-primary preprint-cta" href="https://osf.io/preprints/metaarxiv/praxg_v1" target="_blank" rel="noopener">
-          <span class="btn-icon" set:html={WHITE_ICONS.book} />
-          Read the Preprint on OSF (MetaArXiv)
-        </a>
-      </div>
-      <div class="preprint-art" aria-hidden="true">
-        <svg viewBox="0 0 320 260" xmlns="http://www.w3.org/2000/svg" role="presentation">
-          <circle cx="250" cy="200" r="100" fill="var(--color-accent)" opacity="0.08" />
-          <circle cx="40" cy="40" r="80" fill="var(--color-teal-500)" opacity="0.1" />
-
-          <g transform="translate(8,8) rotate(-5)">
-            <rect width="100" height="100" rx="16" fill="var(--color-surface)" stroke="var(--color-border)" />
-            <g transform="translate(26,26) scale(2)" stroke="var(--color-accent)" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 6c-2-1.3-5-1.7-8-1v13c3-.7 6-.3 8 1 2-1.3 5-1.7 8-1V5c-3-.7-6-.3-8 1Zm0 0v13" />
-            </g>
-          </g>
-
-          <g transform="translate(168,26) rotate(4)">
-            <rect width="96" height="96" rx="16" fill="var(--color-surface)" stroke="var(--color-border)" />
-            <g transform="translate(24,24) scale(2)" stroke="var(--color-teal-500)" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 3v11m0 0 4-4m-4 4-4-4" />
-              <path d="M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2" />
-            </g>
-          </g>
-
-          <g transform="translate(74,142) rotate(-4)">
-            <rect width="100" height="100" rx="16" fill="var(--color-surface)" stroke="var(--color-border)" />
-            <g transform="translate(26,26) scale(2)" stroke="var(--color-navy-800)" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 4h6v6" />
-              <path d="M20 4 11 13" />
-              <path d="M20 14v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5" />
-            </g>
-          </g>
-        </svg>
-      </div>
+    <div class="container">
+      <p class="eyebrow">Preprint</p>
+      <h2>Credit, recognition, and reward for non-traditional research artefacts<br />in the Life Sciences</h2>
+      <p>
+        Publication metrics remain the primary academic performance assessment in modern
+        academia, leaving a gap in recognition for impactful non-traditional research
+        artefacts such as curated datasets, research software, and training materials.
+        Through a mapping of valuable non-traditional artefacts illustrated by Life Science
+        examples from ELIXIR Europe, this paper examines the technical solutions and
+        sociological barriers to credit, recognition, and reward — the landscaping this
+        registry hosts as versioned, machine-readable data.
+      </p>
+      <a class="btn btn-primary preprint-cta" href="https://osf.io/preprints/metaarxiv/praxg_v1" target="_blank" rel="noopener">
+        <span class="btn-icon" set:html={WHITE_ICONS.book} />
+        Read the Preprint on OSF (MetaArXiv)
+      </a>
     </div>
   </section>
 
@@ -219,7 +163,7 @@ const authors: Author[] = [
       <h2 class="section-heading authors-heading" style="text-align:center;">Authors</h2>
       <div class="grid grid-4">
         {authors.map((author) => (
-          <div class="card author-card">
+          <div class="card author-card author-card-aligned">
             {author.photo ? (
               <img class="author-photo" src={`${base}${author.photo}`} alt={author.name} loading="lazy" />
             ) : (
@@ -275,31 +219,27 @@ const authors: Author[] = [
   </section>
 
   <style>
-    .about-hero-grid,
-    .preprint-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
-      gap: var(--space-7);
-      align-items: center;
+    .about-title-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-5);
     }
 
-    .about-hero-art svg,
-    .preprint-art svg {
+    .about-hero-badge {
+      flex-shrink: 0;
+      width: 96px;
+      margin-top: -10px;
+    }
+
+    .about-hero-badge svg {
+      display: block;
       width: 100%;
       height: auto;
-      max-width: 380px;
-      margin: 0 auto;
-      display: block;
     }
 
-    @media (max-width: 860px) {
-      .about-hero-grid,
-      .preprint-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .about-hero-art,
-      .preprint-art {
+    @media (max-width: 700px) {
+      .about-hero-badge {
         display: none;
       }
     }
@@ -361,9 +301,16 @@ const authors: Author[] = [
       height: 28px;
     }
 
+    .author-card-aligned {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
     .orcid-link {
       display: inline-flex;
-      margin-top: var(--space-2);
+      margin-top: auto;
+      padding-top: var(--space-2);
     }
 
     .orcid-link img {
