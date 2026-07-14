@@ -5,35 +5,38 @@ import infrastructure from "../generated/infrastructure-catalogue.json";
 
 const base = import.meta.env.BASE_URL;
 
-const FLAGSHIP_IDS = new Set(["apicuron", "orcid", "bip-scholar"]);
+const PRIMARY_IDS = new Set(["apicuron", "orcid", "bip-scholar"]);
+
+// Not shown on this page for now (still valid data — e.g. referenced by
+// the FAIR Software Release artefact — just not listed here).
+const HIDDEN_IDS = new Set(["openebench"]);
 
 type LogoEntry =
   | { type: "img"; src: string }
   | { type: "svg"; markup: string }
   | { type: "icon"; key: string; color: string };
 
-// Real logos, fetched from each platform's own site/official asset (ORCID's
-// hosted icon, the GitHub mark already used elsewhere on the site, favicons
-// pulled directly from each domain). Where no reliable real asset could be
-// confirmed (Zenodo, OpenEBench — see AGENTS.md's "never fabricate" rule),
-// a consistent icon-tile fallback is used instead of a generic placeholder.
+// Real logos, fetched from each platform's own official asset: ORCID's
+// hosted icon, the GitHub mark already used elsewhere on the site, each
+// platform's own GitHub organisation avatar where that gave a cleaner
+// result than its favicon (Zenodo, FAIRsharing, ELIXIR TeSS), and favicons
+// pulled directly from the remaining domains.
 const LOGOS: Record<string, LogoEntry> = {
   apicuron: { type: "img", src: `${base}img/logos/apicuron.png` },
   orcid: { type: "img", src: "https://orcid.org/assets/vectors/orcid.logo.icon.svg" },
   "bio-tools": { type: "img", src: `${base}img/logos/bio-tools.png` },
   workflowhub: { type: "img", src: `${base}img/logos/workflowhub.png` },
   "elixir-tess": { type: "img", src: `${base}img/logos/elixir-tess.png` },
-  zenodo: { type: "icon", key: "database", color: "var(--color-teal-500)" },
+  zenodo: { type: "img", src: `${base}img/logos/zenodo.png` },
   github: { type: "svg", markup: GITHUB_ICON },
   "openaire-graph": { type: "img", src: `${base}img/logos/openaire-graph.png` },
   "bip-finder": { type: "img", src: `${base}img/logos/bip.png` },
-  openebench: { type: "icon", key: "server", color: "var(--color-navy-700)" },
   "bip-scholar": { type: "img", src: `${base}img/logos/bip.png` },
   fairsharing: { type: "img", src: `${base}img/logos/fairsharing.png` },
 };
 
-const flagship = infrastructure.filter((i) => FLAGSHIP_IDS.has(i.id));
-const registration = infrastructure.filter((i) => !FLAGSHIP_IDS.has(i.id));
+const primary = infrastructure.filter((i) => PRIMARY_IDS.has(i.id));
+const registration = infrastructure.filter((i) => !PRIMARY_IDS.has(i.id) && !HIDDEN_IDS.has(i.id));
 ---
 
 <BaseLayout title="Infrastructure" description="Technical infrastructure capable of capturing credit for Non-Traditional Research Artefacts.">
@@ -70,20 +73,20 @@ const registration = infrastructure.filter((i) => !FLAGSHIP_IDS.has(i.id));
     </div>
   </section>
 
-  <section class="section infra-flagship-section">
+  <section class="section infra-primary-section">
     <div class="container">
-      <p class="eyebrow">Flagship infrastructure</p>
-      <h2 class="section-heading-left">Flagship Credit-Capture Infrastructure</h2>
+      <p class="eyebrow">Primary credit-capture infrastructure</p>
+      <h2 class="section-heading-left">Primary Credit-Capture Infrastructure</h2>
       <p class="section-intro-left">
         The three platforms with the broadest general-purpose functionality for crediting
         non-traditional research artefacts and the activity behind them — the artefact itself,
         rather than just the activity, is the primary focus.
       </p>
       <div class="grid grid-3">
-        {flagship.map((infra) => {
+        {primary.map((infra) => {
           const logo = LOGOS[infra.id];
           return (
-            <article class="card infra-card infra-card-flagship">
+            <article class="card infra-card infra-card-primary">
               <div class="infra-logo-wrap">
                 {logo.type === "img" && <img class="infra-logo" src={logo.src} alt="" loading="lazy" />}
                 {logo.type === "svg" && <span class="infra-logo-icon" set:html={logo.markup} />}
@@ -179,15 +182,14 @@ const registration = infrastructure.filter((i) => !FLAGSHIP_IDS.has(i.id));
   <style>
     .infra-title-row {
       display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: var(--space-5);
+      align-items: center;
+      justify-content: flex-start;
+      gap: var(--space-6);
     }
 
     .infra-hero-badge {
       flex-shrink: 0;
-      width: 150px;
-      margin-top: -8px;
+      width: 130px;
     }
 
     .infra-hero-badge svg {
@@ -202,7 +204,7 @@ const registration = infrastructure.filter((i) => !FLAGSHIP_IDS.has(i.id));
       }
     }
 
-    .infra-flagship-section {
+    .infra-primary-section {
       padding-top: var(--space-6);
     }
 
@@ -221,23 +223,24 @@ const registration = infrastructure.filter((i) => !FLAGSHIP_IDS.has(i.id));
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     }
 
-    .infra-card-flagship {
+    .infra-card-primary {
       border-width: 2px;
       border-color: var(--color-accent);
     }
 
     .infra-logo-wrap {
-      width: 56px;
-      height: 56px;
+      width: 72px;
+      height: 72px;
       display: flex;
       align-items: center;
       justify-content: center;
+      align-self: center;
       margin-bottom: var(--space-3);
     }
 
     .infra-logo {
-      max-width: 100%;
-      max-height: 100%;
+      width: 100%;
+      height: 100%;
       object-fit: contain;
       border-radius: var(--radius-sm);
     }
@@ -247,8 +250,8 @@ const registration = infrastructure.filter((i) => !FLAGSHIP_IDS.has(i.id));
     }
 
     .infra-logo-icon :global(svg) {
-      width: 40px;
-      height: 40px;
+      width: 52px;
+      height: 52px;
     }
 
     .infra-card h3 {

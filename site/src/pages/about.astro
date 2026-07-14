@@ -118,6 +118,10 @@ const authors: Author[] = [
         <div>
           <p class="eyebrow">About</p>
           <h1>The paper behind this work</h1>
+          <p class="section-intro about-lede" style="margin-left:0;">
+            This registry operationalises the landscaping presented in a preprint from members
+            of the ELIXIR Europe community.
+          </p>
         </div>
         <div class="about-hero-badge" aria-hidden="true">
           <svg viewBox="0 0 260 240" xmlns="http://www.w3.org/2000/svg" role="presentation">
@@ -135,10 +139,6 @@ const authors: Author[] = [
           </svg>
         </div>
       </div>
-      <p class="section-intro about-lede" style="margin-left:0;">
-        This registry operationalises the landscaping presented in a preprint from members
-        of the ELIXIR Europe community.
-      </p>
     </div>
   </section>
 
@@ -232,7 +232,7 @@ const authors: Author[] = [
   <style>
     .about-title-row {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       justify-content: space-between;
       gap: var(--space-5);
     }
@@ -240,7 +240,6 @@ const authors: Author[] = [
     .about-hero-badge {
       flex-shrink: 0;
       width: 190px;
-      margin-top: -8px;
     }
 
     .about-hero-badge svg {
