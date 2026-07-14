@@ -13,12 +13,33 @@ const infrastructureNames: Record<string, string> = Object.fromEntries(
 <BaseLayout title="Registry" description="Browse and filter all Non-Traditional Research Artefact types, with examples and supporting infrastructure.">
   <section class="section page-header-section">
     <div class="container">
-      <p class="eyebrow">Catalogue v{stats.catalogueVersion}</p>
-      <h1>Non-Traditional Research Artefact Registry</h1>
-      <p class="section-intro" style="margin-left:0;">
-        All {stats.artefactCount} non-traditional research artefact types across {stats.categoryCount} categories.
-        You can search, filter by category, or filter by whether active credit-capture infrastructure exists.
-      </p>
+      <div class="registry-title-row">
+        <div>
+          <p class="eyebrow">Catalogue v{stats.catalogueVersion}</p>
+          <h1>Non-Traditional Research Artefact Registry</h1>
+          <p class="section-intro" style="margin-left:0;">
+            All {stats.artefactCount} non-traditional research artefact types across {stats.categoryCount} categories.
+            You can search, filter by category, or filter by whether active credit-capture infrastructure exists.
+          </p>
+        </div>
+        <div class="registry-hero-badge" aria-hidden="true">
+          <svg viewBox="0 0 260 240" xmlns="http://www.w3.org/2000/svg" role="presentation">
+            <circle cx="196" cy="56" r="52" fill="var(--color-teal-500)" opacity="0.14" />
+            <circle cx="44" cy="184" r="40" fill="var(--color-accent)" opacity="0.12" />
+            <circle cx="232" cy="192" r="20" fill="var(--color-teal-500)" opacity="0.18" />
+            <circle cx="18" cy="26" r="16" fill="var(--color-navy-700)" opacity="0.1" />
+
+            <g transform="translate(34,24)">
+              <rect width="192" height="192" rx="30" fill="var(--color-surface)" stroke="var(--color-border)" />
+              <g transform="translate(48,48) scale(4)" stroke="var(--color-teal-500)" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2 2 7l10 5 10-5-10-5Z" />
+                <path d="M2 12l10 5 10-5" />
+                <path d="M2 17l10 5 10-5" />
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -29,6 +50,30 @@ const infrastructureNames: Record<string, string> = Object.fromEntries(
   </section>
 
   <style>
+    .registry-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-5);
+    }
+
+    .registry-hero-badge {
+      flex-shrink: 0;
+      width: 190px;
+    }
+
+    .registry-hero-badge svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    @media (max-width: 820px) {
+      .registry-hero-badge {
+        display: none;
+      }
+    }
+
     .registry-explorer-section {
       padding-top: var(--space-6);
     }
