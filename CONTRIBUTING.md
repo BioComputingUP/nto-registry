@@ -28,6 +28,7 @@ have an idea for improving the registry's structure:
 2.  **Open the right form:**
     * [Submit a New NTRA Example/Type](../../issues/new?template=submit_ntra_example.yml) — for a new example resource, a new artefact type, or a new supporting-infrastructure platform.
     * [Suggest a Change](../../issues/new?template=suggest_change.yml) — for corrections to an existing entry (broken link, wording, wrong category, etc).
+    * [General Issue](../../issues/new?template=general_issue.yml) — for questions, CI/validation bugs, documentation issues, or anything else. Blank issues are also enabled if none of the templates fit.
 
 ### Submitting Changes via Pull Requests
 This is the preferred way to add or modify entries directly.

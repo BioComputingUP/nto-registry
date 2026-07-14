@@ -1,0 +1,33 @@
+name: General Issue
+description: Anything else — questions, bugs in validation/CI, documentation issues, or general feedback not covered by the other templates.
+title: "[General]: <short summary>"
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for anything that isn't a new NTRA example/type or a
+        correction to an existing entry — e.g. a question, a bug in
+        `scripts/validate_yaml.py` or the CI workflow, a documentation issue,
+        or general feedback on the registry.
+
+        For a new example/artefact type, use
+        [Submit a New NTRA Example/Type](./submit_ntra_example.yml) instead.
+        For a correction to an existing entry, use
+        [Suggest a Change](./suggest_change.yml) instead.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What's the issue, question, or feedback?
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context (optional)
+      description: Links, screenshots, logs, or anything else that helps.
+    validations:
+      required: false

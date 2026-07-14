@@ -111,7 +111,7 @@ All participants are expected to adhere to the project's
 
 For questions, suggestions, or to report issues, please open an
 [Issue](../../issues) in this repository, or contact the primary maintainer
-at **contact@guidemephd.com**.
+at **gavinmichael.farrell@phd.unipd.it**.
 
 ## Acknowledgements
 
