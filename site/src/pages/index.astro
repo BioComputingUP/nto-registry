@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import stats from "../generated/stats.json";
+import { ICONS } from "../lib/icons";
 
 const base = import.meta.env.BASE_URL;
 
@@ -8,41 +9,102 @@ const features = [
   {
     href: "registry",
     title: "Registry",
-    body: "Browse and filter all 24 artefact types across Data, Training, Software, Research support, and Peer review — with real examples and the infrastructure that can capture credit for each.",
+    body: "Filter all 24 artefact types across Data, Training, Software, Research support, and Peer review.",
+    icon: "layers",
   },
   {
     href: "reforms",
     title: "Assessment Reforms",
-    body: "The key international initiatives — DORA, the Leiden Manifesto, the Hong Kong Principles, Hidden REF, and CoARA — driving the shift toward recognising non-traditional research output.",
+    body: "DORA, the Leiden Manifesto, the Hong Kong Principles, Hidden REF, and CoARA.",
+    icon: "flag",
   },
   {
     href: "infrastructure",
     title: "Infrastructure",
-    body: "The technical platforms — APICURON, ORCID, bio.tools, Zenodo, and more — that turn NTRA effort into machine-readable, citable credit, and where that coverage still has gaps.",
+    body: "APICURON, ORCID, bio.tools, Zenodo, and the platforms that capture NTRA credit.",
+    icon: "server",
   },
   {
     href: "about",
     title: "About",
-    body: "The paper behind this registry, its authors, and the ELIXIR Europe community effort this work builds on.",
+    body: "The preprint behind this registry, its authors, and the ELIXIR community.",
+    icon: "info",
   },
+];
+
+const statTiles = [
+  { value: stats.artefactCount, label: "Artefact types", icon: "layers" },
+  { value: stats.categoryCount, label: "Categories", icon: "grid" },
+  { value: stats.infrastructureCount, label: "Infrastructure platforms", icon: "server" },
+  { value: stats.reformInitiativeCount, label: "Reform initiatives", icon: "flag" },
 ];
 ---
 
 <BaseLayout title="Home" description="A versioned, community-extensible catalogue of Non-Traditional Research Artefacts (NTRAs) in the Life Sciences.">
   <section class="hero">
-    <div class="container hero-inner">
-      <p class="eyebrow">Life Sciences &middot; ELIXIR Europe</p>
-      <h1>NTRA Registry</h1>
-      <p class="hero-subtitle">Credit, recognition, and reward for non-traditional research artefacts in the Life Sciences.</p>
-      <p class="hero-lead">
-        Publications alone don't capture the curated datasets, research software, training
-        materials, research support, and peer review that sustain modern science. This
-        registry catalogues those <strong>Non-Traditional Research Artefacts (NTRAs)</strong> —
-        versioned, machine-readable, and open for the community to extend.
-      </p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href={`${base}registry/`}>Explore the Registry</a>
-        <a class="btn btn-outline hero-btn-outline" href={`${base}about/`}>Read the paper</a>
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Life Sciences &middot; ELIXIR Europe</p>
+        <h1>The Non-Traditional Research Artefact <span class="hero-acronym">(NTRA)</span> Registry</h1>
+        <p class="hero-subtitle">Credit, recognition, and reward for the datasets, software, training, and support work that sustain modern science.</p>
+        <p class="hero-lead">
+          Publications alone don't capture the curated datasets, research software, training
+          materials, research support, and peer review that sustain modern science. This
+          registry catalogues those artefacts — versioned, machine-readable, and open for the
+          community to extend.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href={`${base}registry/`}>Explore the Registry</a>
+          <a class="btn btn-outline hero-btn-outline" href={`${base}about/`}>Read the paper</a>
+        </div>
+      </div>
+
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 460 420" xmlns="http://www.w3.org/2000/svg" role="presentation">
+          <circle cx="345" cy="90" r="140" fill="var(--color-teal-500)" opacity="0.16" />
+          <circle cx="100" cy="330" r="120" fill="var(--color-accent)" opacity="0.14" />
+
+          <!-- Data tile -->
+          <g transform="translate(28,34) rotate(-6)">
+            <rect width="108" height="108" rx="18" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.18)" />
+            <g transform="translate(30,30)" stroke="var(--color-teal-500)" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M0 4C0 1.8 5.4 0 12 0s12 1.8 12 4-5.4 4-12 4-12-1.8-12-4Zm0 0v18c0 2.2 5.4 4 12 4s12-1.8 12-4V4M0 13c0 2.2 5.4 4 12 4s12-1.8 12-4" />
+            </g>
+          </g>
+
+          <!-- Software tile -->
+          <g transform="translate(216,6) rotate(4)">
+            <rect width="118" height="118" rx="18" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.18)" />
+            <g transform="translate(29,34)" stroke="var(--color-orange-500)" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 0 3 12l12 12M29 0l12 12-12 12" />
+            </g>
+          </g>
+
+          <!-- Training tile -->
+          <g transform="translate(308,168) rotate(-3)">
+            <rect width="106" height="106" rx="18" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.18)" />
+            <g transform="translate(20,30)" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.92">
+              <path d="M0 11 33 0l33 11-33 11L0 11Zm13 7v11c0 3 9 6 20 6s20-3 20-6V18" />
+            </g>
+          </g>
+
+          <!-- Research support tile -->
+          <g transform="translate(54,224) rotate(5)">
+            <rect width="108" height="108" rx="18" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.18)" />
+            <g transform="translate(32,26)" stroke="var(--color-teal-500)" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 0h20l14 14v38a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V3a3 3 0 0 1 3-3Zm20 0v14h14M8 30h28M8 40h20M8 20h6" />
+            </g>
+          </g>
+
+          <!-- Peer review tile -->
+          <g transform="translate(222,268) rotate(-4)">
+            <rect width="118" height="118" rx="18" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.18)" />
+            <g transform="translate(33,34)" stroke="var(--color-orange-500)" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M50 25a25 25 0 1 1-10.3-20.3" />
+              <path d="M20 25l7 7 14-16" />
+            </g>
+          </g>
+        </svg>
       </div>
     </div>
   </section>
@@ -50,31 +112,21 @@ const features = [
   <section class="section">
     <div class="container">
       <div class="grid grid-4 stats-row">
-        <div class="stat-tile card">
-          <div class="stat-number">{stats.artefactCount}</div>
-          <div class="stat-label">Artefact types</div>
-        </div>
-        <div class="stat-tile card">
-          <div class="stat-number">{stats.categoryCount}</div>
-          <div class="stat-label">Categories</div>
-        </div>
-        <div class="stat-tile card">
-          <div class="stat-number">{stats.infrastructureCount}</div>
-          <div class="stat-label">Infrastructure platforms</div>
-        </div>
-        <div class="stat-tile card">
-          <div class="stat-number">{stats.reformInitiativeCount}</div>
-          <div class="stat-label">Reform initiatives</div>
-        </div>
+        {statTiles.map((tile) => (
+          <div class="stat-tile card">
+            <span class="stat-icon" set:html={ICONS[tile.icon]} />
+            <div class="stat-number">{tile.value}</div>
+            <div class="stat-label">{tile.label}</div>
+          </div>
+        ))}
       </div>
     </div>
   </section>
 
   <section class="section section-subtle">
     <div class="container">
-      <p class="eyebrow" style="text-align:center; display:block;">What is an NTRA?</p>
-      <h2 class="section-heading">Beyond the publication</h2>
-      <p class="section-intro">
+      <h2 class="ntra-def-heading">What is a Non-Traditional Research Artefact (NTRA)?</h2>
+      <p class="section-intro ntra-def-intro">
         A Non-Traditional Research Artefact is any output or activity that sustains modern
         research but is systematically under-represented in publication-centric assessment —
         from a curated database entry to a FAIR software release to a grant peer-review
@@ -87,17 +139,22 @@ const features = [
             <span class="badge badge-category">{category}</span>
           </div>
         ))}
+        <div class="card category-chip category-chip-more">
+          <span class="chip-plus" aria-hidden="true">+</span>
+          <span class="chip-more-label">More to come</span>
+        </div>
       </div>
     </div>
   </section>
 
   <section class="section">
     <div class="container">
-      <h2 class="section-heading" style="text-align:center;">Browse the registry</h2>
-      <p class="section-intro">Four ways into the same versioned dataset — all sourced live from this repository's YAML.</p>
-      <div class="grid grid-2">
+      <h2 class="section-heading-left">Browse the registry</h2>
+      <p class="section-intro-left">Four ways into the same versioned dataset — all sourced live from this repository's YAML.</p>
+      <div class="grid grid-4 feature-grid">
         {features.map((feature) => (
           <a class="card feature-card" href={`${base}${feature.href}/`}>
+            <span class="feature-icon" set:html={ICONS[feature.icon]} />
             <h3>{feature.title}</h3>
             <p>{feature.body}</p>
             <span class="feature-link">Explore &rarr;</span>
@@ -121,11 +178,15 @@ const features = [
     .hero {
       background: linear-gradient(135deg, var(--color-navy-800), var(--color-navy-900));
       color: #fff;
-      padding: var(--space-8) 0 var(--space-7);
+      padding: var(--space-8) 0;
+      overflow: hidden;
     }
 
-    .hero-inner {
-      max-width: 800px;
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: var(--space-7);
+      align-items: center;
     }
 
     .hero .eyebrow {
@@ -134,7 +195,11 @@ const features = [
 
     .hero h1 {
       color: #fff;
-      margin-bottom: var(--space-2);
+      margin-bottom: var(--space-3);
+    }
+
+    .hero-acronym {
+      color: var(--color-teal-500);
     }
 
     .hero-subtitle {
@@ -147,7 +212,7 @@ const features = [
     .hero-lead {
       font-size: 1.05rem;
       color: rgba(255, 255, 255, 0.8);
-      max-width: 640px;
+      max-width: 620px;
     }
 
     .hero-actions {
@@ -167,18 +232,97 @@ const features = [
       color: var(--color-navy-800);
     }
 
-    .stats-row .stat-tile {
+    .hero-art svg {
+      width: 100%;
+      height: auto;
+      max-width: 460px;
+      margin: 0 auto;
+      display: block;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-art {
+        display: none;
+      }
+    }
+
+    .stat-tile {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       padding: var(--space-6) var(--space-4);
     }
 
+    .stat-icon {
+      color: var(--color-accent);
+      margin-bottom: var(--space-3);
+    }
+
+    .stat-icon :global(svg) {
+      width: 30px;
+      height: 30px;
+    }
+
+    .ntra-def-heading,
+    .ntra-def-intro {
+      text-align: center;
+    }
+
+    .ntra-def-intro {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
     .category-chips {
-      max-width: 900px;
-      margin: 0 auto;
+      margin-top: var(--space-6);
     }
 
     .category-chip {
       text-align: center;
       padding: var(--space-4);
+    }
+
+    .category-chip-more {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-1);
+      border-style: dashed;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .chip-plus {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--color-accent);
+      line-height: 1;
+    }
+
+    .chip-more-label {
+      font-size: var(--fs-small);
+      color: var(--color-text-muted);
+    }
+
+    .section-heading-left {
+      margin-bottom: var(--space-2);
+    }
+
+    .section-intro-left {
+      color: var(--color-text-muted);
+      font-size: 1.1rem;
+      max-width: 640px;
+      margin-bottom: var(--space-7);
+    }
+
+    .feature-grid {
+      align-items: stretch;
     }
 
     .feature-card {
@@ -192,18 +336,33 @@ const features = [
       transform: translateY(-3px);
     }
 
+    .feature-icon {
+      color: var(--color-accent);
+      margin-bottom: var(--space-3);
+      display: inline-block;
+    }
+
+    .feature-icon :global(svg) {
+      width: 26px;
+      height: 26px;
+    }
+
     .feature-card h3 {
-      color: var(--color-navy-800);
+      color: var(--color-heading);
     }
 
     .feature-link {
       margin-top: auto;
+      padding-top: var(--space-3);
       color: var(--color-accent);
       font-weight: 600;
     }
 
     .cta-section {
       text-align: center;
+      background: var(--color-bg-subtle);
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
     }
 
     .cta-inner {
