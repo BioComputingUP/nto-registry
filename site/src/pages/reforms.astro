@@ -4,22 +4,6 @@ import { WHITE_ICONS } from "../lib/icons";
 import reforms from "../generated/reform-initiatives.json";
 
 const sorted = [...reforms].sort((a, b) => a.year - b.year);
-
-// No official logo assets are bundled here — reusing a third-party
-// organisation's real logo without a confirmed license/permission risks
-// misrepresenting an association that doesn't exist, and cherry-picking a
-// few real logos while faking the rest creates a worse, uneven impression.
-// Instead every initiative gets the same consistent treatment: a monogram
-// badge in the site's own palette, cycling through it for visual variety.
-const badgeText: Record<string, string> = {
-  dora: "DORA",
-  "leiden-manifesto": "LM",
-  "hong-kong-principles": "HKP",
-  "hidden-ref": "HR",
-  coara: "CoARA",
-};
-
-const badgeColors = ["var(--color-navy-800)", "var(--color-accent)", "var(--color-teal-500)"];
 ---
 
 <BaseLayout title="Assessment Reforms" description="Key international research assessment reform initiatives supporting non-traditional research artefacts.">
@@ -50,15 +34,10 @@ const badgeColors = ["var(--color-navy-800)", "var(--color-accent)", "var(--colo
             </tr>
           </thead>
           <tbody>
-            {sorted.map((r, i) => (
+            {sorted.map((r) => (
               <tr>
                 <th scope="row">
-                  <a href={r.url} target="_blank" rel="noopener" class="initiative-link">
-                    <span class="initiative-badge" style={`background:${badgeColors[i % badgeColors.length]}`}>
-                      {badgeText[r.id] ?? r.initiative.slice(0, 2).toUpperCase()}
-                    </span>
-                    <span>{r.initiative}</span>
-                  </a>
+                  <a href={r.url} target="_blank" rel="noopener" class="initiative-link">{r.initiative}</a>
                 </th>
                 <td>{r.year}</td>
                 <td>{r["core-philosophy"]}</td>
@@ -93,27 +72,27 @@ const badgeColors = ["var(--color-navy-800)", "var(--color-accent)", "var(--colo
       border-bottom: none;
     }
 
-    .initiative-link {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-      color: var(--color-heading);
-      font-weight: 700;
+    /* Alternating column tint (not row zebra-striping) so each column reads
+       as a distinct band — column 1 (Initiative) and column 3 (Core
+       philosophy) share a tint, column 2 (Year) and column 4 (Relevance)
+       share the other. */
+    .reforms-table tbody th:nth-child(1),
+    .reforms-table tbody td:nth-child(1),
+    .reforms-table tbody th:nth-child(3),
+    .reforms-table tbody td:nth-child(3) {
+      background: var(--color-bg-subtle);
     }
 
-    .initiative-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 48px;
-      height: 32px;
-      padding: 0 var(--space-2);
-      border-radius: var(--radius-sm);
-      color: #fff;
-      font-size: 0.72rem;
-      font-weight: 800;
-      letter-spacing: 0.02em;
-      flex-shrink: 0;
+    .reforms-table tbody th:nth-child(2),
+    .reforms-table tbody td:nth-child(2),
+    .reforms-table tbody th:nth-child(4),
+    .reforms-table tbody td:nth-child(4) {
+      background: var(--color-surface);
+    }
+
+    .initiative-link {
+      color: var(--color-heading);
+      font-weight: 700;
     }
 
     .btn-icon {
