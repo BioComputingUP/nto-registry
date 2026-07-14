@@ -97,38 +97,35 @@ const authors: Author[] = [
     <div class="container">
       <p class="eyebrow">About</p>
       <h1>The paper behind this registry</h1>
-      <p class="section-intro" style="margin-left:0;">
+      <p class="section-intro about-lede" style="margin-left:0;">
         This registry operationalises the landscaping presented in a preprint from members
         of the ELIXIR Europe community.
       </p>
     </div>
   </section>
 
-  <section class="section" style="padding-top:0;">
+  <section class="section preprint-section">
     <div class="container">
-      <div class="card preprint-card">
-        <p class="eyebrow">Preprint</p>
-        <h2>Credit, recognition, and reward for non-traditional research artefacts in the Life Sciences</h2>
-        <p>
-          Publication metrics remain the primary academic performance assessment in modern
-          academia, leaving a gap in recognition for impactful non-traditional research
-          artefacts such as curated datasets, research software, and training materials.
-          Through a mapping of valuable non-traditional artefacts illustrated by Life Science
-          examples from ELIXIR Europe, this paper examines the technical solutions and
-          sociological barriers to credit, recognition, and reward — the landscaping this
-          registry hosts as versioned, machine-readable data.
-        </p>
-        <a class="btn btn-primary" href="https://osf.io/preprints/metaarxiv/praxg_v1" target="_blank" rel="noopener">
-          Read the preprint on OSF
-        </a>
-      </div>
+      <p class="eyebrow">Preprint</p>
+      <h2>Credit, recognition, and reward for non-traditional research artefacts in the Life Sciences</h2>
+      <p>
+        Publication metrics remain the primary academic performance assessment in modern
+        academia, leaving a gap in recognition for impactful non-traditional research
+        artefacts such as curated datasets, research software, and training materials.
+        Through a mapping of valuable non-traditional artefacts illustrated by Life Science
+        examples from ELIXIR Europe, this paper examines the technical solutions and
+        sociological barriers to credit, recognition, and reward — the landscaping this
+        registry hosts as versioned, machine-readable data.
+      </p>
+      <a class="btn btn-primary" href="https://osf.io/preprints/metaarxiv/praxg_v1" target="_blank" rel="noopener">
+        Read the Preprint on OSF (MetaArXiv)
+      </a>
     </div>
   </section>
 
   <section class="section section-subtle">
     <div class="container">
       <h2 class="section-heading" style="text-align:center;">Authors</h2>
-      <p class="section-intro">The authors of the paper this registry is built from.</p>
       <div class="grid grid-4">
         {authors.map((author) => (
           <div class="card author-card">
@@ -181,6 +178,20 @@ const authors: Author[] = [
   </section>
 
   <style>
+    .about-lede {
+      max-width: none;
+    }
+
+    @media (min-width: 700px) {
+      .about-lede {
+        white-space: nowrap;
+      }
+    }
+
+    .preprint-section p {
+      max-width: 760px;
+    }
+
     .orcid-link {
       font-size: var(--fs-small);
     }

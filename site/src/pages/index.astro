@@ -7,10 +7,10 @@ const base = import.meta.env.BASE_URL;
 
 const features = [
   {
-    href: "registry",
-    title: "Registry",
-    body: "Filter all 24 artefact types across Data, Training, Software, Research support, and Peer review.",
-    icon: "layers",
+    href: "about",
+    title: "About",
+    body: "The preprint behind this registry, its authors, and the ELIXIR community.",
+    icon: "info",
   },
   {
     href: "reforms",
@@ -19,16 +19,16 @@ const features = [
     icon: "flag",
   },
   {
+    href: "registry",
+    title: "Registry",
+    body: "Filter all 24 artefact types across Data, Training, Software, Research support, and Peer review.",
+    icon: "layers",
+  },
+  {
     href: "infrastructure",
     title: "Infrastructure",
     body: "APICURON, ORCID, bio.tools, Zenodo, and the platforms that capture NTRA credit.",
     icon: "server",
-  },
-  {
-    href: "about",
-    title: "About",
-    body: "The preprint behind this registry, its authors, and the ELIXIR community.",
-    icon: "info",
   },
 ];
 
@@ -59,7 +59,7 @@ const categoryIcons: Record<string, string> = {
           Publications alone don't capture the curated datasets, research software, training
           materials, research support, and peer review that sustain modern life science. This
           registry catalogues those artefacts — versioned, machine-readable, and open for the
-          community to extend. It's also built to support policymakers and higher education
+          community to extend. It's built to support policymakers and higher education
           institutions adopting alternative research assessment for NTRAs.
         </p>
         <div class="hero-actions">
@@ -142,13 +142,11 @@ const categoryIcons: Record<string, string> = {
         report. This registry gives each type a shared definition, real examples, and a path
         to credit capture.
       </p>
-      <div class="grid grid-4 category-chips">
+      <div class="category-chips">
         {stats.categories.map((category) => (
           <div class="card category-chip">
-            <span class="badge badge-category">
-              <span class="category-chip-icon" set:html={ICONS[categoryIcons[category] ?? "grid"]} />
-              {category}
-            </span>
+            <span class="category-chip-icon" set:html={ICONS[categoryIcons[category] ?? "grid"]} />
+            <span class="category-chip-label">{category}</span>
           </div>
         ))}
         <div class="card category-chip category-chip-more">
@@ -162,7 +160,6 @@ const categoryIcons: Record<string, string> = {
   <section class="section">
     <div class="container">
       <h2 class="section-heading-left">Browse the registry</h2>
-      <p class="section-intro-left">Four ways into the same versioned dataset — all sourced live from&nbsp;this&nbsp;repository's&nbsp;YAML.</p>
       <div class="grid grid-4 feature-grid">
         {features.map((feature) => (
           <a class="card feature-card" href={`${base}${feature.href}/`}>
@@ -181,7 +178,7 @@ const categoryIcons: Record<string, string> = {
   <section class="section cta-section">
     <div class="container cta-inner">
       <h2>Missing something?</h2>
-      <p>Propose a new example, artefact type, infrastructure platform, or reform initiative.</p>
+      <p>Propose a new artefact type, infrastructure platform, or reform initiative.</p>
       <a class="btn btn-primary" href="https://github.com/gavinf97/ntra-registry/issues/new/choose" target="_blank" rel="noopener">
         Submit on GitHub
       </a>
@@ -293,33 +290,47 @@ const categoryIcons: Record<string, string> = {
     }
 
     .category-chips {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--space-4);
       margin-top: var(--space-6);
     }
 
     .category-chip {
-      text-align: center;
-      padding: var(--space-4);
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      text-align: left;
+      padding: var(--space-5) var(--space-6);
+      flex: 0 1 260px;
     }
 
     .category-chip-icon {
       display: inline-flex;
-      vertical-align: -3px;
+      flex-shrink: 0;
+      color: var(--color-accent);
     }
 
     .category-chip-icon :global(svg) {
-      width: 15px;
-      height: 15px;
+      width: 36px;
+      height: 36px;
+    }
+
+    .category-chip-label {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--color-heading);
     }
 
     .category-chip-more {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
+      flex-direction: column;
       gap: var(--space-1);
       border-style: dashed;
       background: transparent;
       box-shadow: none;
+      text-align: center;
     }
 
     .chip-plus {
@@ -335,13 +346,6 @@ const categoryIcons: Record<string, string> = {
     }
 
     .section-heading-left {
-      margin-bottom: var(--space-2);
-    }
-
-    .section-intro-left {
-      color: var(--color-text-muted);
-      font-size: 1.1rem;
-      max-width: 640px;
       margin-bottom: var(--space-7);
     }
 
