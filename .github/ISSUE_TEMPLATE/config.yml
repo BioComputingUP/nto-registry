@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Contribution guide
+    url: https://github.com/gavinf97/ntra-registry/blob/main/CONTRIBUTING.md
+    about: Read this before opening an issue or PR.
+  - name: Artefact taxonomy
+    url: https://github.com/gavinf97/ntra-registry/blob/main/ARTEFACT_TAXONOMY.md
+    about: Check the existing categories and artefact types before proposing new ones.

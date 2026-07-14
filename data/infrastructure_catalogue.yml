@@ -1,0 +1,125 @@
+# Supporting Infrastructure Catalogue
+#
+# Normalized registry of technical platforms capable of capturing credit for
+# Non-Traditional Research Artefacts (NTRAs), per Table 2 and Figure 2 of:
+# Farrell G, Alloza E, Bouhraoua A, et al. "Credit, recognition, and reward for
+# non-traditional research artefacts in the Life Sciences" (2025).
+#
+# Each platform is defined once here. Artefact entries in ntra_catalogue.yml
+# reference a platform by `id` and add an artefact-specific `capture-function`
+# note plus a `status` (active | planned) describing whether that particular
+# credit-capture pathway is already live for that artefact, per Figure 2's
+# "Planned feature" markers and the paper's discussion of maturity gaps
+# (e.g. peer review and research support currently lack structured platforms).
+#
+# Entry template (fields in this order):
+# - id: lowercase-kebab-case unique identifier
+#   name: full human-readable platform name
+#   url: primary homepage
+#   function: the general credit-capture function this platform performs
+#     (Publishing & PID provision | Aggregation | Metadata enrichment |
+#     Contribution tracking & incentives | Academic profiles)
+#   added-in-version: registry version this entry was first added in
+#   last-modified-version: registry version this entry was last changed in
+#
+# Before contributing a new platform, please check CONTRIBUTING.md.
+
+- id: apicuron
+  name: APICURON
+  url: https://apicuron.org
+  function: >-
+    Contribution tracking & incentives. Captures granular biocuration and
+    annotation events using a dynamic model of entity, activity, agent, and
+    timeline, with badges/leaderboards for visibility.
+  added-in-version: 1.0.0
+  last-modified-version: 1.0.0
+
+- id: orcid
+  name: ORCID
+  url: https://orcid.org
+  function: >-
+    Academic profiles. Persistent researcher identifier used to link
+    contributions of any kind back to an individual across systems.
+  added-in-version: 1.0.0
+  last-modified-version: 1.0.0
+
+- id: bio-tools
+  name: bio.tools
+  url: https://bio.tools
+  function: >-
+    Publishing & PID provision. Specialised registry assigning persistent
+    identifiers to research software and services for discovery and reuse.
+  added-in-version: 1.0.0
+  last-modified-version: 1.0.0
+
+- id: workflowhub
+  name: WorkflowHub
+  url: https://workflowhub.eu
+  function: >-
+    Publishing & PID provision. Registry for computational workflows,
+    providing citable, versioned identifiers.
+  added-in-version: 1.0.0
+  last-modified-version: 1.0.0
+
+- id: elixir-tess
+  name: ELIXIR TeSS
+  url: https://tess.elixir-europe.org
+  function: >-
+    Publishing & PID provision. Platform for discovering and registering
+    life-science training materials and events.
+  added-in-version: 1.0.0
+  last-modified-version: 1.0.0
+
+- id: zenodo
+  name: Zenodo
+  url: https://zenodo.org
+  function: >-
+    Publishing & PID provision. General-purpose repository issuing DOIs for
+    datasets, software releases, training materials, and reports.
+  added-in-version: 1.0.0
+  last-modified-version: 1.0.0
+
+- id: github
+  name: GitHub
+  url: https://github.com
+  function: >-
+    Publishing & PID provision. Version-controlled code hosting; the primary
+    home for research software repositories prior to archival/PID assignment.
+  added-in-version: 1.0.0
+  last-modified-version: 1.0.0
+
+- id: openaire-graph
+  name: OpenAIRE Graph
+  url: https://graph.openaire.eu
+  function: >-
+    Aggregation. Merges PID-assigned research artefact information from
+    diverse sources into a single, searchable knowledge graph.
+  added-in-version: 1.0.0
+  last-modified-version: 1.0.0
+
+- id: bip-finder
+  name: BIP!
+  url: https://bip.imsi.athenarc.gr
+  function: >-
+    Metadata enrichment. Adds impact-related annotations (e.g. topics,
+    influence indicators) to research outputs.
+  added-in-version: 1.0.0
+  last-modified-version: 1.0.0
+
+- id: openebench
+  name: OpenEBench
+  url: https://openebench.bsc.es
+  function: >-
+    Metadata enrichment. Adds software quality and benchmarking performance
+    indicators to research software entries.
+  added-in-version: 1.0.0
+  last-modified-version: 1.0.0
+
+- id: bip-scholar
+  name: BIP! Scholar
+  url: https://bip.imsi.athenarc.gr/site/scholar
+  function: >-
+    Academic profiles. Aggregates credit-relevant data into metadata-rich,
+    human-readable researcher profiles tailored to discipline/contribution type.
+  added-in-version: 1.0.0
+  last-modified-version: 1.0.0

@@ -1,0 +1,89 @@
+# List of contributors to the NTRA Registry (template reused from OSAI_ecosystem /
+# EVERSE RSQKit).
+#
+# Full Name:
+#    git: github id (if known)
+#    email: email address (if known)
+#    orcid: orcid id (if known)
+#    role: the role of the contributor
+#    affiliation: affiliation
+#
+# This information is used to represent contributors' effort for credit.
+
+Gavin Farrell:
+    git: https://github.com/gavinf97
+    orcid: 0000-0001-5166-8551
+    role: Lead author, registry maintainer and infrastructure. Co-author of the underlying Credit, Recognition & Reward for NTRAs paper.
+    affiliation: Department of Biomedical Sciences, University of Padova, Italy
+
+Eva Alloza:
+    git:
+    orcid:
+    role: Landscaping co-author, Credit/Recognition/Reward for NTRAs paper
+    affiliation: Barcelona Supercomputing Center (BSC), Spain
+
+Adel Bouhraoua:
+    git:
+    orcid:
+    role: Landscaping co-author, Credit/Recognition/Reward for NTRAs paper
+    affiliation: Department of Biomedical Sciences, University of Padova, Italy
+
+Salvador Capella-Gutierrez:
+    git:
+    orcid:
+    role: Landscaping co-author, Credit/Recognition/Reward for NTRAs paper
+    affiliation: Barcelona Supercomputing Center (BSC), Spain
+
+Carole Goble:
+    git:
+    orcid:
+    role: Landscaping co-author, Credit/Recognition/Reward for NTRAs paper
+    affiliation: Department of Computer Science, University of Manchester, United Kingdom
+
+Henning Hermjakob:
+    git:
+    orcid:
+    role: Landscaping co-author, Credit/Recognition/Reward for NTRAs paper
+    affiliation: EMBL-EBI, Wellcome Genome Campus, United Kingdom
+
+Maria Makaronidou:
+    git:
+    orcid:
+    role: Landscaping co-author, Credit/Recognition/Reward for NTRAs paper
+    affiliation: Athena Research & Innovation Center, Greece
+
+Andrew Smith:
+    git:
+    orcid:
+    role: Landscaping co-author, Credit/Recognition/Reward for NTRAs paper
+    affiliation: ELIXIR Europe Hub, EMBL-EBI South Building, United Kingdom
+
+Shoaib Sufi:
+    git:
+    orcid:
+    role: Landscaping co-author, Credit/Recognition/Reward for NTRAs paper
+    affiliation: Department of Computer Science, University of Manchester, United Kingdom
+
+Thanasis Vergoulis:
+    git:
+    orcid:
+    role: Landscaping co-author, Credit/Recognition/Reward for NTRAs paper
+    affiliation: Athena Research & Innovation Center, Greece
+
+Mehdi Zoubiri:
+    git:
+    orcid:
+    role: Landscaping co-author, Credit/Recognition/Reward for NTRAs paper
+    affiliation: Department of Biomedical Sciences, University of Padova, Italy
+
+Federica Quaglia:
+    git:
+    orcid:
+    role: Co-corresponding author, Credit/Recognition/Reward for NTRAs paper
+    affiliation: Department of Biomedical Sciences, University of Padova, Italy
+
+Silvio C.E. Tosatto:
+    git:
+    orcid:
+    role: Co-corresponding author, Credit/Recognition/Reward for NTRAs paper
+    affiliation: Department of Biomedical Sciences, University of Padova, Italy / CNR-IBIOM, Italy

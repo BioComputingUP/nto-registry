@@ -1,0 +1,689 @@
+# NTRA Registry — Non-Traditional Research Artefact Catalogue
+#
+# Landscaping of non-traditional research artefacts (NTRAs) in the life sciences,
+# seeded from Table 3 of:
+#   Farrell G, Alloza E, Bouhraoua A, Capella-Gutierrez S, Goble C, Hermjakob H,
+#   Makaronidou M, Smith A, Sufi S, Vergoulis T, Zoubiri M, Quaglia F, Tosatto SCE.
+#   "Credit, recognition, and reward for non-traditional research artefacts in the
+#   Life Sciences" (2025).
+#
+# This file is versioned with Semantic Versioning (see catalogue-version below and
+# CONTRIBUTING.md for the bump policy). Before contributing, please read
+# CONTRIBUTING.md and ARTEFACT_TAXONOMY.md.
+#
+# Entry template (fields must appear in this order):
+# - id: unique, lowercase, kebab-case identifier
+#   category: one of Data | Training | Software | Research support | Peer review
+#   artefact: full human-readable artefact name
+#   explanation: what the artefact is, in 1-3 sentences
+#   activities: list of one or more corresponding activities that produce this artefact
+#   examples: list of {name, url} — url may be '' if no stable public link exists
+#   supporting-infrastructure: list of {infrastructure-id, capture-function, status}
+#     - infrastructure-id: must exist in infrastructure_catalogue.yml
+#     - capture-function: how that platform captures credit for THIS artefact
+#     - status: active (credit pathway is live today) | planned (not yet live,
+#       per Figure 2 of the paper and its discussion of infrastructure maturity gaps)
+#   added-in-version: registry version this entry was first added in
+#   last-modified-version: registry version this entry was last changed in
+#
+# Blank entry template (copy this to propose a new artefact type):
+#
+# - id:
+#   category:
+#   artefact:
+#   explanation: >-
+#
+#   activities:
+#     - >-
+#
+#   examples:
+#     - name:
+#       url:
+#   supporting-infrastructure:
+#     - infrastructure-id:
+#       capture-function: >-
+#
+#       status:
+#   added-in-version:
+#   last-modified-version:
+
+catalogue-version: 1.0.0
+
+entries:
+
+  # NTRA Registry entries start
+
+  # ---------------------------------------------------------------------------
+  # Category: Data
+  # ---------------------------------------------------------------------------
+
+  - id: public-data-service
+    category: Data
+    artefact: Public Data Service
+    explanation: >-
+      A fully functional, maintained online data service such as a knowledgebase or
+      deposition repository provided as a live service to the community for data
+      querying and retrieval.
+    activities:
+      - >-
+        Designing, launching, and sustaining an active public data service, such as
+        through functional enhancements like new ontology integration and
+        interoperability extensions.
+    examples:
+      - name: Ensembl
+        url: https://www.ensembl.org
+      - name: BacDive
+        url: https://bacdive.dsmz.de
+    supporting-infrastructure:
+      - infrastructure-id: apicuron
+        capture-function: >-
+          Credits ongoing functional enhancement and maintenance events for a live
+          public data service.
+        status: active
+      - infrastructure-id: orcid
+        capture-function: Links the maintaining team's identity to sustained service stewardship.
+        status: active
+      - infrastructure-id: bip-scholar
+        capture-function: Aggregates service stewardship into a discipline-tailored researcher profile.
+        status: active
+    added-in-version: 1.0.0
+    last-modified-version: 1.0.0
+
+  - id: curated-knowledgebase-entry
+    category: Data
+    artefact: Curated Knowledgebase Entry
+    explanation: >-
+      A structured, annotated biological record synthesized from literature,
+      community knowledge, or secondary analysis, rather than direct primary
+      experimentation by the curator.
+    activities:
+      - >-
+        Data Curation & Literature Synthesis: extracting, annotating, and organising
+        existing biological information into computable formats using controlled
+        vocabularies and ontologies.
+    examples:
+      - name: UniProt entry
+        url: https://www.uniprot.org
+      - name: DisProt entry
+        url: https://disprot.org
+      - name: PomBase entry
+        url: https://www.pombase.org
+    supporting-infrastructure:
+      - infrastructure-id: apicuron
+        capture-function: >-
+          Credits individual curation/annotation events contributed to a public data
+          service, making otherwise invisible curator effort machine-readable.
+        status: active
+      - infrastructure-id: orcid
+        capture-function: Links curator identity to sustained curation contributions.
+        status: active
+    added-in-version: 1.0.0
+    last-modified-version: 1.0.0
+
+  - id: fair-metadata-record
+    category: Data
+    artefact: FAIR Metadata Record
+    explanation: >-
+      Ensuring a dataset has comprehensive metadata, in a standard format, with
+      supports like clear licensing to ensure it is findable, accessible,
+      interoperable, and reusable (FAIR).
+    activities:
+      - >-
+        Data FAIRification: applying best practices to local data to prepare it for
+        public deposition, often requiring significant effort beyond initial
+        collection.
+    examples:
+      - name: RDMkit
+        url: https://rdmkit.elixir-europe.org
+      - name: FAIRCookbook
+        url: https://faircookbook.elixir-europe.org
+    supporting-infrastructure:
+      - infrastructure-id: openebench
+        capture-function: Enriches FAIRified dataset metadata with quality/compliance indicators.
+        status: active
+      - infrastructure-id: orcid
+        capture-function: Links the FAIRification effort to the responsible contributor.
+        status: active
+    added-in-version: 1.0.0
+    last-modified-version: 1.0.0
+
+  - id: public-dataset-entry-submission
+    category: Data
+    artefact: Public Dataset Entry Submission
+    explanation: >-
+      A packaged, structured dataset resulting directly from primary laboratory
+      experimentation or other form of first hand data capture, deposited into a
+      public archive for community access and reuse.
+    activities:
+      - >-
+        Primary Data Deposition: formatting, enriching with metadata, and depositing
+        raw or processed experimental data into a public repository.
+    examples:
+      - name: EMDB
+        url: https://www.ebi.ac.uk/emdb/
+      - name: IntAct
+        url: https://www.ebi.ac.uk/intact/
+      - name: ENA
+        url: https://www.ebi.ac.uk/ena/browser/home
+    supporting-infrastructure:
+      - infrastructure-id: bio-tools
+        capture-function: Provides a discoverable, persistent identifier for the deposition service.
+        status: active
+      - infrastructure-id: orcid
+        capture-function: Links the depositor's identity to the primary data submission.
+        status: active
+    added-in-version: 1.0.0
+    last-modified-version: 1.0.0
+
+  - id: data-management-plan
+    category: Data
+    artefact: Data Management Plan (DMP)
+    explanation: >-
+      A formal document outlining how research data will be collected, stored,
+      secured, and shared during and after a project.
+    activities:
+      - >-
+        Research Data Management Planning: strategising the lifecycle and
+        compliance of project data.
+    examples:
+      - name: DMPonline
+        url: https://dmponline.dcc.ac.uk
+    supporting-infrastructure:
+      - infrastructure-id: zenodo
+        capture-function: Can archive a completed DMP document with a citable DOI.
+        status: planned
+      - infrastructure-id: orcid
+        capture-function: Links the DMP author to the planning effort.
+        status: active
+    added-in-version: 1.0.0
+    last-modified-version: 1.0.0
+
+  # ---------------------------------------------------------------------------
+  # Category: Training
+  # ---------------------------------------------------------------------------
+
+  - id: training-material
+    category: Training
+    artefact: Training Material
+    explanation: >-
+      Instructional content designed to teach specific skills, ranging from
+      standalone slides and recordings to comprehensive e-learning modules.
+    activities:
+      - >-
+        Educational Content Creation: developing, updating, and disseminating
+        resources for learners.
+    examples:
+      - name: ELIXIR TeSS training material
+        url: https://tess.elixir-europe.org
+      - name: ELIXIR Slovenia e-Learning modules
+        url: ''
+    supporting-infrastructure:
+      - infrastructure-id: elixir-tess
+        capture-function: Primary PID-issuing registry for discovering and citing training materials.
+        status: active
+      - infrastructure-id: apicuron
+        capture-function: Could credit granular material update and maintenance events.
+        status: planned
+      - infrastructure-id: orcid
+        capture-function: Links author identity to created materials.
+        status: active
+    added-in-version: 1.0.0
+    last-modified-version: 1.0.0
+
+  - id: educational-module
+    category: Training
+    artefact: Educational Module
+    explanation: >-
+      A comprehensive, formalized unit of teaching that is part of a standardized
+      academic curriculum, typically carrying formal academic credit (such as ECTS)
+      and forming part of a wider degree programme. Contrasts with standalone
+      training materials by requiring formal accreditation and structured
+      assessment.
+    activities:
+      - >-
+        Formal Curriculum Development & Delivery: designing, structuring, and
+        delivering accredited academic content, including defining learning
+        outcomes and assessment criteria for formal higher education.
+    examples:
+      - name: Accredited 5 ECTS bioinformatics module for an MSc programme
+        url: ''
+    supporting-infrastructure:
+      - infrastructure-id: orcid
+        capture-function: Links the module designer/lecturer identity to the accredited content.
+        status: active
+      - infrastructure-id: bip-scholar
+        capture-function: Formal curricula are not yet well represented in academic profile aggregators.
+        status: planned
+    added-in-version: 1.0.0
+    last-modified-version: 1.0.0
+
+  - id: fair-training-material-release
+    category: Training
+    artefact: FAIR Training Material Release
+    explanation: >-
+      A preserved, versioned, and citable educational resource packaged with
+      comprehensive metadata, open licensing, and a persistent identifier.
+    activities:
+      - >-
+        Training Material FAIRification: applying best practices to ensure
+        educational content is findable, accessible, interoperable, and reusable
+        by the wider community.
+    examples:
+      - name: 10 Simple Rules for Making Training Materials FAIR
+        url: ''
+      - name: ELIXIR FAIR Training Handbook
+        url: ''
+    supporting-infrastructure:
+      - infrastructure-id: zenodo
+        capture-function: Issues a DOI and version history for the released material.
+        status: active
+      - infrastructure-id: elixir-tess
+        capture-function: Registers the FAIRified material for discovery.
+        status: active
+      - infrastructure-id: orcid
+        capture-function: Links the release to its responsible author(s).
+        status: active
+    added-in-version: 1.0.0
+    last-modified-version: 1.0.0
+
+  - id: learning-path
+    category: Training
+    artefact: Learning Path
+    explanation: >-
+      Chained together logical learning pathways of materials designed for an
+      overall educational purpose and progression.
+    activities:
+      - >-
+        Curriculum Design: structuring individual training materials into a
+        cohesive educational journey.
+    examples:
+      - name: TeSS Learning Paths
+        url: https://tess.elixir-europe.org
+    supporting-infrastructure:
+      - infrastructure-id: elixir-tess
+        capture-function: Hosts and links the chained sequence of training materials.
+        status: active
+      - infrastructure-id: orcid
+        capture-function: Links the curriculum designer to the assembled pathway.
+        status: active
+    added-in-version: 1.0.0
+    last-modified-version: 1.0.0
+
+  - id: supervised-student-project-output
+    category: Training
+    artefact: Supervised Student Project Output
+    explanation: >-
+      A scholarly output primarily authored by a student under the direct
+      mentorship of the researcher.
+    activities:
+      - >-
+        Student Supervision: guiding and mentoring students through the research
+        and related project execution lifecycle.
+    examples:
+      - name: Bachelors, Masters, or PhD thesis
+        url: ''
+    supporting-infrastructure:
+      - infrastructure-id: orcid
+        capture-function: Can record a supervisory contributor role against the student's output.
+        status: planned
+    added-in-version: 1.0.0
+    last-modified-version: 1.0.0
+
+  # ---------------------------------------------------------------------------
+  # Category: Software
+  # ---------------------------------------------------------------------------
+
+  - id: documentation
+    category: Software
+    artefact: Documentation
+    explanation: >-
+      User manuals, developer documentation, or interactive notebooks that
+      explain how to deploy and use the software.
+    activities:
+      - >-
+        Technical Documentation: writing clear instructions and example use cases
+        for software tools.
+    examples:
+      - name: Read the Docs
+        url: https://readthedocs.org
+      - name: Repository README file
+        url: ''
+    supporting-infrastructure:
+      - infrastructure-id: github
+        capture-function: Hosts documentation alongside the versioned codebase.
+        status: active
+      - infrastructure-id: openebench
+        capture-function: Enriches software entries with documentation-quality indicators.
+        status: active
+    added-in-version: 1.0.0
+    last-modified-version: 1.0.0
+
+  - id: research-software-code-repository
+    category: Software
+    artefact: Research Software Code Repository
+    explanation: >-
+      The functional source code, scripts, or algorithms developed to execute
+      scientific analyses, actively maintained under version control.
+    activities:
+      - >-
+        Software Development: writing, debugging, optimising, and maintaining
+        code for research applications.
+    examples:
+      - name: GitHub
+        url: https://github.com
+      - name: GitLab
+        url: https://gitlab.com
+    supporting-infrastructure:
+      - infrastructure-id: github
+        capture-function: Provides commit-level version history of development effort.
+        status: active
+      - infrastructure-id: bio-tools
+        capture-function: Assigns a discoverable, persistent identifier to the codebase.
+        status: active
+      - infrastructure-id: apicuron
+        capture-function: Could credit individual commit/maintenance contribution events.
+        status: planned
+    added-in-version: 1.0.0
+    last-modified-version: 1.0.0
+
+  - id: software-package
+    category: Software
+    artefact: Software Package
+    explanation: >-
+      A bundled, standardized, and easily installable collection of code,
+      libraries, and dependencies designed to perform specific scientific
+      functions within a broader programming ecosystem.
+    activities:
+      - >-
+        Software Packaging & Distribution: formatting, testing, and publishing
+        functional code into established distribution channels to facilitate
+        seamless installation and reuse by the community.
+    examples:
+      - name: PyPI
+        url: https://pypi.org
+      - name: Bioconductor
+        url: https://www.bioconductor.org
+      - name: Bioconda
+        url: https://bioconda.github.io
+    supporting-infrastructure:
+      - infrastructure-id: bio-tools
+        capture-function: Registers the packaged tool for discovery independent of the distribution channel.
+        status: active
+      - infrastructure-id: orcid
+        capture-function: Links the package maintainer to ongoing distribution effort.
+        status: active
+    added-in-version: 1.0.0
+    last-modified-version: 1.0.0
+
+  - id: fair-software-release
+    category: Software
+    artefact: FAIR Software Release
+    explanation: >-
+      A preserved, versioned, and citable software release equipped with
+      comprehensive documentation, a DOI, open licensing, and containerisation
+      for portability.
+    activities:
+      - >-
+        Software FAIRification: making functional code findable, accessible,
+        interoperable and reusable by applying research software quality (RSQ)
+        best practices.
+    examples:
+      - name: Zenodo software release archival
+        url: https://zenodo.org
+      - name: Docker Hub container images
+        url: https://hub.docker.com
+      - name: RSQKit
+        url: https://github.com/EVERSE-ResearchSoftware/RSQKit
+    supporting-infrastructure:
+      - infrastructure-id: zenodo
+        capture-function: Issues a DOI and permanent archival snapshot of the software release.
+        status: active
+      - infrastructure-id: openebench
+        capture-function: Assesses and reports the release's RSQ compliance indicators.
+        status: active
+      - infrastructure-id: workflowhub
+        capture-function: Registers releases that are packaged as part of a computational workflow.
+        status: active
+    added-in-version: 1.0.0
+    last-modified-version: 1.0.0
+
+  - id: software-management-plan
+    category: Software
+    artefact: Software Management Plan
+    explanation: >-
+      A strategic document detailing the architecture, lifecycle, maintenance,
+      and long-term sustainability of a software tool or service.
+    activities:
+      - >-
+        Software Planning: strategising the governance and technical roadmap of
+        a software project.
+    examples:
+      - name: ELIXIR Software Management Plan
+        url: ''
+    supporting-infrastructure:
+      - infrastructure-id: zenodo
+        capture-function: Can archive a completed plan document with a citable DOI.
+        status: planned
+      - infrastructure-id: orcid
+        capture-function: Links the plan author to the strategic planning effort.
+        status: active
+    added-in-version: 1.0.0
+    last-modified-version: 1.0.0
+
+  - id: software-demo
+    category: Software
+    artefact: Software Demo
+    explanation: >-
+      A live or recorded presentation showcasing the functionality, interface,
+      and practical application of a software tool to an audience.
+    activities:
+      - >-
+        Software Demonstration & Outreach: presenting and explaining the
+        capabilities of a software tool to potential users, stakeholders, or the
+        broader scientific community to encourage adoption.
+    examples:
+      - name: ELIXIR Cloud demos
+        url: ''
+    supporting-infrastructure:
+      - infrastructure-id: zenodo
+        capture-function: Can archive recorded demo material with a citable DOI.
+        status: planned
+      - infrastructure-id: orcid
+        capture-function: Links the presenter to the demonstration effort.
+        status: active
+    added-in-version: 1.0.0
+    last-modified-version: 1.0.0
+
+  # ---------------------------------------------------------------------------
+  # Category: Research support
+  # ---------------------------------------------------------------------------
+
+  - id: strategy-document
+    category: Research support
+    artefact: Strategy Document
+    explanation: >-
+      Formal documents guiding network efforts, outlining strategic direction,
+      or reporting on community engagement metrics.
+    activities:
+      - >-
+        Community Management: organising scientific networks, facilitating
+        collaborations, and managing node activities.
+    examples:
+      - name: ELIXIR EOSC strategy document
+        url: ''
+    supporting-infrastructure:
+      - infrastructure-id: orcid
+        capture-function: >-
+          Research support currently lacks a structured credit-capture entry
+          point; ORCID could record authorship once adopted.
+        status: planned
+      - infrastructure-id: bip-scholar
+        capture-function: Could surface strategy authorship within a researcher profile.
+        status: planned
+    added-in-version: 1.0.0
+    last-modified-version: 1.0.0
+
+  - id: event-output
+    category: Research support
+    artefact: Event Output (Agenda / Proceedings / Report)
+    explanation: >-
+      The captured materials resulting from organising a community event,
+      seminar, or conference.
+    activities:
+      - >-
+        Event Organisation: logistical and scientific planning of network events
+        such as speaker line up and organising event venue.
+    examples:
+      - name: ELIXIR Compute Platform event report
+        url: ''
+    supporting-infrastructure:
+      - infrastructure-id: orcid
+        capture-function: Could record event organisation as a contributor role once adopted.
+        status: planned
+      - infrastructure-id: bip-scholar
+        capture-function: Could surface event organisation within a researcher profile.
+        status: planned
+    added-in-version: 1.0.0
+    last-modified-version: 1.0.0
+
+  - id: science-communication-outreach-media
+    category: Research support
+    artefact: Science Communication / Outreach Media
+    explanation: >-
+      Accessible content designed to translate complex scientific outcomes for
+      the general public or broad stakeholders.
+    activities:
+      - >-
+        Public Outreach & SciComm: engaging non-expert audiences with research
+        topics.
+    examples:
+      - name: Website news posts
+        url: ''
+      - name: ELIXIR newsletters
+        url: ''
+      - name: Scientific podcasts
+        url: ''
+    supporting-infrastructure:
+      - infrastructure-id: orcid
+        capture-function: Could record outreach authorship as a contributor role once adopted.
+        status: planned
+    added-in-version: 1.0.0
+    last-modified-version: 1.0.0
+
+  - id: administrative-compliance-record
+    category: Research support
+    artefact: Administrative / Compliance Record
+    explanation: >-
+      Essential paperwork required for institutional and legal research
+      operations, such as ethics approvals or financial audits.
+    activities:
+      - >-
+        Research Administration: managing grant post-award reporting, navigating
+        institutional procedures, and ensuring safety compliance such as those
+        related to ethics.
+    examples:
+      - name: Post-award financial and delivery progress reports
+        url: ''
+      - name: HORIZON Europe Ethics self-assessment documentation
+        url: ''
+    supporting-infrastructure:
+      - infrastructure-id: orcid
+        capture-function: Could record administrative contribution roles once adopted.
+        status: planned
+    added-in-version: 1.0.0
+    last-modified-version: 1.0.0
+
+  - id: policy-brief
+    category: Research support
+    artefact: Policy Brief
+    explanation: >-
+      A concise summary of research findings formatted to advise government,
+      institutional policy, or standardisation bodies.
+    activities:
+      - >-
+        Expert Advisory Work: translating scientific expertise into actionable
+        guidance for policymakers or industry standards.
+    examples:
+      - name: ELIXIR STEERS Policy Brief
+        url: ''
+    supporting-infrastructure:
+      - infrastructure-id: zenodo
+        capture-function: Can archive a published policy brief with a citable DOI.
+        status: planned
+      - infrastructure-id: orcid
+        capture-function: Could record policy brief authorship once adopted.
+        status: planned
+    added-in-version: 1.0.0
+    last-modified-version: 1.0.0
+
+  - id: grant-proposal
+    category: Research support
+    artefact: Grant Proposal
+    explanation: >-
+      The comprehensive, authored document detailing a proposed research
+      project, its methodology, and budget.
+    activities:
+      - >-
+        Grant Proposal Writing: strategising, designing, and authoring
+        competitive funding applications.
+    examples:
+      - name: Horizon Europe project proposals
+        url: ''
+    supporting-infrastructure:
+      - infrastructure-id: orcid
+        capture-function: >-
+          Could record proposal authorship; grant proposals are frequently
+          proprietary/unpublished, limiting open credit capture.
+        status: planned
+    added-in-version: 1.0.0
+    last-modified-version: 1.0.0
+
+  # ---------------------------------------------------------------------------
+  # Category: Peer review
+  # ---------------------------------------------------------------------------
+
+  - id: published-peer-review-report
+    category: Peer review
+    artefact: Published Peer Review Report
+    explanation: >-
+      The formal, critical evaluation document of a scholarly manuscript, which
+      is sometimes published transparently alongside the article.
+    activities:
+      - >-
+        Article Peer Review: critically assessing journal manuscripts or
+        conference submissions by experts in the field.
+    examples:
+      - name: Open peer review reports on the F1000Research Gateway
+        url: https://f1000research.com
+    supporting-infrastructure:
+      - infrastructure-id: orcid
+        capture-function: >-
+          Can record verified peer-review contributions where publishers expose
+          them; coverage is currently uneven across publishers.
+        status: planned
+    added-in-version: 1.0.0
+    last-modified-version: 1.0.0
+
+  - id: grant-evaluation-report
+    category: Peer review
+    artefact: Grant Evaluation Report
+    explanation: >-
+      The critical assessment document or panel summary provided to a funding
+      body regarding the viability of a grant application.
+    activities:
+      - >-
+        Grant Peer Review: evaluating the scientific merit and feasibility of
+        funding submissions.
+    examples:
+      - name: Review panel summaries for the EOSC OSCARS open call
+        url: ''
+    supporting-infrastructure:
+      - infrastructure-id: orcid
+        capture-function: >-
+          Could record grant review panel service once funders adopt structured
+          disclosure; grant peer review is rarely published.
+        status: planned
+    added-in-version: 1.0.0
+    last-modified-version: 1.0.0
+
+  # NTRA Registry entries end

@@ -1,0 +1,43 @@
+name: Suggest a Change
+description: Correct or amend an existing entry in the NTRA Registry (broken link, wording, wrong category, outdated example, etc).
+title: "[Correction]: <entry id or name>"
+labels: ["correction"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form to correct an existing entry. To propose a brand-new
+        example or artefact type instead, use
+        [Submit a New NTRA Example/Type](./submit_ntra_example.yml).
+
+  - type: input
+    id: entry_id
+    attributes:
+      label: Entry ID
+      description: The `id` of the affected entry in data/ntra_catalogue.yml or data/infrastructure_catalogue.yml (e.g. `curated-knowledgebase-entry`, or `apicuron`).
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What's wrong?
+      description: Describe the issue — broken URL, incorrect wording, wrong category, outdated example, incorrect supporting-infrastructure mapping, etc.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed_fix
+    attributes:
+      label: Proposed fix
+      description: What should it say/link/be categorised as instead?
+    validations:
+      required: true
+
+  - type: input
+    id: evidence
+    attributes:
+      label: Supporting evidence (optional)
+      description: A link or reference backing up the correction, if applicable.
+    validations:
+      required: false
