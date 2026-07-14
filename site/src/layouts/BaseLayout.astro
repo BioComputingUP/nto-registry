@@ -197,13 +197,16 @@ function isActive(href: string) {
 
       .nav-toggle {
         display: none;
+        width: 42px;
+        height: 42px;
+        padding: 0;
         background: transparent;
         border: 1px solid rgba(255, 255, 255, 0.35);
         border-radius: var(--radius-sm);
-        padding: 9px 11px;
         cursor: pointer;
         align-items: center;
         justify-content: center;
+        flex-shrink: 0;
       }
 
       .nav-toggle:hover {
@@ -214,7 +217,7 @@ function isActive(href: string) {
       .nav-toggle-icon::before,
       .nav-toggle-icon::after {
         display: block;
-        width: 20px;
+        width: 22px;
         height: 2px;
         background: rgba(255, 255, 255, 0.9);
         border-radius: 2px;
@@ -224,13 +227,13 @@ function isActive(href: string) {
       .nav-toggle-icon::before {
         content: "";
         position: absolute;
-        top: -6px;
+        top: -7px;
       }
 
       .nav-toggle-icon::after {
         content: "";
         position: absolute;
-        top: 6px;
+        top: 7px;
       }
 
       @media (max-width: 860px) {
@@ -270,6 +273,11 @@ function isActive(href: string) {
         .nav-links a {
           display: block;
           padding: var(--space-3) 0;
+          border-bottom-color: transparent;
+        }
+
+        .nav-links a[aria-current="page"] {
+          border-bottom-color: transparent;
         }
       }
 
