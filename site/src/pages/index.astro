@@ -38,20 +38,29 @@ const statTiles = [
   { value: stats.infrastructureCount, label: "Infrastructure platforms", icon: "server" },
   { value: stats.reformInitiativeCount, label: "Reform initiatives", icon: "flag" },
 ];
+
+const categoryIcons: Record<string, string> = {
+  Data: "database",
+  Training: "cap",
+  Software: "code",
+  "Research support": "document",
+  "Peer review": "check",
+};
 ---
 
 <BaseLayout title="Home" description="A versioned, community-extensible catalogue of Non-Traditional Research Artefacts (NTRAs) in the Life Sciences.">
   <section class="hero">
     <div class="container hero-grid">
       <div class="hero-copy">
-        <p class="eyebrow">Life Sciences &middot; ELIXIR Europe</p>
+        <p class="eyebrow">Life Sciences Focused</p>
         <h1>The Non-Traditional Research Artefact <span class="hero-acronym">(NTRA)</span> Registry</h1>
-        <p class="hero-subtitle">Credit, recognition, and reward for the datasets, software, training, and support work that sustain modern science.</p>
+        <p class="hero-subtitle">Credit, recognition, and reward for the work that sustains modern science.</p>
         <p class="hero-lead">
           Publications alone don't capture the curated datasets, research software, training
-          materials, research support, and peer review that sustain modern science. This
+          materials, research support, and peer review that sustain modern life science. This
           registry catalogues those artefacts — versioned, machine-readable, and open for the
-          community to extend.
+          community to extend. It's also built to support policymakers and higher education
+          institutions adopting alternative research assessment for NTRAs.
         </p>
         <div class="hero-actions">
           <a class="btn btn-primary" href={`${base}registry/`}>Explore the Registry</a>
@@ -136,7 +145,10 @@ const statTiles = [
       <div class="grid grid-4 category-chips">
         {stats.categories.map((category) => (
           <div class="card category-chip">
-            <span class="badge badge-category">{category}</span>
+            <span class="badge badge-category">
+              <span class="category-chip-icon" set:html={ICONS[categoryIcons[category] ?? "grid"]} />
+              {category}
+            </span>
           </div>
         ))}
         <div class="card category-chip category-chip-more">
@@ -150,12 +162,14 @@ const statTiles = [
   <section class="section">
     <div class="container">
       <h2 class="section-heading-left">Browse the registry</h2>
-      <p class="section-intro-left">Four ways into the same versioned dataset — all sourced live from this repository's YAML.</p>
+      <p class="section-intro-left">Four ways into the same versioned dataset — all sourced live from&nbsp;this&nbsp;repository's&nbsp;YAML.</p>
       <div class="grid grid-4 feature-grid">
         {features.map((feature) => (
           <a class="card feature-card" href={`${base}${feature.href}/`}>
-            <span class="feature-icon" set:html={ICONS[feature.icon]} />
-            <h3>{feature.title}</h3>
+            <div class="feature-card-head">
+              <span class="feature-icon" set:html={ICONS[feature.icon]} />
+              <h3>{feature.title}</h3>
+            </div>
             <p>{feature.body}</p>
             <span class="feature-link">Explore &rarr;</span>
           </a>
@@ -287,6 +301,16 @@ const statTiles = [
       padding: var(--space-4);
     }
 
+    .category-chip-icon {
+      display: inline-flex;
+      vertical-align: -3px;
+    }
+
+    .category-chip-icon :global(svg) {
+      width: 15px;
+      height: 15px;
+    }
+
     .category-chip-more {
       display: flex;
       flex-direction: column;
@@ -336,10 +360,17 @@ const statTiles = [
       transform: translateY(-3px);
     }
 
+    .feature-card-head {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-2);
+    }
+
     .feature-icon {
       color: var(--color-accent);
-      margin-bottom: var(--space-3);
-      display: inline-block;
+      display: inline-flex;
+      flex-shrink: 0;
     }
 
     .feature-icon :global(svg) {
@@ -349,6 +380,7 @@ const statTiles = [
 
     .feature-card h3 {
       color: var(--color-heading);
+      margin: 0;
     }
 
     .feature-link {
@@ -362,7 +394,6 @@ const statTiles = [
       text-align: center;
       background: var(--color-bg-subtle);
       border-top: 1px solid var(--color-border);
-      border-bottom: 1px solid var(--color-border);
     }
 
     .cta-inner {
