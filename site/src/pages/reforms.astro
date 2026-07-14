@@ -1,24 +1,43 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { WHITE_ICONS } from "../lib/icons";
 import reforms from "../generated/reform-initiatives.json";
 
 const sorted = [...reforms].sort((a, b) => a.year - b.year);
+
+// No official logo assets are bundled here — reusing a third-party
+// organisation's real logo without a confirmed license/permission risks
+// misrepresenting an association that doesn't exist, and cherry-picking a
+// few real logos while faking the rest creates a worse, uneven impression.
+// Instead every initiative gets the same consistent treatment: a monogram
+// badge in the site's own palette, cycling through it for visual variety.
+const badgeText: Record<string, string> = {
+  dora: "DORA",
+  "leiden-manifesto": "LM",
+  "hong-kong-principles": "HKP",
+  "hidden-ref": "HR",
+  coara: "CoARA",
+};
+
+const badgeColors = ["var(--color-navy-800)", "var(--color-accent)", "var(--color-teal-500)"];
 ---
 
 <BaseLayout title="Assessment Reforms" description="Key international research assessment reform initiatives supporting non-traditional research artefacts.">
   <section class="section page-header-section">
     <div class="container">
       <p class="eyebrow">Policy landscape</p>
-      <h1>Assessment Reform Initiatives</h1>
+      <h1>Researcher Assessment Reform Initiatives</h1>
       <p class="section-intro" style="margin-left:0;">
         The international reform movement this registry builds on — each initiative's core
         philosophy and its specific relevance to recognising non-traditional research
-        artefacts.
+        artefacts. This list is non-exhaustive: it highlights efforts most relevant to the
+        Life Sciences and this work, included here for context on the wider international
+        and global reform movement.
       </p>
     </div>
   </section>
 
-  <section class="section" style="padding-top:0;">
+  <section class="section reforms-table-section">
     <div class="container">
       <div class="reforms-table-wrap">
         <table class="reforms-table">
@@ -31,10 +50,15 @@ const sorted = [...reforms].sort((a, b) => a.year - b.year);
             </tr>
           </thead>
           <tbody>
-            {sorted.map((r) => (
+            {sorted.map((r, i) => (
               <tr>
                 <th scope="row">
-                  <a href={r.url} target="_blank" rel="noopener">{r.initiative}</a>
+                  <a href={r.url} target="_blank" rel="noopener" class="initiative-link">
+                    <span class="initiative-badge" style={`background:${badgeColors[i % badgeColors.length]}`}>
+                      {badgeText[r.id] ?? r.initiative.slice(0, 2).toUpperCase()}
+                    </span>
+                    <span>{r.initiative}</span>
+                  </a>
                 </th>
                 <td>{r.year}</td>
                 <td>{r["core-philosophy"]}</td>
@@ -52,13 +76,64 @@ const sorted = [...reforms].sort((a, b) => a.year - b.year);
       <h2>Know of another reform initiative?</h2>
       <p>Suggest it for inclusion in this list.</p>
       <a class="btn btn-primary" href="https://github.com/gavinf97/ntra-registry/issues/new?template=submit_ntra_example.yml" target="_blank" rel="noopener">
+        <span class="btn-icon" set:html={WHITE_ICONS.plus} />
         Suggest a reform initiative
       </a>
     </div>
   </section>
 
   <style>
-    .cta-section { text-align: center; }
-    .cta-inner { max-width: 600px; margin: 0 auto; }
+    .reforms-table-wrap {
+      margin-top: var(--space-2);
+    }
+
+    .reforms-table thead th {
+      background: var(--color-navy-800);
+      color: #fff;
+      border-bottom: none;
+    }
+
+    .initiative-link {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      color: var(--color-heading);
+      font-weight: 700;
+    }
+
+    .initiative-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 48px;
+      height: 32px;
+      padding: 0 var(--space-2);
+      border-radius: var(--radius-sm);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      flex-shrink: 0;
+    }
+
+    .btn-icon {
+      display: inline-flex;
+    }
+
+    .btn-icon :global(svg) {
+      width: 18px;
+      height: 18px;
+    }
+
+    .cta-section {
+      text-align: center;
+      background: var(--color-bg-subtle);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .cta-inner {
+      max-width: 600px;
+      margin: 0 auto;
+    }
   </style>
 </BaseLayout>

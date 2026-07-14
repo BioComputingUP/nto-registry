@@ -31,6 +31,27 @@ export const ICONS: Record<string, string> = {
   users: wrap(
     '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>'
   ),
+  search: wrap('<circle cx="10" cy="10" r="6"/><path d="m20 20-5.5-5.5"/>'),
+  quote: wrap(
+    '<path d="M7 8c-2 0-3.5 1.5-3.5 4S5 15.5 7 15.5c0-3.5 1-4.5 3-4.5V8H7Zm10 0c-2 0-3.5 1.5-3.5 4s1.5 3.5 3.5 3.5c0-3.5 1-4.5 3-4.5V8h-3Z"/>'
+  ),
+  link: wrap(
+    '<path d="M9 15 15 9"/><path d="M11 7l1-1a4 4 0 0 1 5.7 5.7l-1 1"/><path d="M13 17l-1 1a4 4 0 0 1-5.7-5.7l1-1"/>'
+  ),
+  book: wrap('<path d="M12 6c-2-1.3-5-1.7-8-1v13c3-.7 6-.3 8 1 2-1.3 5-1.7 8-1V5c-3-.7-6-.3-8 1Zm0 0v13"/>'),
+  download: wrap('<path d="M12 3v11m0 0 4-4m-4 4-4-4"/><path d="M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2"/>'),
+  "external-link": wrap(
+    '<path d="M14 4h6v6"/><path d="M20 4 11 13"/><path d="M20 14v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"/>'
+  ),
+  plus: wrap('<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>'),
+};
+
+// Same stroke set as ICONS but rendered white, for use inside solid-color
+// buttons (e.g. the OSF preprint CTA) where currentColor would be the
+// button's own text color rather than a deliberate white icon.
+export const WHITE_ICONS: Record<string, string> = {
+  book: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6c-2-1.3-5-1.7-8-1v13c3-.7 6-.3 8 1 2-1.3 5-1.7 8-1V5c-3-.7-6-.3-8 1Zm0 0v13"/></svg>',
+  plus: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>',
 };
 
 // GitHub mark, used wherever a link points to the repository (24x24 solid,
