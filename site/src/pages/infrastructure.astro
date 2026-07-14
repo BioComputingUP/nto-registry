@@ -44,15 +44,15 @@ const LOGOS: Record<string, LogoEntry> = {
 // Which NTRA category each registration service is most associated with
 // (shown as a colour tag on its card, reusing the Registry page's category
 // colours). Services that register/enrich artefacts broadly, not tied to
-// one category, get "Generic" instead of being forced into one.
+// one category, get "General" instead of being forced into one.
 const REGISTRATION_CATEGORY: Record<string, string> = {
   "bio-tools": "Software",
   workflowhub: "Software",
   "elixir-tess": "Training",
-  zenodo: "Generic",
+  zenodo: "General",
   github: "Software",
-  "openaire-graph": "Generic",
-  "bip-finder": "Generic",
+  "openaire-graph": "General",
+  "bip-finder": "General",
   fairsharing: "Data",
 };
 
@@ -62,7 +62,7 @@ const CATEGORY_COLOR_VAR: Record<string, string> = {
   Software: "--cat-software",
   "Research support": "--cat-research-support",
   "Peer review": "--cat-peer-review",
-  Generic: "--cat-generic",
+  General: "--cat-generic",
 };
 
 const LOGO_BASE_SIZE = 72;
@@ -169,7 +169,7 @@ const registration = infrastructure
       <div class="grid grid-3">
         {registration.map((infra) => {
           const logo = LOGOS[infra.id];
-          const tagCategory = REGISTRATION_CATEGORY[infra.id] ?? "Generic";
+          const tagCategory = REGISTRATION_CATEGORY[infra.id] ?? "General";
           const tagColor = `var(${CATEGORY_COLOR_VAR[tagCategory]})`;
           const logoSize = logo.type === "img" && logo.scale ? Math.round(LOGO_BASE_SIZE * logo.scale) : LOGO_BASE_SIZE;
           return (
