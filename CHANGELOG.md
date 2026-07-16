@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/) — see
 CONTRIBUTING.md for the exact MAJOR/MINOR/PATCH bump policy applied to
 `catalogue-version`.
 
+## [1.3.0] - 2026-07-16
+
+### Added
+- APICURON now actively credits FAIR Training Material Release and FAIR
+  Software Release — the discrete FAIRification/release-preparation event
+  fits its granular, activity-timeline contribution-tracking model, the
+  same model already active for Public Data Service and Curated
+  Knowledgebase Entry.
+- BIP! Scholar now actively credits Public Dataset Entry Submission and
+  Published Peer Review Report. Verified against BIP! Scholar's own
+  service description and its founding paper ("BIP! Scholar: A Service to
+  Facilitate Fair Researcher Assessment," arXiv:2205.03152), which
+  explicitly names dataset production and peer reviewing as contribution
+  types it highlights on a researcher's profile, sourced mainly from the
+  OpenAIRE Graph.
+
 ## [1.2.2] - 2026-07-16
 
 ### Fixed

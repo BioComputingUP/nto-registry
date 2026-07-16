@@ -47,7 +47,7 @@
 #   added-in-version:
 #   last-modified-version:
 
-catalogue-version: 1.2.2
+catalogue-version: 1.3.0
 
 entries:
 
@@ -166,11 +166,16 @@ entries:
       - name: ENA
         url: https://www.ebi.ac.uk/ena/browser/home
     supporting-infrastructure:
+      - infrastructure-id: bip-scholar
+        capture-function: >-
+          Surfaces dataset production as a distinct, indicator-backed
+          contribution on the depositor's researcher profile.
+        status: active
       - infrastructure-id: orcid
         capture-function: Links the depositor's identity to the primary data submission.
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.2.2
+    last-modified-version: 1.3.0
 
   - id: data-management-plan
     category: Data
@@ -268,6 +273,9 @@ entries:
       - name: ELIXIR FAIR Training Handbook
         url: ''
     supporting-infrastructure:
+      - infrastructure-id: apicuron
+        capture-function: Credits the FAIRification and release-preparation event as a discrete, trackable contribution.
+        status: active
       - infrastructure-id: zenodo
         capture-function: Issues a DOI and version history for the released material.
         status: active
@@ -278,7 +286,7 @@ entries:
         capture-function: Links the release to its responsible author(s).
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.0.0
+    last-modified-version: 1.3.0
 
   - id: learning-path
     category: Training
@@ -426,6 +434,9 @@ entries:
       - name: RSQKit
         url: https://github.com/EVERSE-ResearchSoftware/RSQKit
     supporting-infrastructure:
+      - infrastructure-id: apicuron
+        capture-function: Credits the FAIRification and release-preparation event as a discrete, trackable contribution.
+        status: active
       - infrastructure-id: zenodo
         capture-function: Issues a DOI and permanent archival snapshot of the software release.
         status: active
@@ -436,7 +447,7 @@ entries:
         capture-function: Registers releases that are packaged as part of a computational workflow.
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.0.0
+    last-modified-version: 1.3.0
 
   - id: software-management-plan
     category: Software
@@ -641,13 +652,18 @@ entries:
       - name: Open peer review reports on the F1000Research Gateway
         url: https://f1000research.com
     supporting-infrastructure:
+      - infrastructure-id: bip-scholar
+        capture-function: >-
+          Highlights peer-reviewing activity as a named contribution on the
+          reviewer's researcher profile, alongside publication-based indicators.
+        status: active
       - infrastructure-id: orcid
         capture-function: >-
           Can record verified peer-review contributions where publishers expose
           them; coverage is currently uneven across publishers.
         status: planned
     added-in-version: 1.0.0
-    last-modified-version: 1.0.0
+    last-modified-version: 1.3.0
 
   - id: grant-evaluation-report
     category: Peer review
