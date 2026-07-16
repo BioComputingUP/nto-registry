@@ -81,7 +81,7 @@ export default function RegistryExplorer({ artefacts, categories, infrastructure
           <input
             id="registry-search"
             type="search"
-            placeholder="Search artefacts, activities, examples…"
+            placeholder="Search outputs, activities, examples…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
@@ -124,7 +124,7 @@ export default function RegistryExplorer({ artefacts, categories, infrastructure
       </div>
 
       <p className="result-count" role="status">
-        {filtered.length} of {artefacts.length} artefact types
+        {filtered.length} of {artefacts.length} output types
       </p>
 
       <div className="grid grid-2 registry-grid">
@@ -200,7 +200,7 @@ export default function RegistryExplorer({ artefacts, categories, infrastructure
       </div>
 
       {filtered.length === 0 && (
-        <p className="empty-state">No artefact types match your filters. Try clearing them.</p>
+        <p className="empty-state">No output types match your filters. Try clearing them.</p>
       )}
     </div>
   );

@@ -92,7 +92,7 @@
   name: OpenAIRE Graph
   url: https://graph.openaire.eu
   function: >-
-    Aggregation. Merges PID-assigned research artefact information from
+    Aggregation. Merges PID-assigned research output information from
     diverse sources into a single, searchable knowledge graph.
   added-in-version: 1.0.0
   last-modified-version: 1.0.0

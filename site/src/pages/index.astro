@@ -21,7 +21,7 @@ const features = [
   {
     href: "registry",
     title: "Registry",
-    body: "Filter all 24 artefact types across Data, Training, Software, Research support, and Peer review.",
+    body: "Filter all 24 output types across Data, Training, Software, Research support, and Peer review.",
     icon: "layers",
   },
   {
@@ -33,7 +33,7 @@ const features = [
 ];
 
 const statTiles = [
-  { value: stats.artefactCount, label: "Artefact types", icon: "layers", href: "registry" },
+  { value: stats.artefactCount, label: "Output types", icon: "layers", href: "registry" },
   { value: stats.categoryCount, label: "Categories", icon: "grid", href: "registry" },
   { value: stats.infrastructureCount, label: "Infrastructure platforms", icon: "server", href: "infrastructure" },
   { value: stats.reformInitiativeCount, label: "Reform initiatives", icon: "flag", href: "reforms" },
@@ -58,7 +58,7 @@ const categoryIcons: Record<string, string> = {
         <p class="hero-lead">
           Publications alone don't capture the curated datasets, research software, training
           materials, research support, and peer review that sustain modern life science. This
-          registry catalogues those artefacts — versioned, machine-readable, and open for the
+          registry catalogues those outputs — versioned, machine-readable, and open for the
           community to extend. It's built to support policymakers and higher education
           institutions adopting alternative research assessment for NTOs.
         </p>
@@ -178,7 +178,7 @@ const categoryIcons: Record<string, string> = {
   <section class="section cta-section">
     <div class="container cta-inner">
       <h2>Missing something?</h2>
-      <p>Propose a new artefact type, infrastructure platform, or reform initiative.</p>
+      <p>Propose a new output type, infrastructure platform, or reform initiative.</p>
       <a class="btn btn-primary" href="https://github.com/BioComputingUP/nto-registry/issues/new/choose" target="_blank" rel="noopener">
         Submit on GitHub
       </a>
