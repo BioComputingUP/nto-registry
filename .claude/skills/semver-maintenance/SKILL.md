@@ -1,14 +1,14 @@
 ---
 name: semver-maintenance
-description: Use after any change to data/ntra_catalogue.yml or data/infrastructure_catalogue.yml, or when explicitly asked to cut a new registry version. Classifies the change under Semantic Versioning (MAJOR/MINOR/PATCH) and propagates the version bump consistently across catalogue-version, CITATION.cff, the README badge, and CHANGELOG.md so nothing drifts out of sync.
+description: Use after any change to data/nto_catalogue.yml or data/infrastructure_catalogue.yml, or when explicitly asked to cut a new registry version. Classifies the change under Semantic Versioning (MAJOR/MINOR/PATCH) and propagates the version bump consistently across catalogue-version, CITATION.cff, the README badge, and CHANGELOG.md so nothing drifts out of sync.
 ---
 
-# SemVer Maintenance for the NTRA Registry
+# SemVer Maintenance for the NTO Registry
 
 **Purpose:** Given a pending or just-made change to the registry, determine
 the correct SemVer bump and apply it consistently everywhere the version
 number is referenced. This is the "common maintenance" counterpart to the
-`add-ntra-entry` skill — that skill decides *what* content changed; this
+`add-nto-entry` skill — that skill decides *what* content changed; this
 skill decides *how the version should move* and keeps every dependent file
 in sync.
 
@@ -21,7 +21,7 @@ be followed exactly — never bump ad hoc or skip a file.
 ## Step 1 — Classify the change
 
 Look at the diff (or the change about to be made) against
-`data/ntra_catalogue.yml`, `data/infrastructure_catalogue.yml`, and
+`data/nto_catalogue.yml`, `data/infrastructure_catalogue.yml`, and
 `data/reform_initiatives.yml` and classify it:
 
 | Change | Bump |
@@ -49,7 +49,7 @@ call is expensive for downstream consumers to discover later.
 
 ## Step 2 — Compute the new version
 
-Read the current `catalogue-version` from `data/ntra_catalogue.yml`. Apply
+Read the current `catalogue-version` from `data/nto_catalogue.yml`. Apply
 standard SemVer arithmetic:
 - MAJOR: `X.y.z` → `(X+1).0.0`
 - MINOR: `x.Y.z` → `x.(Y+1).0`
@@ -59,7 +59,7 @@ standard SemVer arithmetic:
 
 Update, in this order:
 
-1. **`data/ntra_catalogue.yml`** — top-level `catalogue-version:`. Also set
+1. **`data/nto_catalogue.yml`** — top-level `catalogue-version:`. Also set
    `last-modified-version` (to the new version) on every entry actually
    touched by this change; leave untouched entries' `last-modified-version`
    as-is. For brand-new entries, set both `added-in-version` and
@@ -68,7 +68,7 @@ Update, in this order:
    — same `last-modified-version` / `added-in-version` treatment for any
    touched/new entries in either file. (Neither file has a separate
    top-level version — both share `catalogue-version` from
-   `data/ntra_catalogue.yml`.)
+   `data/nto_catalogue.yml`.)
 3. **`CITATION.cff`** — update `version: vX.Y.Z` and `date-released:` to
    today's date (`YYYY-MM-DD`).
 4. **`README.md`** — update the catalogue-version badge:

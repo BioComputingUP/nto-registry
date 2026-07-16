@@ -1,11 +1,11 @@
 # Artefact Taxonomy & Selection Criteria
 
-This page defines the categories and artefact types captured by the **NTRA
-Registry** (`data/ntra_catalogue.yml`), and the criteria for proposing new
+This page defines the categories and artefact types captured by the **NTO
+Registry** (`data/nto_catalogue.yml`), and the criteria for proposing new
 entries. It mirrors the role of `TOOLS_SELECTION_CRITERIA.md` in the sibling
 [OSAI_ecosystem](https://github.com/BioComputingUP/OSAI_ecosystem) repository.
 
-The registry captures **Non-Traditional Research Artefacts (NTRAs)**: outputs
+The registry captures **Non-Traditional Outputs (NTOs)**: outputs
 and activities that sustain modern research but are systematically
 under-represented in publication-centric assessment — data curation, research
 software, training, research support, and peer review. The taxonomy is seeded
@@ -55,7 +55,7 @@ CONTRIBUTING.md).
 
 - **New example** — you know of a specific resource (e.g. a named database, a
   named training course) that illustrates an *existing* artefact type. Open a
-  ["Submit a new NTRA example"](.github/ISSUE_TEMPLATE/submit_ntra_example.yml)
+  ["Submit a new NTO example"](.github/ISSUE_TEMPLATE/submit_nto_example.yml)
   issue, or a PR adding it to that artefact's `examples` list.
 - **New artefact type** — you believe there is a distinct category of
   non-traditional output not represented by any row above (it has its own
@@ -71,7 +71,7 @@ CONTRIBUTING.md).
 ## Out of scope
 
 - Purely commercial resources with no meaningful open/free access path.
-- Generic AI/ML tooling not specific to capturing or producing an NTRA (see
+- Generic AI/ML tooling not specific to capturing or producing an NTO (see
   the sibling [OSAI_ecosystem](https://github.com/BioComputingUP/OSAI_ecosystem)
   repository for that scope instead).
 - Duplicate entries for a resource already covered by an existing artefact's

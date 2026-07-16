@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate data/ntra_catalogue.yml, data/infrastructure_catalogue.yml, and
+"""Validate data/nto_catalogue.yml, data/infrastructure_catalogue.yml, and
 data/reform_initiatives.yml.
 
 Checks structural integrity so that community contributions (issues/PRs) can be
@@ -18,7 +18,7 @@ from pathlib import Path
 import yaml
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-CATALOGUE_PATH = REPO_ROOT / "data" / "ntra_catalogue.yml"
+CATALOGUE_PATH = REPO_ROOT / "data" / "nto_catalogue.yml"
 INFRA_PATH = REPO_ROOT / "data" / "infrastructure_catalogue.yml"
 REFORMS_PATH = REPO_ROOT / "data" / "reform_initiatives.yml"
 
@@ -46,7 +46,7 @@ REQUIRED_REFORM_FIELDS = [
     "initiative",
     "year",
     "core-philosophy",
-    "relevance-to-ntras",
+    "relevance-to-ntos",
     "url",
     "added-in-version",
     "last-modified-version",

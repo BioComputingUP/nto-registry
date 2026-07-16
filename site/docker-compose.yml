@@ -2,7 +2,7 @@
 #
 #   docker compose up
 #
-# Then open http://localhost:4321/ntra-registry/ — edits to files in site/
+# Then open http://localhost:4321/nto-registry/ — edits to files in site/
 # or ../data/*.yml (after a container restart to re-run build-data) are
 # reflected live. Ctrl+C or `docker compose down` to stop.
 services:

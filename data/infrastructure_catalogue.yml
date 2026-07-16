@@ -1,11 +1,11 @@
 # Supporting Infrastructure Catalogue
 #
 # Normalized registry of technical platforms capable of capturing credit for
-# Non-Traditional Research Artefacts (NTRAs), per Table 2 and Figure 2 of:
+# Non-Traditional Outputs (NTOs), per Table 2 and Figure 2 of:
 # Farrell G, Alloza E, Bouhraoua A, et al. "Credit, recognition, and reward for
 # non-traditional research artefacts in the Life Sciences" (2025).
 #
-# Each platform is defined once here. Artefact entries in ntra_catalogue.yml
+# Each platform is defined once here. Artefact entries in nto_catalogue.yml
 # reference a platform by `id` and add an artefact-specific `capture-function`
 # note plus a `status` (active | planned) describing whether that particular
 # credit-capture pathway is already live for that artefact, per Figure 2's

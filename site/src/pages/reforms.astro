@@ -61,7 +61,7 @@ const sorted = [...reforms].sort((a, b) => a.year - b.year);
                 </th>
                 <td>{r.year}</td>
                 <td>{r["core-philosophy"]}</td>
-                <td>{r["relevance-to-ntras"]}</td>
+                <td>{r["relevance-to-ntos"]}</td>
               </tr>
             ))}
           </tbody>
@@ -74,7 +74,7 @@ const sorted = [...reforms].sort((a, b) => a.year - b.year);
     <div class="container cta-inner">
       <h2>Know of another reform initiative?</h2>
       <p>Suggest it for inclusion in this list.</p>
-      <a class="btn btn-primary" href="https://github.com/gavinf97/ntra-registry/issues/new?template=submit_ntra_example.yml" target="_blank" rel="noopener">
+      <a class="btn btn-primary" href="https://github.com/BioComputingUP/nto-registry/issues/new?template=submit_nto_example.yml" target="_blank" rel="noopener">
         <span class="btn-icon" set:html={WHITE_ICONS.plus} />
         Suggest a reform initiative
       </a>

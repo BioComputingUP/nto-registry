@@ -1,8 +1,8 @@
-# Contributing to the NTRA Registry
+# Contributing to the NTO Registry
 
 Thank you for your interest in contributing! This document outlines how to
-contribute to the NTRA Registry, a community-curated, versioned catalogue of
-Non-Traditional Research Artefacts (NTRAs) in the Life Sciences.
+contribute to the NTO Registry, a community-curated, versioned catalogue of
+Non-Traditional Outputs (NTOs) in the Life Sciences.
 
 We primarily use a GitHub-based workflow. Contributions are made via Pull
 Requests (PRs) which are then reviewed and merged by the project maintainers.
@@ -26,7 +26,7 @@ have an idea for improving the registry's structure:
 
 1.  **Check existing issues:** See if someone has already reported the same thing or made a similar suggestion.
 2.  **Open the right form:**
-    * [Submit a New NTRA Example/Type](../../issues/new?template=submit_ntra_example.yml) — for a new example resource, a new artefact type, a new supporting-infrastructure platform, or a new assessment reform initiative.
+    * [Submit a New NTO Example/Type](../../issues/new?template=submit_nto_example.yml) — for a new example resource, a new artefact type, a new supporting-infrastructure platform, or a new assessment reform initiative.
     * [Suggest a Change](../../issues/new?template=suggest_change.yml) — for corrections to an existing entry (broken link, wording, wrong category, etc).
     * [General Issue](../../issues/new?template=general_issue.yml) — for questions, CI/validation bugs, documentation issues, or anything else. Blank issues are also enabled if none of the templates fit.
 
@@ -39,7 +39,7 @@ This is the preferred way to add or modify entries directly.
     git checkout -b name-of-your-new-branch
     ```
 3.  **Make Your Changes:**
-    * New examples/artefact types/infrastructure/reform initiatives go in `data/ntra_catalogue.yml`, `data/infrastructure_catalogue.yml`, and/or `data/reform_initiatives.yml` — see [ARTEFACT_TAXONOMY.md](ARTEFACT_TAXONOMY.md) for the taxonomy and each file's in-file template comment for exact field formatting.
+    * New examples/artefact types/infrastructure/reform initiatives go in `data/nto_catalogue.yml`, `data/infrastructure_catalogue.yml`, and/or `data/reform_initiatives.yml` — see [ARTEFACT_TAXONOMY.md](ARTEFACT_TAXONOMY.md) for the taxonomy and each file's in-file template comment for exact field formatting.
     * Bump `catalogue-version` per the [Versioning Policy](#versioning-policy-semver) below, and add a `CHANGELOG.md` entry.
     * Run the validator before opening your PR:
       ```bash
@@ -55,6 +55,14 @@ This is the preferred way to add or modify entries directly.
     git commit -m "feat: Add example XYZ to Curated Knowledgebase Entry"
     ```
 5.  **Push to Your Fork and Open a Pull Request**, describing your changes and their relevance.
+
+**Note:** the live site redeploys automatically on every merge to `main`
+that touches `site/**` or `data/**`. GitHub Pages caches pages and assets
+for about 10 minutes, so if merges land in quick succession you may
+briefly see an unstyled page (an already-cached page pointing at an
+asset file a newer deploy has replaced). A hard refresh
+(Ctrl/Cmd+Shift+R) fixes it — this is expected caching behaviour, not a
+bug.
 
 ## What to Contribute
 We welcome contributions that add or improve:
@@ -73,7 +81,7 @@ We welcome contributions that add or improve:
 
 ## Versioning Policy (SemVer)
 
-`data/ntra_catalogue.yml`'s `catalogue-version` field, `CITATION.cff`'s
+`data/nto_catalogue.yml`'s `catalogue-version` field, `CITATION.cff`'s
 `version`, and the README badge **must** move together, following strict
 [Semantic Versioning](https://semver.org/):
 

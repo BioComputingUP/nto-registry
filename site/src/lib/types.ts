@@ -49,7 +49,7 @@ export interface ReformInitiative {
   initiative: string;
   year: number;
   "core-philosophy": string;
-  "relevance-to-ntras": string;
+  "relevance-to-ntos": string;
   url: string;
   "added-in-version": string;
   "last-modified-version": string;

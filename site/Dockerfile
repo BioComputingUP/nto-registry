@@ -1,4 +1,4 @@
-# Dev-mode image for local live-reloading of the NTRA Registry site.
+# Dev-mode image for local live-reloading of the NTO Registry site.
 # Not used for production — GitHub Actions builds the static site directly
 # with `npm run build` (see ../.github/workflows/deploy-site.yml).
 FROM node:22-slim

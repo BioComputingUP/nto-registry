@@ -1,19 +1,19 @@
-# Agent Guidance for the NTRA Registry
+# Agent Guidance for the NTO Registry
 
 This file orients any AI coding agent (Claude Code, or otherwise) working in
 this repository. Read this before making changes.
 
 ## What this repo is
 
-A versioned, community-extensible YAML catalogue of Non-Traditional Research
-Artefacts (NTRAs) in the Life Sciences — see [README.md](README.md) for
+A versioned, community-extensible YAML catalogue of Non-Traditional
+Outputs (NTOs) in the Life Sciences — see [README.md](README.md) for
 background and [ARTEFACT_TAXONOMY.md](ARTEFACT_TAXONOMY.md) for the full
 taxonomy of 5 categories / 24 artefact types.
 
 ## Where things live
 
 ```
-data/ntra_catalogue.yml            # the artefact entries (the core dataset)
+data/nto_catalogue.yml             # the artefact entries (the core dataset)
 data/infrastructure_catalogue.yml  # normalized platform definitions, referenced by id
 data/reform_initiatives.yml        # research assessment reform initiatives (Table 1)
 data/CONTRIBUTORS.yml              # content contributors
@@ -29,7 +29,7 @@ site/                              # the public website — see "Website" sectio
 ## The two things you'll usually be asked to do
 
 1. **Add or correct a catalogue entry** — use the
-   [`add-ntra-entry`](.claude/skills/add-ntra-entry/SKILL.md) skill. It covers
+   [`add-nto-entry`](.claude/skills/add-nto-entry/SKILL.md) skill. It covers
    both intake paths: resolving a filed GitHub issue, or an ad hoc request
    ("add X as an example of Curated Knowledgebase Entry").
 2. **Bump the version consistently** — use the
@@ -38,7 +38,7 @@ site/                              # the public website — see "Website" sectio
    isolation; the skill keeps `CITATION.cff`, the README badge, and
    `CHANGELOG.md` in sync with it.
 
-These are separate skills on purpose: `add-ntra-entry` decides *what* content
+These are separate skills on purpose: `add-nto-entry` decides *what* content
 changed and appends it; `semver-maintenance` decides *how the version number
 should move* in response and propagates it. Adding an entry should always be
 followed by invoking the SemVer skill before a PR is opened.
@@ -69,17 +69,17 @@ followed by invoking the SemVer skill before a PR is opened.
 ## Style
 
 - Follow the field order and formatting already used in
-  `data/ntra_catalogue.yml` and `data/infrastructure_catalogue.yml` (each
+  `data/nto_catalogue.yml` and `data/infrastructure_catalogue.yml` (each
   file's header comment documents the template). Use YAML `>-` folded block
   scalars for multi-sentence text, matching the existing entries.
 - Keep documentation edits (README, CONTRIBUTING, ARTEFACT_TAXONOMY) in sync
   with schema changes — if you add a field to the entry schema, update the
   header comment in the YAML file, ARTEFACT_TAXONOMY.md if relevant, and the
-  `add-ntra-entry` skill's field table.
+  `add-nto-entry` skill's field table.
 
 ## Website (`site/`)
 
-The public site (deployed to https://gavinf97.github.io/ntra-registry/) is
+The public site (deployed to https://biocomputingup.github.io/nto-registry/) is
 an [Astro](https://astro.build) project with a React island for the
 filterable Registry page, live at `site/`.
 
@@ -96,7 +96,7 @@ filterable Registry page, live at `site/`.
   YAML → JSON pipeline.
 - **Local dev:** from `site/`, either `npm run dev` (Node 22.12+) or
   `docker compose up` (no local Node needed — see `site/README.md`). Both
-  give hot reload at `http://localhost:4321/ntra-registry/`.
+  give hot reload at `http://localhost:4321/nto-registry/`.
 - **Deploy:** `.github/workflows/deploy-site.yml` builds `site/` and deploys
   `site/dist` to GitHub Pages via the official `actions/deploy-pages` flow on
   every push to `main` touching `site/**` or `data/**`. There is no manual
@@ -105,7 +105,36 @@ filterable Registry page, live at `site/`.
   `site/src/styles/tokens.css`, sourced from BioComputingUP/OSAI_ecosystem's
   ELIXIR-style branding (navy `#103344`/`#0b2735`, accent orange `#F66729`,
   font `Lato`). Reuse these tokens rather than introducing new one-off colors.
-- **Site base path:** `site/astro.config.mjs` sets `base: '/ntra-registry/'`
+- **Site base path:** `site/astro.config.mjs` sets `base: '/nto-registry/'`
   for the current free GitHub Pages URL. If a custom domain is attached
   later, update `site` and `base` there (and add a `public/CNAME` file) —
   nothing else needs to change.
+
+### Caching and deploy cadence
+
+GitHub Pages serves the site through a CDN (Fastly/Varnish) with a flat
+10-minute `cache-control: max-age=600` on **every** response — HTML pages
+and the content-hashed `_astro/*.{css,js}` bundles alike. There's no
+"immutable" long-cache treatment for hashed assets the way Netlify/Vercel/
+Cloudflare Pages do it; that's a GitHub Pages platform limitation, not
+something this repo controls.
+
+Each deploy is a full atomic replace — old hash-named asset files are not
+retained once superseded. If a browser has an HTML page cached from just
+before a deploy, and a **second** deploy happens within that same
+~10-minute window, the cached HTML can still reference an asset filename
+that's already been deleted server-side. The resulting stylesheet/script
+request 404s and the page renders as raw, unstyled HTML. This looks
+alarming but is not a code bug — it's a transient cache/deploy-cadence
+interaction, confirmed by inspecting response headers and prior deploys'
+now-404ing asset URLs directly.
+
+- **Avoid unnecessary rapid-fire deploys** where you can batch changes
+  instead — every push to `main` touching `site/**` or `data/**` triggers a
+  full redeploy, and stacking many pushes minutes apart is what creates the
+  risk window described above.
+- If you or a user ever see an unstyled page, **a hard refresh
+  (Ctrl/Cmd+Shift+R) or an incognito window fixes it immediately** by
+  forcing a fresh fetch of the current, internally-consistent HTML+asset
+  set. No redeploy or code change is needed to "fix" this — it self-resolves
+  as soon as the stale cache entry expires.

@@ -7,7 +7,7 @@
 #   "Credit, recognition, and reward for non-traditional research artefacts in the
 #   Life Sciences" (2025).
 #
-# This file shares the single catalogue-version defined in data/ntra_catalogue.yml
+# This file shares the single catalogue-version defined in data/nto_catalogue.yml
 # (no separate top-level version here) — see CONTRIBUTING.md for the SemVer policy.
 # Before contributing, please read CONTRIBUTING.md.
 #
@@ -16,7 +16,7 @@
 #   initiative: full name of the reform initiative
 #   year: year the initiative was launched/published
 #   core-philosophy: the initiative's central guiding principle, in 1-2 sentences
-#   relevance-to-ntras: how it specifically supports non-traditional research artefacts
+#   relevance-to-ntos: how it specifically supports non-traditional outputs
 #   url: the initiative's primary homepage
 #   added-in-version: registry version this entry was first added in
 #   last-modified-version: registry version this entry was last changed in
@@ -27,7 +27,7 @@
   core-philosophy: >-
     Eliminate the use of journal-based metrics (e.g., Journal Impact Factor) for
     funding, appointment, and promotion decisions.
-  relevance-to-ntras: >-
+  relevance-to-ntos: >-
     Shifts the assessment focus from where work is published to the intrinsic
     quality of the research itself, opening the door for assessing diverse outputs
     like software and data on their own merit.
@@ -41,7 +41,7 @@
   core-philosophy: >-
     Ten principles to guide the responsible use of bibliometrics and prevent the
     abuse of quantitative indicators.
-  relevance-to-ntras: >-
+  relevance-to-ntos: >-
     Emphasizes that quantitative metrics must support (not replace) qualitative
     expert assessment and must respect the specific nature of different research
     fields (e.g., computational biology vs. clinical medicine).
@@ -55,7 +55,7 @@
   core-philosophy: >-
     Fosters research integrity by assessing responsible research practices rather
     than just publication counts.
-  relevance-to-ntras: >-
+  relevance-to-ntos: >-
     Explicitly calls for rewarding Open Science practices, including the complete
     reporting of methods and the sharing of reliable data, software, code, and
     protocols (Principle 4).
@@ -70,7 +70,7 @@
     A grassroots competition and campaign designed to celebrate all research
     outputs and the diverse people (technicians, dRTPs, and librarians) who make
     research possible.
-  relevance-to-ntras: >-
+  relevance-to-ntos: >-
     Provides a practical framework for recognizing Non-Traditionally Submitted
     Outputs (NTOs), such as code, datasets, and exhibitions which are essential to
     the research ecosystem but ignored by traditional REF metrics.
@@ -84,7 +84,7 @@
   core-philosophy: >-
     A global coalition of organisations committing to systemic reform of research
     assessment based on qualitative judgement.
-  relevance-to-ntras: >-
+  relevance-to-ntos: >-
     The agreement includes specific commitments to recognize the "diversity of
     contributions to, and careers in, research," providing a direct policy mandate
     for supporting dRTP roles and their outputs.

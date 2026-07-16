@@ -1,6 +1,6 @@
 # License
 
-The content of this repository — specifically the NTRA catalogue, infrastructure
+The content of this repository — specifically the NTO catalogue, infrastructure
 catalogue, and accompanying documentation — is licensed under the **Creative
 Commons Attribution 4.0 International License (CC BY 4.0)**.
 

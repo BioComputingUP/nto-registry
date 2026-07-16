@@ -6,13 +6,13 @@ body:
   - type: markdown
     attributes:
       value: |
-        Use this for anything that isn't a new NTRA example/type or a
+        Use this for anything that isn't a new NTO example/type or a
         correction to an existing entry — e.g. a question, a bug in
         `scripts/validate_yaml.py` or the CI workflow, a documentation issue,
         or general feedback on the registry.
 
         For a new example/artefact type, use
-        [Submit a New NTRA Example/Type](./submit_ntra_example.yml) instead.
+        [Submit a New NTO Example/Type](./submit_nto_example.yml) instead.
         For a correction to an existing entry, use
         [Suggest a Change](./suggest_change.yml) instead.
 

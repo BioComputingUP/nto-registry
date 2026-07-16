@@ -1,6 +1,6 @@
 ## This project
 
-This is the NTRA Registry's website. Read the repo-root `../AGENTS.md` first
+This is the NTO Registry's website. Read the repo-root `../AGENTS.md` first
 for the full picture — in particular: **never hand-edit `src/generated/`**,
 it's regenerated from `../data/*.yml` by `scripts/build-data.mjs`
 (`predev`/`prebuild` run it automatically). Edit the YAML upstream, then

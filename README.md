@@ -1,13 +1,13 @@
-# NTRA Registry: Non-Traditional Research Artefacts in the Life Sciences
+# NTO Registry: Non-Traditional Outputs in the Life Sciences
 
 [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 [![Catalogue Version](https://img.shields.io/badge/catalogue--version-1.2.0-blue.svg)](CHANGELOG.md)
 
-### 🌐 [Browse the live registry](https://gavinf97.github.io/ntra-registry/)
+### 🌐 [Browse the live registry](https://biocomputingup.github.io/nto-registry/)
 
-Welcome to the **NTRA Registry**! This repository hosts a community-curated,
-versioned catalogue of **Non-Traditional Research Artefacts (NTRAs)** — the
+Welcome to the **NTO Registry**! This repository hosts a community-curated,
+versioned catalogue of **Non-Traditional Outputs (NTOs)** — the
 data curation, research software, training, research support, and peer review
 work that sustains modern science but is systematically under-represented in
 publication-centric research assessment.
@@ -41,7 +41,7 @@ other data-intensive research domains.
 The catalogue data is maintained in human-readable YAML files within the
 `/data` directory:
 
-* `data/ntra_catalogue.yml` — the 24 artefact types, their explanations,
+* `data/nto_catalogue.yml` — the 24 artefact types, their explanations,
   corresponding activities, examples, and supporting infrastructure.
 * `data/infrastructure_catalogue.yml` — the normalized registry of platforms
   (APICURON, ORCID, bio.tools, Zenodo, etc.) referenced by the entries above.
@@ -54,7 +54,7 @@ See [ARTEFACT_TAXONOMY.md](ARTEFACT_TAXONOMY.md) for the full taxonomy and
 selection criteria.
 
 A public website ([`site/`](site/), built with Astro + React and deployed to
-GitHub Pages at https://gavinf97.github.io/ntra-registry/ via
+GitHub Pages at https://biocomputingup.github.io/nto-registry/ via
 [`.github/workflows/deploy-site.yml`](.github/workflows/deploy-site.yml))
 presents this data as a filterable Registry, an Assessment Reforms table, an
 Infrastructure directory, and an About page — built directly from the YAML
@@ -69,7 +69,7 @@ above on every push, so the site and the data never drift apart. See
 ## Versioning
 
 This registry is versioned with strict [Semantic Versioning](https://semver.org/)
-(`catalogue-version` in `data/ntra_catalogue.yml`). See
+(`catalogue-version` in `data/nto_catalogue.yml`). See
 [CONTRIBUTING.md](CONTRIBUTING.md#versioning-policy-semver) for the exact
 MAJOR/MINOR/PATCH policy, and [CHANGELOG.md](CHANGELOG.md) for the release
 history.
@@ -81,13 +81,13 @@ straightforward ways to propose an addition:
 
 ### Option 1: Submit an Issue (Recommended)
 1. Navigate to the [Issues tab](../../issues).
-2. Choose **Submit a New NTRA Example/Type** to propose a new example, a new
+2. Choose **Submit a New NTO Example/Type** to propose a new example, a new
    artefact type, or a new supporting-infrastructure platform, or
    **Suggest a Change** to correct an existing entry.
 3. Fill out the form and submit. Maintainers will review and add it.
 
 ### Option 2: Submit a Pull Request (PR)
-1. Edit `data/ntra_catalogue.yml`, `data/infrastructure_catalogue.yml`, and/or
+1. Edit `data/nto_catalogue.yml`, `data/infrastructure_catalogue.yml`, and/or
    `data/reform_initiatives.yml` directly, following the in-file template
    comments and [ARTEFACT_TAXONOMY.md](ARTEFACT_TAXONOMY.md). No site changes
    are needed — the website regenerates from this data on every build.
@@ -102,7 +102,7 @@ Full details are in [CONTRIBUTING.md](CONTRIBUTING.md).
 This repository ships agent-facing guidance so AI coding assistants can
 contribute cohesively: see [AGENTS.md](AGENTS.md) for the repository
 orientation, and `.claude/skills/` for two Claude Code skills —
-`add-ntra-entry` (resolve a submission into the catalogue) and
+`add-nto-entry` (resolve a submission into the catalogue) and
 `semver-maintenance` (bump versions consistently across all dependent files).
 
 ## License

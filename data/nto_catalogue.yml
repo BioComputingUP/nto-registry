@@ -1,6 +1,6 @@
-# NTRA Registry — Non-Traditional Research Artefact Catalogue
+# NTO Registry — Non-Traditional Output Catalogue
 #
-# Landscaping of non-traditional research artefacts (NTRAs) in the life sciences,
+# Landscaping of non-traditional outputs (NTOs) in the life sciences,
 # seeded from Table 3 of:
 #   Farrell G, Alloza E, Bouhraoua A, Capella-Gutierrez S, Goble C, Hermjakob H,
 #   Makaronidou M, Smith A, Sufi S, Vergoulis T, Zoubiri M, Quaglia F, Tosatto SCE.
@@ -51,7 +51,7 @@ catalogue-version: 1.2.0
 
 entries:
 
-  # NTRA Registry entries start
+  # NTO Registry entries start
 
   # ---------------------------------------------------------------------------
   # Category: Data
@@ -697,4 +697,4 @@ entries:
     added-in-version: 1.0.0
     last-modified-version: 1.0.0
 
-  # NTRA Registry entries end
+  # NTO Registry entries end

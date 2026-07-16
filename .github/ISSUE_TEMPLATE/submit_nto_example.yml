@@ -1,12 +1,12 @@
-name: Submit a New NTRA Example/Type
-description: Propose a new example, a new artefact type, a new supporting infrastructure platform, or a new assessment reform initiative for the NTRA Registry.
-title: "[New NTRA]: <Name>"
+name: Submit a New NTO Example/Type
+description: Propose a new example, a new artefact type, a new supporting infrastructure platform, or a new assessment reform initiative for the NTO Registry.
+title: "[New NTO]: <Name>"
 labels: ["enhancement", "new entry"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thank you for contributing to the NTRA Registry!
+        Thank you for contributing to the NTO Registry!
 
         Before you submit, please read [CONTRIBUTING.md](../../CONTRIBUTING.md)
         and [ARTEFACT_TAXONOMY.md](../../ARTEFACT_TAXONOMY.md) to check your

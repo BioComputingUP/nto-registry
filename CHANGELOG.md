@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to the NTRA Registry are documented in this file.
+All notable changes to the NTO Registry are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/) — see
@@ -15,7 +15,7 @@ CONTRIBUTING.md for the exact MAJOR/MINOR/PATCH bump policy applied to
   discoverable, citable record independent of where the underlying data is
   hosted. Linked as active supporting infrastructure on the `public-data-
   service` and `curated-knowledgebase-entry` artefacts in
-  `data/ntra_catalogue.yml`.
+  `data/nto_catalogue.yml`.
 
 ## [1.1.0] - 2026-07-14
 
@@ -33,7 +33,7 @@ CONTRIBUTING.md for the exact MAJOR/MINOR/PATCH bump policy applied to
 ## [1.0.0] - 2026-07-14
 
 ### Added
-- Initial release of `data/ntra_catalogue.yml`, seeding all 24 artefact types
+- Initial release of `data/nto_catalogue.yml`, seeding all 24 artefact types
   across the 5 categories (Data, Training, Software, Research support, Peer
   review) landscaped in Table 3 of Farrell et al. (2025), "Credit,
   recognition, and reward for non-traditional research artefacts in the Life
@@ -48,7 +48,7 @@ CONTRIBUTING.md for the exact MAJOR/MINOR/PATCH bump policy applied to
   [OSAI_ecosystem](https://github.com/BioComputingUP/OSAI_ecosystem).
 - `scripts/validate_yaml.py` and a `validate.yml` GitHub Action enforcing
   schema integrity on PRs touching `data/**`.
-- GitHub issue templates for submitting new NTRA examples/types and
+- GitHub issue templates for submitting new NTO examples/types and
   suggesting corrections.
 - Agent guidance (`AGENTS.md`) and two Claude Code skills:
-  `add-ntra-entry` and `semver-maintenance`.
+  `add-nto-entry` and `semver-maintenance`.

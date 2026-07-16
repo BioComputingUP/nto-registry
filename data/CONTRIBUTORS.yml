@@ -1,4 +1,4 @@
-# List of contributors to the NTRA Registry (template reused from OSAI_ecosystem /
+# List of contributors to the NTO Registry (template reused from OSAI_ecosystem /
 # EVERSE RSQKit).
 #
 # Full Name:
@@ -18,77 +18,77 @@
 Gavin Farrell:
     git: https://github.com/gavinf97
     orcid: 0000-0001-5166-8551
-    role: Lead author, registry maintainer and infrastructure. Co-author of the underlying Credit, Recognition & Reward for NTRAs paper.
+    role: Lead author, registry maintainer and infrastructure. Co-author of the underlying Credit, Recognition & Reward for NTOs paper.
     affiliation: Department of Biomedical Sciences, University of Padova, Italy
 
 Eva Alloza:
     git:
     orcid: 0000-0001-8385-9336
-    role: Landscaping co-author, Credit/Recognition/Reward for NTRAs paper
+    role: Landscaping co-author, Credit/Recognition/Reward for NTOs paper
     affiliation: Barcelona Supercomputing Center (BSC), Spain
 
 Adel Bouhraoua:
     git:
     orcid: 0000-0001-9531-6339
-    role: Landscaping co-author, Credit/Recognition/Reward for NTRAs paper
+    role: Landscaping co-author, Credit/Recognition/Reward for NTOs paper
     affiliation: Department of Biomedical Sciences, University of Padova, Italy
 
 Salvador Capella-Gutierrez:
     git:
     orcid: 0000-0002-0309-604X
-    role: Landscaping co-author, Credit/Recognition/Reward for NTRAs paper
+    role: Landscaping co-author, Credit/Recognition/Reward for NTOs paper
     affiliation: Barcelona Supercomputing Center (BSC), Spain
 
 Carole Goble:
     git:
     orcid: 0000-0003-1219-2137
-    role: Landscaping co-author, Credit/Recognition/Reward for NTRAs paper
+    role: Landscaping co-author, Credit/Recognition/Reward for NTOs paper
     affiliation: Department of Computer Science, University of Manchester, United Kingdom
 
 Henning Hermjakob:
     git:
     orcid: 0000-0001-8479-0262
-    role: Landscaping co-author, Credit/Recognition/Reward for NTRAs paper
+    role: Landscaping co-author, Credit/Recognition/Reward for NTOs paper
     affiliation: EMBL-EBI, Wellcome Genome Campus, United Kingdom
 
 Maria Makaronidou:
     git:
     orcid: 0009-0006-4575-3526
-    role: Landscaping co-author, Credit/Recognition/Reward for NTRAs paper
+    role: Landscaping co-author, Credit/Recognition/Reward for NTOs paper
     affiliation: Athena Research & Innovation Center, Greece
 
 Andrew Smith:
     git:
     orcid: 0000-0002-6025-9271
-    role: Landscaping co-author, Credit/Recognition/Reward for NTRAs paper
+    role: Landscaping co-author, Credit/Recognition/Reward for NTOs paper
     affiliation: ELIXIR Europe Hub, EMBL-EBI South Building, United Kingdom
 
 Shoaib Sufi:
     git:
     orcid: 0000-0001-6390-2616
-    role: Landscaping co-author, Credit/Recognition/Reward for NTRAs paper
+    role: Landscaping co-author, Credit/Recognition/Reward for NTOs paper
     affiliation: Department of Computer Science, University of Manchester, United Kingdom
 
 Thanasis Vergoulis:
     git:
     orcid: 0000-0003-0555-4128
-    role: Landscaping co-author, Credit/Recognition/Reward for NTRAs paper
+    role: Landscaping co-author, Credit/Recognition/Reward for NTOs paper
     affiliation: Athena Research & Innovation Center, Greece
 
 Mehdi Zoubiri:
     git:
     orcid: 0009-0009-3602-3558
-    role: Landscaping co-author, Credit/Recognition/Reward for NTRAs paper
+    role: Landscaping co-author, Credit/Recognition/Reward for NTOs paper
     affiliation: Department of Biomedical Sciences, University of Padova, Italy
 
 Federica Quaglia:
     git:
     orcid: 0000-0002-0341-4888
-    role: Co-corresponding author, Credit/Recognition/Reward for NTRAs paper
+    role: Co-corresponding author, Credit/Recognition/Reward for NTOs paper
     affiliation: Department of Biomedical Sciences, University of Padova, Italy
 
 Silvio C.E. Tosatto:
     git:
     orcid: 0000-0003-4525-7793
-    role: Co-corresponding author, Credit/Recognition/Reward for NTRAs paper
+    role: Co-corresponding author, Credit/Recognition/Reward for NTOs paper
     affiliation: Department of Biomedical Sciences, University of Padova, Italy / CNR-IBIOM, Italy

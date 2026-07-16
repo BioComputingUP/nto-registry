@@ -27,7 +27,7 @@ const features = [
   {
     href: "infrastructure",
     title: "Infrastructure",
-    body: "APICURON, ORCID, bio.tools, Zenodo, and the platforms that capture NTRA credit.",
+    body: "APICURON, ORCID, bio.tools, Zenodo, and the platforms that capture NTO credit.",
     icon: "server",
   },
 ];
@@ -48,19 +48,19 @@ const categoryIcons: Record<string, string> = {
 };
 ---
 
-<BaseLayout title="Home" description="A versioned, community-extensible catalogue of Non-Traditional Research Artefacts (NTRAs) in the Life Sciences.">
+<BaseLayout title="Home" description="A versioned, community-extensible catalogue of Non-Traditional Outputs (NTOs) in the Life Sciences.">
   <section class="hero">
     <div class="container hero-grid">
       <div class="hero-copy">
         <p class="eyebrow">Life Sciences Focused</p>
-        <h1>The Non-Traditional Research Artefact <span class="hero-acronym">(NTRA)</span> Registry</h1>
+        <h1>The Non-Traditional Output <span class="hero-acronym">(NTO)</span> Registry</h1>
         <p class="hero-subtitle">Credit, recognition, and reward for the work that sustains modern science.</p>
         <p class="hero-lead">
           Publications alone don't capture the curated datasets, research software, training
           materials, research support, and peer review that sustain modern life science. This
           registry catalogues those artefacts — versioned, machine-readable, and open for the
           community to extend. It's built to support policymakers and higher education
-          institutions adopting alternative research assessment for NTRAs.
+          institutions adopting alternative research assessment for NTOs.
         </p>
         <div class="hero-actions">
           <a class="btn btn-primary" href={`${base}registry/`}>Explore the Registry</a>
@@ -134,9 +134,9 @@ const categoryIcons: Record<string, string> = {
 
   <section class="section section-subtle">
     <div class="container">
-      <h2 class="ntra-def-heading">What is a Non-Traditional Research Artefact (NTRA)?</h2>
-      <p class="section-intro ntra-def-intro">
-        A Non-Traditional Research Artefact is any output or activity that sustains modern
+      <h2 class="nto-def-heading">What is a Non-Traditional Output (NTO)?</h2>
+      <p class="section-intro nto-def-intro">
+        A Non-Traditional Output is any output or activity that sustains modern
         research but is systematically under-represented in publication-centric assessment —
         from a curated database entry to a FAIR software release to a grant peer-review
         report. This registry gives each type a shared definition, real examples, and a path
@@ -179,7 +179,7 @@ const categoryIcons: Record<string, string> = {
     <div class="container cta-inner">
       <h2>Missing something?</h2>
       <p>Propose a new artefact type, infrastructure platform, or reform initiative.</p>
-      <a class="btn btn-primary" href="https://github.com/gavinf97/ntra-registry/issues/new/choose" target="_blank" rel="noopener">
+      <a class="btn btn-primary" href="https://github.com/BioComputingUP/nto-registry/issues/new/choose" target="_blank" rel="noopener">
         Submit on GitHub
       </a>
     </div>
@@ -279,12 +279,12 @@ const categoryIcons: Record<string, string> = {
       height: 30px;
     }
 
-    .ntra-def-heading,
-    .ntra-def-intro {
+    .nto-def-heading,
+    .nto-def-intro {
       text-align: center;
     }
 
-    .ntra-def-intro {
+    .nto-def-intro {
       margin-left: auto;
       margin-right: auto;
     }

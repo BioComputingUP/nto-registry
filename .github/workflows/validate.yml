@@ -1,4 +1,4 @@
-name: Validate NTRA data
+name: Validate NTO data
 
 on:
   push:

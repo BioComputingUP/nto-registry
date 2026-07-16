@@ -1,12 +1,12 @@
 ---
-name: add-ntra-entry
-description: Use when adding a new example, a new artefact type, a new supporting-infrastructure platform, or a new assessment reform initiative to the NTRA Registry, or when correcting an existing entry — whether the source is a filed GitHub issue (submit_ntra_example / suggest_change) or an ad hoc request from a maintainer. Appends/edits data/ntra_catalogue.yml, data/infrastructure_catalogue.yml, and data/reform_initiatives.yml correctly and validates before finishing.
+name: add-nto-entry
+description: Use when adding a new example, a new artefact type, a new supporting-infrastructure platform, or a new assessment reform initiative to the NTO Registry, or when correcting an existing entry — whether the source is a filed GitHub issue (submit_nto_example / suggest_change) or an ad hoc request from a maintainer. Appends/edits data/nto_catalogue.yml, data/infrastructure_catalogue.yml, and data/reform_initiatives.yml correctly and validates before finishing.
 ---
 
-# Add / Correct an NTRA Registry Entry
+# Add / Correct an NTO Registry Entry
 
 **Purpose:** Resolve a submission — filed as a GitHub issue or requested ad
-hoc — into a correctly formatted entry in `data/ntra_catalogue.yml`,
+hoc — into a correctly formatted entry in `data/nto_catalogue.yml`,
 `data/infrastructure_catalogue.yml`, and/or `data/reform_initiatives.yml`.
 
 The public website (`site/`) reads these files at build time and needs no
@@ -22,7 +22,7 @@ This skill only handles the *content* change. After it, always invoke the
 ## Step 1 — Determine the intake path and submission type
 
 **From a GitHub issue:** read the issue body. It was filed via one of:
-- `submit_ntra_example.yml` — submission type is one of "New example for an
+- `submit_nto_example.yml` — submission type is one of "New example for an
   existing artefact", "New artefact type", or "New supporting infrastructure".
 - `suggest_change.yml` — a correction to an existing entry (identified by
   its `id`).
@@ -36,7 +36,7 @@ artefact type).
 
 ### A. New example for an existing artefact
 
-1. Find the target entry in `data/ntra_catalogue.yml` by `artefact` name or
+1. Find the target entry in `data/nto_catalogue.yml` by `artefact` name or
    `id`. If ambiguous, check [ARTEFACT_TAXONOMY.md](../../../ARTEFACT_TAXONOMY.md).
 2. Determine `{name, url}`. Use the resource's real, canonical URL. **If you
    are not confident of a stable public URL, use `url: ''`** — do not
@@ -55,7 +55,7 @@ artefact type).
    change (a new category) — stop and flag it explicitly to the user rather
    than proceeding silently.
 3. Fill in every field using the template at the top of
-   `data/ntra_catalogue.yml`:
+   `data/nto_catalogue.yml`:
 
    | Field | How to determine |
    |---|---|
@@ -82,7 +82,7 @@ artefact type).
    incentives, Academic profiles — or a short new phrase if none fit).
 3. Append to `data/infrastructure_catalogue.yml`.
 4. Then add `{infrastructure-id, capture-function, status}` references to it
-   from the relevant artefact entries in `data/ntra_catalogue.yml` — write a
+   from the relevant artefact entries in `data/nto_catalogue.yml` — write a
    `capture-function` specific to *that* artefact, not a generic copy of
    `function`. Set `status: active` only if you have real evidence the
    pathway is live today; otherwise `status: planned`.
@@ -99,12 +99,12 @@ artefact type).
 1. Check `data/reform_initiatives.yml` for an existing entry first.
 2. Fill in every field using the template at the top of that file: `id`
    (kebab-case of `initiative`), `initiative` (full name), `year`,
-   `core-philosophy` (1-2 sentences), `relevance-to-ntras` (how it
+   `core-philosophy` (1-2 sentences), `relevance-to-ntos` (how it
    specifically supports non-traditional research artefacts), `url`. Only
    set `url` to a real, confident homepage — `''` otherwise.
 3. Append to `data/reform_initiatives.yml`. This file has no top-level
    version field of its own — it shares `catalogue-version` from
-   `data/ntra_catalogue.yml`.
+   `data/nto_catalogue.yml`.
 
 ## Step 3 — Show the draft, then write
 
@@ -144,7 +144,7 @@ change under SemVer and propagate the version bump across
 ## Example: adding a new example to an existing artefact
 
 ```yaml
-# In data/ntra_catalogue.yml, under the "curated-knowledgebase-entry" entry's examples:
+# In data/nto_catalogue.yml, under the "curated-knowledgebase-entry" entry's examples:
   examples:
     - name: UniProt entry
       url: https://www.uniprot.org

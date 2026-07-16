@@ -1,5 +1,5 @@
 /*
- * Design tokens for the NTRA Registry site.
+ * Design tokens for the NTO Registry site.
  *
  * Palette and typography are read directly from BioComputingUP/OSAI_ecosystem's
  * dome-ml-osai-ui (ELIXIR-style branding shared across ELIXIR Europe sub-sites),
@@ -43,7 +43,7 @@
   --color-badge-planned-bg: #fff4e5;
   --color-badge-planned-text: #a15c00;
 
-  /* One distinct colour per NTRA category, used for the registry card
+  /* One distinct colour per NTO category, used for the registry card
      badge + border so the five categories are visually distinguishable
      at a glance (not just as text). */
   --cat-data: #1a9e82;

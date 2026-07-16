@@ -1,6 +1,6 @@
-# Community Code of Conduct for the NTRA Registry
+# Community Code of Conduct for the NTO Registry
 
-The NTRA Registry community is dedicated to providing a welcoming and supportive
+The NTO Registry community is dedicated to providing a welcoming and supportive
 environment for all people, regardless of background or identity. As such, we do
 not tolerate behaviour that is disrespectful to our community members or that
 excludes, intimidates, or causes discomfort to others. We do not tolerate
@@ -12,7 +12,7 @@ religion or belief (or lack thereof), membership of a national minority,
 property, age, education, socio-economic status, technical choices, and
 experience level.
 
-Everyone who participates in NTRA Registry contributions is required to conform
+Everyone who participates in NTO Registry contributions is required to conform
 to this Code of Conduct. This Code of Conduct applies to all spaces managed by
 the project including, but not limited to, workshops, and communications online
 via GitHub or other project channels. By participating, contributors indicate
@@ -42,7 +42,7 @@ subtle -isms — for further recommendations for inclusive behaviours.
 
 ## Unacceptable behaviour
 
-Examples of unacceptable behaviour by NTRA Registry community members at any
+Examples of unacceptable behaviour by NTO Registry community members at any
 project event or platform include:
 
 *   written or verbal comments which have the effect of excluding people on the basis of membership of any specific group
@@ -73,7 +73,7 @@ separately.
 ## Consequences of unacceptable behaviour
 
 Participants who are asked to stop any inappropriate behaviour are expected to
-comply immediately. This applies to all NTRA Registry related community
+comply immediately. This applies to all NTO Registry related community
 events and platforms, either online or in-person. If a participant engages in
 behaviour that violates this Code of Conduct, the project team may warn the
 offender, ask them to leave the event or platform, or impose any other
@@ -96,4 +96,4 @@ the [Citizen Lab Summer Institute 2017 Code of Conduct](https://citizenlab.ca/su
 We appreciate the work that all of the communities linked to above have put
 into creating such well-considered documents and processes.
 
-This Code of Conduct is licensed under a [Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/) (CC BY 4.0) license. By contributing to the NTRA Registry project, you agree to license your contributions under CC BY 4.0 and agree to abide by this Code of Conduct.
+This Code of Conduct is licensed under a [Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/) (CC BY 4.0) license. By contributing to the NTO Registry project, you agree to license your contributions under CC BY 4.0 and agree to abide by this Code of Conduct.

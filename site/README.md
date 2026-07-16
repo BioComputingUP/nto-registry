@@ -1,13 +1,13 @@
-# NTRA Registry — website
+# NTO Registry — website
 
 An [Astro](https://astro.build) site (with a React island for the filterable
 Registry page) that presents the versioned YAML data in `../data/` as a
 browsable website, deployed to GitHub Pages at
-https://gavinf97.github.io/ntra-registry/.
+https://biocomputingup.github.io/nto-registry/.
 
 ## How data flows
 
-`scripts/build-data.mjs` reads `../data/ntra_catalogue.yml`,
+`scripts/build-data.mjs` reads `../data/nto_catalogue.yml`,
 `../data/infrastructure_catalogue.yml`, and `../data/reform_initiatives.yml`
 directly and writes plain JSON into `src/generated/` (gitignored). This runs
 automatically before `dev` and `build` (`predev`/`prebuild` npm scripts) —
@@ -24,7 +24,7 @@ npm install
 npm run dev
 ```
 
-Opens at `http://localhost:4321/ntra-registry/` with hot reload.
+Opens at `http://localhost:4321/nto-registry/` with hot reload.
 
 ### Option B — Docker (no local Node needed)
 
@@ -34,7 +34,7 @@ docker compose up
 
 Mounts this directory into the container and runs `astro dev` with hot
 reload — edit files locally and the browser at
-`http://localhost:4321/ntra-registry/` updates live. `Ctrl+C` or
+`http://localhost:4321/nto-registry/` updates live. `Ctrl+C` or
 `docker compose down` to stop.
 
 ## Commands

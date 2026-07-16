@@ -30,7 +30,7 @@ function writeJson(filename, data) {
 
 mkdirSync(OUT_DIR, { recursive: true });
 
-const catalogue = loadYaml("ntra_catalogue.yml");
+const catalogue = loadYaml("nto_catalogue.yml");
 const infrastructure = loadYaml("infrastructure_catalogue.yml");
 const reforms = loadYaml("reform_initiatives.yml");
 
@@ -73,7 +73,7 @@ const stats = {
   categories,
 };
 
-writeJson("ntra-catalogue.json", { catalogueVersion, artefacts });
+writeJson("nto-catalogue.json", { catalogueVersion, artefacts });
 writeJson("infrastructure-catalogue.json", infrastructureEnriched);
 writeJson("reform-initiatives.json", reforms);
 writeJson("stats.json", stats);
