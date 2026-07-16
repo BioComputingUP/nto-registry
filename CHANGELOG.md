@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/) — see
 CONTRIBUTING.md for the exact MAJOR/MINOR/PATCH bump policy applied to
 `catalogue-version`.
 
+## [1.2.1] - 2026-07-16
+
+### Fixed
+- Corrected `data/nto_catalogue.yml` supporting-infrastructure mappings:
+  `bio-tools` now credits `public-data-service` (Public Data Service) instead
+  of `public-dataset-entry-submission`, and the `fairsharing` mapping on
+  `curated-knowledgebase-entry` was removed as inaccurate (FAIRsharing
+  remains linked to `public-data-service`).
+
 ## [1.2.0] - 2026-07-14
 
 ### Added

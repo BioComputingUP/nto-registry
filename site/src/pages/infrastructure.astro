@@ -194,6 +194,9 @@ const registration = infrastructure
                         {infra.activeFor.map((ref) => (
                           <li><strong>{ref.artefact}</strong> ({ref.category})</li>
                         ))}
+                        {infra.id === "zenodo" && (
+                          <li><strong>Host for digital NTOs</strong> (General)</li>
+                        )}
                       </ul>
                     ) : (
                       <p class="infra-focus-empty">No active mappings yet.</p>

@@ -2,7 +2,7 @@
 
 [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
-[![Catalogue Version](https://img.shields.io/badge/catalogue--version-1.2.0-blue.svg)](CHANGELOG.md)
+[![Catalogue Version](https://img.shields.io/badge/catalogue--version-1.2.1-blue.svg)](CHANGELOG.md)
 
 ### 🌐 [Browse the live registry](https://biocomputingup.github.io/nto-registry/)
 
