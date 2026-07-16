@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/) — see
 CONTRIBUTING.md for the exact MAJOR/MINOR/PATCH bump policy applied to
 `catalogue-version`.
 
+## [1.2.2] - 2026-07-16
+
+### Fixed
+- Corrected BIP! Scholar's URL to `https://bip.imsi.athenarc.gr/scholar`
+  (`data/infrastructure_catalogue.yml`).
+- Pruned ORCID from `data/nto_catalogue.yml` supporting-infrastructure down
+  to artefact types it can genuinely register as a discretely-identified
+  work in a researcher's ORCID record: Public Dataset Entry Submission,
+  Training Material, Educational Module, FAIR Training Material Release,
+  and Software Package. Removed the `orcid` mapping from Public Data
+  Service, Curated Knowledgebase Entry, FAIR Metadata Record, Data
+  Management Plan (DMP), Learning Path, Software Management Plan, and
+  Software Demo — these credit ongoing service/stewardship or an
+  un-identified sub-object rather than a separately citable ORCID work.
+
 ## [1.2.1] - 2026-07-16
 
 ### Fixed

@@ -47,7 +47,7 @@
 #   added-in-version:
 #   last-modified-version:
 
-catalogue-version: 1.2.1
+catalogue-version: 1.2.2
 
 entries:
 
@@ -80,9 +80,6 @@ entries:
           Credits ongoing functional enhancement and maintenance events for a live
           public data service.
         status: active
-      - infrastructure-id: orcid
-        capture-function: Links the maintaining team's identity to sustained service stewardship.
-        status: active
       - infrastructure-id: bip-scholar
         capture-function: Aggregates service stewardship into a discipline-tailored researcher profile.
         status: active
@@ -96,7 +93,7 @@ entries:
           individual maintainers.
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.2.1
+    last-modified-version: 1.2.2
 
   - id: curated-knowledgebase-entry
     category: Data
@@ -123,11 +120,8 @@ entries:
           Credits individual curation/annotation events contributed to a public data
           service, making otherwise invisible curator effort machine-readable.
         status: active
-      - infrastructure-id: orcid
-        capture-function: Links curator identity to sustained curation contributions.
-        status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.2.1
+    last-modified-version: 1.2.2
 
   - id: fair-metadata-record
     category: Data
@@ -150,11 +144,8 @@ entries:
       - infrastructure-id: openebench
         capture-function: Enriches FAIRified dataset metadata with quality/compliance indicators.
         status: active
-      - infrastructure-id: orcid
-        capture-function: Links the FAIRification effort to the responsible contributor.
-        status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.0.0
+    last-modified-version: 1.2.2
 
   - id: public-dataset-entry-submission
     category: Data
@@ -179,7 +170,7 @@ entries:
         capture-function: Links the depositor's identity to the primary data submission.
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.2.1
+    last-modified-version: 1.2.2
 
   - id: data-management-plan
     category: Data
@@ -198,11 +189,8 @@ entries:
       - infrastructure-id: zenodo
         capture-function: Can archive a completed DMP document with a citable DOI.
         status: planned
-      - infrastructure-id: orcid
-        capture-function: Links the DMP author to the planning effort.
-        status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.0.0
+    last-modified-version: 1.2.2
 
   # ---------------------------------------------------------------------------
   # Category: Training
@@ -309,11 +297,8 @@ entries:
       - infrastructure-id: elixir-tess
         capture-function: Hosts and links the chained sequence of training materials.
         status: active
-      - infrastructure-id: orcid
-        capture-function: Links the curriculum designer to the assembled pathway.
-        status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.0.0
+    last-modified-version: 1.2.2
 
   - id: supervised-student-project-output
     category: Training
@@ -470,11 +455,8 @@ entries:
       - infrastructure-id: zenodo
         capture-function: Can archive a completed plan document with a citable DOI.
         status: planned
-      - infrastructure-id: orcid
-        capture-function: Links the plan author to the strategic planning effort.
-        status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.0.0
+    last-modified-version: 1.2.2
 
   - id: software-demo
     category: Software
@@ -494,11 +476,8 @@ entries:
       - infrastructure-id: zenodo
         capture-function: Can archive recorded demo material with a citable DOI.
         status: planned
-      - infrastructure-id: orcid
-        capture-function: Links the presenter to the demonstration effort.
-        status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.0.0
+    last-modified-version: 1.2.2
 
   # ---------------------------------------------------------------------------
   # Category: Research support

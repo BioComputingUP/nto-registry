@@ -117,12 +117,12 @@
 
 - id: bip-scholar
   name: BIP! Scholar
-  url: https://bip.imsi.athenarc.gr/site/scholar
+  url: https://bip.imsi.athenarc.gr/scholar
   function: >-
     Academic profiles. Aggregates credit-relevant data into metadata-rich,
     human-readable researcher profiles tailored to discipline/contribution type.
   added-in-version: 1.0.0
-  last-modified-version: 1.0.0
+  last-modified-version: 1.2.2
 
 - id: fairsharing
   name: FAIRsharing
