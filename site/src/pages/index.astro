@@ -33,10 +33,10 @@ const features = [
 ];
 
 const statTiles = [
-  { value: stats.artefactCount, label: "Artefact types", icon: "layers" },
-  { value: stats.categoryCount, label: "Categories", icon: "grid" },
-  { value: stats.infrastructureCount, label: "Infrastructure platforms", icon: "server" },
-  { value: stats.reformInitiativeCount, label: "Reform initiatives", icon: "flag" },
+  { value: stats.artefactCount, label: "Artefact types", icon: "layers", href: "registry" },
+  { value: stats.categoryCount, label: "Categories", icon: "grid", href: "registry" },
+  { value: stats.infrastructureCount, label: "Infrastructure platforms", icon: "server", href: "infrastructure" },
+  { value: stats.reformInitiativeCount, label: "Reform initiatives", icon: "flag", href: "reforms" },
 ];
 
 const categoryIcons: Record<string, string> = {
@@ -122,11 +122,11 @@ const categoryIcons: Record<string, string> = {
     <div class="container">
       <div class="grid grid-4 stats-row">
         {statTiles.map((tile) => (
-          <div class="stat-tile card">
+          <a class="stat-tile card" href={`${base}${tile.href}/`}>
             <span class="stat-icon" set:html={ICONS[tile.icon]} />
             <div class="stat-number">{tile.value}</div>
             <div class="stat-label">{tile.label}</div>
-          </div>
+          </a>
         ))}
       </div>
     </div>
@@ -144,10 +144,10 @@ const categoryIcons: Record<string, string> = {
       </p>
       <div class="category-chips">
         {stats.categories.map((category) => (
-          <div class="card category-chip">
+          <a class="card category-chip" href={`${base}registry/?category=${encodeURIComponent(category)}`}>
             <span class="category-chip-icon" set:html={ICONS[categoryIcons[category] ?? "grid"]} />
             <span class="category-chip-label">{category}</span>
-          </div>
+          </a>
         ))}
         <div class="card category-chip category-chip-more">
           <span class="chip-plus" aria-hidden="true">+</span>
@@ -267,6 +267,12 @@ const categoryIcons: Record<string, string> = {
       flex-direction: column;
       align-items: center;
       padding: var(--space-6) var(--space-4);
+      color: var(--color-text);
+    }
+
+    .stat-tile:hover {
+      text-decoration: none;
+      transform: translateY(-3px);
     }
 
     .stat-icon {
@@ -304,6 +310,12 @@ const categoryIcons: Record<string, string> = {
       text-align: left;
       padding: var(--space-5) var(--space-6);
       flex: 0 1 260px;
+      color: var(--color-text);
+    }
+
+    .category-chip:hover {
+      text-decoration: none;
+      transform: translateY(-3px);
     }
 
     .category-chip-icon {

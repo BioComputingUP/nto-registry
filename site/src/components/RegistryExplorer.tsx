@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Artefact } from "../lib/types";
 
 interface Props {
@@ -32,6 +32,16 @@ export default function RegistryExplorer({ artefacts, categories, infrastructure
   const [category, setCategory] = useState<string>("all");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("any");
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
+
+  // Deep-link support: pages like the homepage link here with
+  // ?category=Data so the relevant filter is already applied on arrival.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const requested = params.get("category");
+    if (requested && categories.includes(requested)) {
+      setCategory(requested);
+    }
+  }, [categories]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
