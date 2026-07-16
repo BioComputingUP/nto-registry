@@ -21,7 +21,7 @@ CONTRIBUTING.md for the exact MAJOR/MINOR/PATCH bump policy applied to
 
 ### Added
 - `data/reform_initiatives.yml`, seeding the 5 key international research
-  assessment reform initiatives from Table 1 of Farrell et al. (2025) — DORA,
+  assessment reform initiatives from Table 1 of Farrell et al. (2026) — DORA,
   Leiden Manifesto, Hong Kong Principles, Hidden REF, and CoARA — each with
   its core philosophy, relevance to non-traditional research artefacts, and
   homepage URL. Validated by an extended `scripts/validate_yaml.py`.
@@ -35,7 +35,7 @@ CONTRIBUTING.md for the exact MAJOR/MINOR/PATCH bump policy applied to
 ### Added
 - Initial release of `data/nto_catalogue.yml`, seeding all 24 artefact types
   across the 5 categories (Data, Training, Software, Research support, Peer
-  review) landscaped in Table 3 of Farrell et al. (2025), "Credit,
+  review) landscaped in Table 3 of Farrell et al. (2026), "Credit,
   recognition, and reward for non-traditional research artefacts in the Life
   Sciences."
 - Initial release of `data/infrastructure_catalogue.yml`, seeding 11

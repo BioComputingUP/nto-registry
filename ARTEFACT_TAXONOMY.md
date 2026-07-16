@@ -10,7 +10,7 @@ and activities that sustain modern research but are systematically
 under-represented in publication-centric assessment — data curation, research
 software, training, research support, and peer review. The taxonomy is seeded
 from Table 3 of Farrell et al., "Credit, recognition, and reward for
-non-traditional research artefacts in the Life Sciences" (2025), and is
+non-traditional research artefacts in the Life Sciences" (2026), and is
 explicitly designed to be extended by the community over time (see
 CONTRIBUTING.md).
 

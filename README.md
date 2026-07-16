@@ -26,7 +26,7 @@ This registry operationalises the landscaping presented in Farrell G, Alloza
 E, Bouhraoua A, Capella-Gutierrez S, Goble C, Hermjakob H, Makaronidou M,
 Smith A, Sufi S, Vergoulis T, Zoubiri M, Quaglia F, Tosatto SCE, "Credit,
 recognition, and reward for non-traditional research artefacts in the Life
-Sciences" (2025). That paper maps 24 non-traditional artefact types across 5
+Sciences" (2026). That paper maps 24 non-traditional artefact types across 5
 categories (Data, Training, Software, Research support, Peer review),
 illustrated with Life Science examples from ELIXIR Europe, and calls for a
 community-developed controlled vocabulary and ontology for these assets.
