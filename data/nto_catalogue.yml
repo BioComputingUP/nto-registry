@@ -47,7 +47,7 @@
 #   added-in-version:
 #   last-modified-version:
 
-catalogue-version: 1.3.0
+catalogue-version: 1.4.0
 
 entries:
 
@@ -166,6 +166,12 @@ entries:
       - name: ENA
         url: https://www.ebi.ac.uk/ena/browser/home
     supporting-infrastructure:
+      - infrastructure-id: elixir-edd
+        capture-function: >-
+          Its portfolio of recommended deposition databases gives the
+          submitted dataset entry a discoverable, FAIR-compliant public
+          repository to deposit into, with standardised metadata.
+        status: active
       - infrastructure-id: bip-scholar
         capture-function: >-
           Surfaces dataset production as a distinct, indicator-backed
@@ -175,7 +181,7 @@ entries:
         capture-function: Links the depositor's identity to the primary data submission.
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.3.0
+    last-modified-version: 1.4.0
 
   - id: data-management-plan
     category: Data
@@ -191,11 +197,17 @@ entries:
       - name: DMPonline
         url: https://dmponline.dcc.ac.uk
     supporting-infrastructure:
+      - infrastructure-id: dmponline
+        capture-function: >-
+          Purpose-built tool for authoring and publishing the DMP itself
+          against funder-specific templates, giving the document a hosted,
+          shareable record.
+        status: active
       - infrastructure-id: zenodo
         capture-function: Can archive a completed DMP document with a citable DOI.
         status: planned
     added-in-version: 1.0.0
-    last-modified-version: 1.2.2
+    last-modified-version: 1.4.0
 
   # ---------------------------------------------------------------------------
   # Category: Training
@@ -379,11 +391,17 @@ entries:
       - infrastructure-id: bio-tools
         capture-function: Assigns a discoverable, persistent identifier to the codebase.
         status: active
+      - infrastructure-id: software-heritage
+        capture-function: >-
+          Archives the repository's source code at scale and assigns it a
+          permanent SWHID, preserving its exact state even if the original
+          hosting location later disappears.
+        status: active
       - infrastructure-id: apicuron
         capture-function: Could credit individual commit/maintenance contribution events.
         status: planned
     added-in-version: 1.0.0
-    last-modified-version: 1.0.0
+    last-modified-version: 1.4.0
 
   - id: software-package
     category: Software

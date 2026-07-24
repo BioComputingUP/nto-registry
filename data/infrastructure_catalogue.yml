@@ -18,7 +18,15 @@
 #   url: primary homepage
 #   function: the general credit-capture function this platform performs
 #     (Publishing & PID provision | Aggregation | Metadata enrichment |
-#     Contribution tracking & incentives | Academic profiles)
+#     Contribution tracking & incentives | Academic profiles |
+#     Ontologies & controlled vocabularies)
+#   usability: optional. 1-2 sentences on practical applicability — cost,
+#     who it's for, what's required to get value from it (registration,
+#     upstream integration, etc). NOT which NTO/artefact types it applies
+#     to (that's `function` plus nto_catalogue.yml's supporting-infrastructure
+#     mappings). Used on the Infrastructure page for every platform outside
+#     "Publishing & PID provision", whose cards show active credit mappings
+#     instead.
 #   added-in-version: registry version this entry was first added in
 #   last-modified-version: registry version this entry was last changed in
 #
@@ -30,9 +38,16 @@
   function: >-
     Contribution tracking & incentives. Captures granular biocuration and
     annotation events using a dynamic model of entity, activity, agent, and
-    timeline, with badges/leaderboards for visibility.
+    timeline, with badges/leaderboards for visibility. Resources can also
+    register new curation activities directly on the platform, giving it a
+    registration role alongside its tracking function.
+  usability: >-
+    Free and open source, but not self-service for end users: a database
+    has to implement APICURON's reporting API to log its curation events
+    before any of its individual curators can be credited, so it requires
+    integration work on the data provider's side first.
   added-in-version: 1.0.0
-  last-modified-version: 1.0.0
+  last-modified-version: 1.3.0
 
 - id: orcid
   name: ORCID
@@ -40,6 +55,10 @@
   function: >-
     Academic profiles. Persistent researcher identifier used to link
     contributions of any kind back to an individual across systems.
+  usability: >-
+    Free for researchers to register and keep for life; once linked, it
+    works passively — connected publishers, funders, and repositories push
+    updates to the profile automatically without further manual entry.
   added-in-version: 1.0.0
   last-modified-version: 1.0.0
 
@@ -94,6 +113,11 @@
   function: >-
     Aggregation. Merges PID-assigned research output information from
     diverse sources into a single, searchable knowledge graph.
+  usability: >-
+    Free and openly queryable via API or bulk dataset download; nothing to
+    register. Coverage depends entirely on upstream infrastructure, though —
+    a record only appears once its source repository already exposes a
+    compatible PID and metadata.
   added-in-version: 1.0.0
   last-modified-version: 1.0.0
 
@@ -103,6 +127,10 @@
   function: >-
     Metadata enrichment. Adds impact-related annotations (e.g. topics,
     influence indicators) to research outputs.
+  usability: >-
+    Free API and bulk downloads keyed by DOI, usable by any service that
+    can look up a DOI — no account needed. Indicators are only computed for
+    outputs that already have a DOI and an established citation trail.
   added-in-version: 1.0.0
   last-modified-version: 1.0.0
 
@@ -112,6 +140,10 @@
   function: >-
     Metadata enrichment. Adds software quality and benchmarking performance
     indicators to research software entries.
+  usability: >-
+    Free to use, but enrichment isn't automatic on sign-up: a tool needs to
+    be registered in bio.tools and its maintainers need to opt it into a
+    benchmarking community/challenge before performance indicators appear.
   added-in-version: 1.0.0
   last-modified-version: 1.0.0
 
@@ -121,6 +153,11 @@
   function: >-
     Academic profiles. Aggregates credit-relevant data into metadata-rich,
     human-readable researcher profiles tailored to discipline/contribution type.
+  usability: >-
+    Profiles are generated automatically from OpenAIRE Graph data for any
+    researcher with a discoverable output record — no registration or
+    manual curation required, but coverage is limited to what's already
+    indexed upstream.
   added-in-version: 1.0.0
   last-modified-version: 1.2.2
 
@@ -133,3 +170,49 @@
     citable record independent of where the underlying data is hosted.
   added-in-version: 1.2.0
   last-modified-version: 1.2.0
+
+- id: elixir-edd
+  name: "ELIXIR EDD (ELIXIR Deposition Databases)"
+  url: https://elixir-europe.org/platforms/data/elixir-deposition-databases
+  function: >-
+    Publishing & PID provision. ELIXIR-recommended portfolio of trustworthy
+    public deposition databases for biomolecular data, giving submitted
+    datasets a discoverable, FAIR-compliant home with standardised metadata.
+  added-in-version: 1.4.0
+  last-modified-version: 1.4.0
+
+- id: dmponline
+  name: DMPonline
+  url: https://dmponline.dcc.ac.uk
+  function: >-
+    Publishing & PID provision. Web-based tool for authoring, sharing, and
+    publishing Data Management Plans against funder-specific templates,
+    giving the DMP itself a hosted, citable record.
+  added-in-version: 1.4.0
+  last-modified-version: 1.4.0
+
+- id: software-heritage
+  name: Software Heritage
+  url: https://www.softwareheritage.org
+  function: >-
+    Publishing & PID provision. Archives public source code at scale and
+    assigns permanent SWHIDs (an ISO/IEC-standardised identifier scheme),
+    preserving research software even after its original hosting location
+    disappears.
+  added-in-version: 1.4.0
+  last-modified-version: 1.4.0
+
+- id: credit-taxonomy
+  name: "CRediT (Contributor Roles Taxonomy)"
+  url: https://credit.niso.org
+  function: >-
+    Ontologies & controlled vocabularies. NISO-standardised taxonomy of
+    contributor roles providing the shared, machine-readable vocabulary that
+    lets credit-capture platforms describe contributions consistently.
+  usability: >-
+    Free, open taxonomy — not a platform to register with. It only takes
+    effect where a journal or submission system has integrated it into its
+    workflow, so applicability depends on adoption upstream, not on the
+    individual contributor.
+  added-in-version: 1.4.0
+  last-modified-version: 1.4.0

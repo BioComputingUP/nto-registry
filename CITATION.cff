@@ -5,5 +5,53 @@ authors:
   given-names: Gavin
   orcid: https://orcid.org/0000-0001-5166-8551
 title: "NTO Registry: A Catalogue of Non-Traditional Outputs in the Life Sciences"
-version: v1.3.0
-date-released: 2026-07-16
+version: v1.4.0
+date-released: 2026-07-24
+preferred-citation:
+  type: preprint
+  title: "Credit, recognition, and reward for non-traditional research outputs in the Life Sciences"
+  authors:
+  - family-names: Farrell
+    given-names: Gavin
+    orcid: https://orcid.org/0000-0001-5166-8551
+    affiliation: "Department of Biomedical Sciences, University of Padova, Padova, Italy"
+  - family-names: Alloza
+    given-names: Eva
+    affiliation: "Barcelona Supercomputing Center (BSC), Barcelona, Spain"
+  - family-names: Bouhraoua
+    given-names: Adel
+    affiliation: "Department of Biomedical Sciences, University of Padova, Padova, Italy"
+  - family-names: Capella-Gutierrez
+    given-names: Salvador
+    affiliation: "Barcelona Supercomputing Center (BSC), Barcelona, Spain"
+  - family-names: Goble
+    given-names: Carole
+    affiliation: "Department of Computer Science, University of Manchester, Manchester, United Kingdom"
+  - family-names: Hermjakob
+    given-names: Henning
+    affiliation: "EMBL-EBI, Hinxton, United Kingdom"
+  - family-names: Makaronidou
+    given-names: Maria
+    affiliation: "Athena Research & Innovation Center, Marousi, Greece"
+  - family-names: Smith
+    given-names: Andrew
+    affiliation: "ELIXIR Europe Hub, EMBL-EBI South Building, Hinxton, United Kingdom"
+  - family-names: Sufi
+    given-names: Shoaib
+    affiliation: "Department of Computer Science, University of Manchester, Manchester, United Kingdom"
+  - family-names: Vergoulis
+    given-names: Thanasis
+    affiliation: "Athena Research & Innovation Center, Marousi, Greece"
+  - family-names: Zoubiri
+    given-names: Mehdi
+    affiliation: "Department of Biomedical Sciences, University of Padova, Padova, Italy"
+  - family-names: Quaglia
+    given-names: Federica
+    affiliation: "Department of Biomedical Sciences, University of Padova, Padova, Italy"
+    email: federica.quaglia@unipd.it
+  - family-names: Tosatto
+    given-names: Silvio C.E.
+    affiliation: "Department of Biomedical Sciences, University of Padova, Padova, Italy"
+    email: silvio.tosatto@unipd.it
+  url: "https://osf.io/preprints/metaarxiv/praxg_v1"
+  notes: "Preprint v1. Author list above reflects a more current update than the posted v1 text (which does not yet include all listed authors); this will be reconciled when a new preprint version is posted and cross-linked."

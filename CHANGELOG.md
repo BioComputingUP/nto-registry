@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/) — see
 CONTRIBUTING.md for the exact MAJOR/MINOR/PATCH bump policy applied to
 `catalogue-version`.
 
+## [1.4.0] - 2026-07-24
+
+### Added
+- Four new supporting-infrastructure entries in
+  `data/infrastructure_catalogue.yml`, per Table 2 and Figure 2 of the
+  paper: ELIXIR EDD (ELIXIR Deposition Databases), DMPonline, Software
+  Heritage, and CRediT (Contributor Roles Taxonomy) — the last introducing
+  a new "Ontologies & controlled vocabularies" infrastructure function.
+
+### Changed
+- Clarified APICURON's function description to note it also supports
+  direct registration of new curation activities, not just tracking
+  credit for activity on already-registered entries.
+
 ## [1.3.0] - 2026-07-16
 
 ### Added

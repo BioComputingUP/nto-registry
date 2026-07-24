@@ -5,14 +5,8 @@ import infrastructure from "../generated/infrastructure-catalogue.json";
 
 const base = import.meta.env.BASE_URL;
 
-const PRIMARY_IDS = new Set(["apicuron", "orcid", "bip-scholar"]);
-
-// Not shown on this page for now (still valid data — e.g. referenced by
-// the FAIR Software Release artefact — just not listed here).
-const HIDDEN_IDS = new Set(["openebench", "openaire-graph", "bip-finder"]);
-
 type LogoEntry =
-  | { type: "img"; src: string; scale?: number }
+  | { type: "img"; src: string; scale?: number; width?: number }
   | { type: "svg"; markup: string }
   | { type: "icon"; key: string; color: string };
 
@@ -27,6 +21,25 @@ type LogoEntry =
 // could not be fetched directly from this environment (network-blocked),
 // so its GitHub org avatar is used instead — also their real logo, just a
 // different official asset than the one specified.
+//
+// Software Heritage, DMPonline, and CRediT logos were pulled directly from
+// each platform's own site (softwareheritage.org, dmponline.dcc.ac.uk,
+// credit.niso.org). DMPonline's hosted asset is a white-on-transparent
+// wordmark (meant for a dark header bar); it's recoloured here to
+// DMPonline's own brand orange (`#f49700`, taken from their site's own
+// stylesheet) so it stays legible on a light card background too — same
+// artwork, just a colour already used in their brand rather than an
+// invisible white-on-white render. It's also a wide wordmark (not square),
+// so it gets an explicit wider box via `width` — but height always stays
+// the same as every other logo, so card titles still line up across a row.
+// ELIXIR EDD doesn't have its own separate visual identity
+// (its dedicated "service collection" badge is only distributed internally
+// to member services per ELIXIR's brand guidelines, not published as a
+// standalone web asset), so it uses ELIXIR's own real org logomark, fetched
+// directly from elixir-europe.org's own asset host.
+// OpenEBench's logo is its own app icon, pulled from its own site
+// (openebench.bsc.es) — it and OpenAIRE Graph/BIP! were previously hidden
+// from this page entirely and never needed a logo; now shown per Table 2.
 const LOGOS: Record<string, LogoEntry> = {
   apicuron: { type: "img", src: `${base}img/logos/apicuron.png` },
   orcid: { type: "img", src: "https://orcid.org/assets/vectors/orcid.logo.icon.svg" },
@@ -39,21 +52,36 @@ const LOGOS: Record<string, LogoEntry> = {
   "bip-finder": { type: "img", src: `${base}img/logos/bip.png` },
   "bip-scholar": { type: "img", src: `${base}img/logos/bip.png` },
   fairsharing: { type: "img", src: `${base}img/logos/fairsharing.png` },
+  openebench: { type: "img", src: `${base}img/logos/openebench.png` },
+  "elixir-edd": { type: "img", src: `${base}img/logos/elixir-edd.png` },
+  dmponline: { type: "img", src: `${base}img/logos/dmponline.png`, width: 168 },
+  "software-heritage": { type: "img", src: `${base}img/logos/software-heritage.png` },
+  "credit-taxonomy": { type: "img", src: `${base}img/logos/credit.png` },
 };
 
-// Which NTO category each registration service is most associated with
-// (shown as a colour tag on its card, reusing the Registry page's category
-// colours). Services that register/enrich artefacts broadly, not tied to
-// one category, get "General" instead of being forced into one.
-const REGISTRATION_CATEGORY: Record<string, string> = {
+// Which NTO category each platform is most associated with (shown as a
+// colour tag on its card, reusing the Registry page's category colours).
+// Sourced from Table 2 of the paper where it names a category directly
+// (e.g. "bio.tools (Software & tools)"); platforms whose active mappings
+// span multiple categories, or that register/enrich broadly rather than
+// serving one category, get "General" instead of being forced into one.
+const NTO_CATEGORY: Record<string, string> = {
+  fairsharing: "Data",
+  "elixir-edd": "Data",
+  dmponline: "Data",
   "bio-tools": "Software",
   workflowhub: "Software",
-  "elixir-tess": "Training",
-  zenodo: "General",
   github: "Software",
-  "openaire-graph": "General",
+  "software-heritage": "Software",
+  openebench: "Software",
+  "elixir-tess": "Training",
+  orcid: "General",
+  "bip-scholar": "General",
   "bip-finder": "General",
-  fairsharing: "Data",
+  "openaire-graph": "General",
+  apicuron: "General",
+  "credit-taxonomy": "General",
+  zenodo: "General",
 };
 
 const CATEGORY_COLOR_VAR: Record<string, string> = {
@@ -65,14 +93,102 @@ const CATEGORY_COLOR_VAR: Record<string, string> = {
   General: "--cat-generic",
 };
 
+// Table 2's six technical-component rows, keyed by the leading phrase of
+// each platform's `function` field in infrastructure_catalogue.yml (e.g.
+// "Publishing & PID provision. Specialised registry assigning..." -> keyed
+// on "Publishing & PID provision"). Order here fixes both the tier grouping
+// (essential vs intermediary) and the on-page section order.
+type FunctionKey =
+  | "Publishing & PID provision"
+  | "Academic profiles"
+  | "Aggregation"
+  | "Metadata enrichment"
+  | "Contribution tracking & incentives"
+  | "Ontologies & controlled vocabularies";
+
+const FUNCTION_META: Record<FunctionKey, { tier: "essential" | "intermediary"; anchor: string; title: string; blurb: string }> = {
+  "Publishing & PID provision": {
+    tier: "essential",
+    anchor: "publishing-pid",
+    title: "Publishing & Persistent Identifier Provision",
+    blurb:
+      "These platforms provide the initial repository registration for NTOs and assign the unique persistent identifiers (PIDs) necessary for their discovery, metadata hosting, and subsequent citation.",
+  },
+  "Academic profiles": {
+    tier: "essential",
+    anchor: "academic-profiles",
+    title: "Academic Profiles & Representation",
+    blurb:
+      "These systems aggregate data from primary NTO repositories, enriched metadata services, and active tracking platforms to comprehensively host and represent PID-associated NTOs — translating granular research activity into meaningful, human-readable profiles suitable for formal academic assessment.",
+  },
+  Aggregation: {
+    tier: "intermediary",
+    anchor: "aggregation",
+    title: "Aggregation & Deduplication",
+    blurb:
+      "Aggregation services merge PID-assigned NTO metadata from diverse repositories into a unified, searchable knowledge graph — essential for deduplicating records to prevent double-counting across platforms, so that clean, verified data feeds into academic profiling systems.",
+  },
+  "Metadata enrichment": {
+    tier: "intermediary",
+    anchor: "metadata-enrichment",
+    title: "Metadata Enrichment & Quality Context",
+    blurb:
+      "These services enrich basic NTO metadata by appending missing annotations, such as specific topics or technical performance indicators — contextual enrichment that is crucial for establishing the qualitative value of NTOs and helping to prevent a quantity-over-quality assessment model.",
+  },
+  "Contribution tracking & incentives": {
+    tier: "intermediary",
+    anchor: "contribution-tracking",
+    title: "Active Contribution Tracking",
+    blurb:
+      "Active tracking platforms capture granular NTO contributions at scale through dynamic recognition models — essential for recording vital, ongoing research labour (e.g. curation) that holds significant aggregate value but remains entirely invisible within publications.",
+  },
+  "Ontologies & controlled vocabularies": {
+    tier: "intermediary",
+    anchor: "ontologies",
+    title: "Ontologies & Controlled Vocabularies",
+    blurb:
+      "Structured ontologies and fixed vocabularies provide the essential semantic foundation for system interoperability, enabling highly granular, machine-readable specifications so data flows cohesively between credit-capture platforms. A major gap remains, however: dedicated NTO ontologies barely exist yet.",
+  },
+};
+
 const LOGO_BASE_SIZE = 72;
 
-const primary = infrastructure
-  .filter((i) => PRIMARY_IDS.has(i.id))
-  .sort((a, b) => a.name.localeCompare(b.name));
-const registration = infrastructure
-  .filter((i) => !PRIMARY_IDS.has(i.id) && !HIDDEN_IDS.has(i.id))
-  .sort((a, b) => a.name.localeCompare(b.name));
+// Every logo box is the same height, so card titles/text line up across a
+// row regardless of which card's logo happens to render next to it. A few
+// logos (e.g. DMPonline's wide wordmark) declare an explicit `width` to get
+// more room than a square box would give them — forcing a wide, short logo
+// into a square box shrinks it down to a sliver — but height never varies.
+function logoBoxStyle(logo: LogoEntry): string {
+  const height = logo.type === "img" && logo.scale ? Math.round(LOGO_BASE_SIZE * logo.scale) : LOGO_BASE_SIZE;
+  const width = logo.type === "img" && logo.width ? logo.width : height;
+  return `width:${width}px;height:${height}px`;
+}
+
+function functionKeyOf(fn: string): FunctionKey {
+  return fn.split(".")[0].trim() as FunctionKey;
+}
+
+const bySection = new Map<FunctionKey, typeof infrastructure>();
+for (const infra of infrastructure) {
+  const key = functionKeyOf(infra.function);
+  if (!bySection.has(key)) bySection.set(key, []);
+  bySection.get(key)!.push(infra);
+}
+for (const list of bySection.values()) {
+  list.sort((a, b) => a.name.localeCompare(b.name));
+}
+
+const sectionOrder = Object.keys(FUNCTION_META) as FunctionKey[];
+const essentialSections = sectionOrder.filter((k) => FUNCTION_META[k].tier === "essential");
+const intermediarySections = sectionOrder.filter((k) => FUNCTION_META[k].tier === "intermediary");
+
+// The description text after the leading category phrase — that phrase is
+// now conveyed by the section heading itself, so it's trimmed from the
+// per-card copy to avoid repeating it on every card.
+function cardDescription(fn: string): string {
+  const parts = fn.split(".");
+  return parts.slice(1).join(".").trim();
+}
 ---
 
 <BaseLayout title="Infrastructure" description="Technical infrastructure capable of capturing credit for Non-Traditional Outputs.">
@@ -106,108 +222,144 @@ const registration = infrastructure
           </svg>
         </div>
       </div>
+
+      <nav class="infra-jumpnav" aria-label="Jump to infrastructure section">
+        <div class="infra-jumpnav-group">
+          <span class="infra-jumpnav-tier infra-jumpnav-tier-essential">Essential</span>
+          {essentialSections.map((key) => (
+            <a href={`#${FUNCTION_META[key].anchor}`}>{FUNCTION_META[key].title}</a>
+          ))}
+        </div>
+        <div class="infra-jumpnav-group">
+          <span class="infra-jumpnav-tier infra-jumpnav-tier-intermediary">Intermediary</span>
+          {intermediarySections.map((key) => (
+            <a href={`#${FUNCTION_META[key].anchor}`}>{FUNCTION_META[key].title}</a>
+          ))}
+        </div>
+      </nav>
     </div>
   </section>
 
-  <section class="section infra-primary-section">
+  <section class="section infra-tier-section">
     <div class="container">
-      <p class="eyebrow">Primary credit-capture infrastructure</p>
-      <h2 class="section-heading-left">Primary Credit-Capture Infrastructure</h2>
+      <p class="eyebrow">Tier 1</p>
+      <h2 class="section-heading-left">Essential Infrastructure</h2>
       <p class="section-intro-left">
-        The three platforms with the broadest general-purpose functionality for crediting
-        non-traditional outputs and the activity behind them — the output itself,
-        rather than just the activity, is the primary focus.
+        The baseline layer without which non-traditional outputs cannot be credited at all:
+        platforms that give an output its first persistent, discoverable identity, and systems
+        that surface that identity as part of a researcher's formal academic profile.
       </p>
-      <div class="grid grid-3">
-        {primary.map((infra) => {
-          const logo = LOGOS[infra.id];
-          return (
-            <article class="card infra-card infra-card-primary">
-              <div class="infra-logo-wrap">
-                {logo.type === "img" && <img class="infra-logo" src={logo.src} alt="" loading="lazy" />}
-                {logo.type === "svg" && <span class="infra-logo-icon" set:html={logo.markup} />}
-                {logo.type === "icon" && (
-                  <span class="infra-logo-icon" style={`color:${logo.color}`} set:html={ICONS[logo.key]} />
-                )}
-              </div>
-              <h3><a href={infra.url} target="_blank" rel="noopener">{infra.name}</a></h3>
-              <p>{infra.function}</p>
-              <details class="infra-details">
-                <summary class="btn btn-outline registry-toggle">Show details</summary>
-                <div class="registry-card-details">
-                  <h4>Currently captures credit for</h4>
-                  {infra.activeFor.length > 0 ? (
-                    <ul class="infra-focus-list">
-                      {infra.activeFor.map((ref) => (
-                        <li><strong>{ref.artefact}</strong> ({ref.category})</li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p class="infra-focus-empty">No active mappings yet.</p>
-                  )}
-                </div>
-              </details>
-            </article>
-          );
-        })}
-      </div>
-    </div>
-  </section>
 
-  <section class="section section-subtle infra-registration-section">
-    <div class="container">
-      <p class="eyebrow">Registration &amp; discovery</p>
-      <h2 class="section-heading-left">Registration Services for Non-Traditional Outputs</h2>
-      <p class="section-intro-left">
-        Platforms that give an output itself a live, registered digital presence — a
-        discoverable record with a persistent identifier — which can then feed into the
-        credit-capture platforms above. Registering software in bio.tools, for example, gives
-        it a persistent identifier that ORCID or APICURON records can point back to; registering
-        a database in FAIRsharing does the same for data. DOI-issuing registries such as Zenodo
-        offer an even stronger guarantee of long-term permanence.
-      </p>
-      <div class="grid grid-3">
-        {registration.map((infra) => {
-          const logo = LOGOS[infra.id];
-          const tagCategory = REGISTRATION_CATEGORY[infra.id] ?? "General";
-          const tagColor = `var(${CATEGORY_COLOR_VAR[tagCategory]})`;
-          const logoSize = logo.type === "img" && logo.scale ? Math.round(LOGO_BASE_SIZE * logo.scale) : LOGO_BASE_SIZE;
-          return (
-            <article class="card infra-card" style={`border-color:${tagColor}`}>
-              <div class="infra-logo-wrap" style={`width:${logoSize}px;height:${logoSize}px`}>
-                {logo.type === "img" && <img class="infra-logo" src={logo.src} alt="" loading="lazy" />}
-                {logo.type === "svg" && <span class="infra-logo-icon" set:html={logo.markup} />}
-                {logo.type === "icon" && (
-                  <span class="infra-logo-icon" style={`color:${logo.color}`} set:html={ICONS[logo.key]} />
-                )}
-              </div>
-              <h3><a href={infra.url} target="_blank" rel="noopener">{infra.name}</a></h3>
-              <p>{infra.function}</p>
-              <div class="infra-card-footer">
-                <span class="badge badge-category infra-category-tag" style={`background:${tagColor}`}>{tagCategory}</span>
-                <details class="infra-details">
-                  <summary class="btn btn-outline registry-toggle">Show details</summary>
-                  <div class="registry-card-details">
-                    <h4>Currently captures credit for</h4>
-                    {infra.activeFor.length > 0 ? (
-                      <ul class="infra-focus-list">
-                        {infra.activeFor.map((ref) => (
-                          <li><strong>{ref.artefact}</strong> ({ref.category})</li>
-                        ))}
-                        {infra.id === "zenodo" && (
-                          <li><strong>Host for digital NTOs</strong> (General)</li>
+      {essentialSections.map((key) => {
+        const meta = FUNCTION_META[key];
+        const items = bySection.get(key) ?? [];
+        const isPublishing = key === "Publishing & PID provision";
+        return (
+          <div class="infra-subsection" id={meta.anchor}>
+            <h3 class="infra-subsection-title">{meta.title}</h3>
+            <p class="infra-subsection-blurb">{meta.blurb}</p>
+            <div class="grid grid-3">
+              {items.map((infra) => {
+                const logo = LOGOS[infra.id];
+                const tagCategory = NTO_CATEGORY[infra.id] ?? "General";
+                const tagColor = `var(${CATEGORY_COLOR_VAR[tagCategory]})`;
+                return (
+                  <article class="card infra-card" style={`border-color:${tagColor}`}>
+                    <span class="badge badge-category infra-category-tag" style={`background:${tagColor}`}>{tagCategory}</span>
+                    <div class="infra-logo-wrap" style={logoBoxStyle(logo)}>
+                      {logo.type === "img" && <img class="infra-logo" src={logo.src} alt="" loading="lazy" />}
+                      {logo.type === "svg" && <span class="infra-logo-icon" set:html={logo.markup} />}
+                      {logo.type === "icon" && (
+                        <span class="infra-logo-icon" style={`color:${logo.color}`} set:html={ICONS[logo.key]} />
+                      )}
+                    </div>
+                    <h4><a href={infra.url} target="_blank" rel="noopener">{infra.name}</a></h4>
+                    <p>{cardDescription(infra.function)}</p>
+                    <details class="infra-details">
+                      <summary class="btn btn-outline registry-toggle">Show details</summary>
+                      <div class="registry-card-details">
+                        {isPublishing ? (
+                          <>
+                            <h4>Currently captures credit for</h4>
+                            {infra.activeFor.length > 0 ? (
+                              <ul class="infra-focus-list">
+                                {infra.activeFor.map((ref) => (
+                                  <li><strong>{ref.artefact}</strong> ({ref.category})</li>
+                                ))}
+                                {infra.id === "zenodo" && (
+                                  <li><strong>Host for digital NTOs</strong> (General)</li>
+                                )}
+                              </ul>
+                            ) : (
+                              <p class="infra-focus-empty">No active mappings yet.</p>
+                            )}
+                          </>
+                        ) : (
+                          <>
+                            <h4>Applicability &amp; usability</h4>
+                            <p class="infra-usability">{infra.usability}</p>
+                          </>
                         )}
-                      </ul>
-                    ) : (
-                      <p class="infra-focus-empty">No active mappings yet.</p>
-                    )}
-                  </div>
-                </details>
-              </div>
-            </article>
-          );
-        })}
-      </div>
+                      </div>
+                    </details>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </section>
+
+  <section class="section section-subtle infra-tier-section">
+    <div class="container">
+      <p class="eyebrow">Tier 2</p>
+      <h2 class="section-heading-left">Intermediary Infrastructure</h2>
+      <p class="section-intro-left">
+        The layer that sits between raw publishing and the researcher's profile: aggregating
+        records to avoid double-counting, enriching them with quality context, tracking granular
+        ongoing labour, and providing the shared vocabularies that let all of the above interoperate.
+      </p>
+
+      {intermediarySections.map((key) => {
+        const meta = FUNCTION_META[key];
+        const items = bySection.get(key) ?? [];
+        return (
+          <div class="infra-subsection" id={meta.anchor}>
+            <h3 class="infra-subsection-title">{meta.title}</h3>
+            <p class="infra-subsection-blurb">{meta.blurb}</p>
+            <div class="grid grid-3">
+              {items.map((infra) => {
+                const logo = LOGOS[infra.id];
+                const tagCategory = NTO_CATEGORY[infra.id] ?? "General";
+                const tagColor = `var(${CATEGORY_COLOR_VAR[tagCategory]})`;
+                return (
+                  <article class="card infra-card" style={`border-color:${tagColor}`}>
+                    <span class="badge badge-category infra-category-tag" style={`background:${tagColor}`}>{tagCategory}</span>
+                    <div class="infra-logo-wrap" style={logoBoxStyle(logo)}>
+                      {logo.type === "img" && <img class="infra-logo" src={logo.src} alt="" loading="lazy" />}
+                      {logo.type === "svg" && <span class="infra-logo-icon" set:html={logo.markup} />}
+                      {logo.type === "icon" && (
+                        <span class="infra-logo-icon" style={`color:${logo.color}`} set:html={ICONS[logo.key]} />
+                      )}
+                    </div>
+                    <h4><a href={infra.url} target="_blank" rel="noopener">{infra.name}</a></h4>
+                    <p>{cardDescription(infra.function)}</p>
+                    <details class="infra-details">
+                      <summary class="btn btn-outline registry-toggle">Show details</summary>
+                      <div class="registry-card-details">
+                        <h4>Applicability &amp; usability</h4>
+                        <p class="infra-usability">{infra.usability}</p>
+                      </div>
+                    </details>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
     </div>
   </section>
 
@@ -248,7 +400,57 @@ const registration = infrastructure
       }
     }
 
-    .infra-primary-section {
+    .infra-jumpnav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-5);
+      margin-top: var(--space-6);
+      padding-top: var(--space-5);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .infra-jumpnav-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .infra-jumpnav-tier {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--radius-full);
+      color: #fff;
+      margin-right: var(--space-1);
+    }
+
+    .infra-jumpnav-tier-essential {
+      background: var(--color-accent);
+    }
+
+    .infra-jumpnav-tier-intermediary {
+      background: var(--color-teal-500);
+    }
+
+    .infra-jumpnav a {
+      font-size: 0.9rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--color-border);
+      color: var(--color-text);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .infra-jumpnav a:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+    }
+
+    .infra-tier-section {
       padding-top: var(--space-6);
     }
 
@@ -259,20 +461,40 @@ const registration = infrastructure
     .section-intro-left {
       color: var(--color-text-muted);
       font-size: 1.1rem;
-      max-width: 760px;
+      max-width: 980px;
       margin-bottom: var(--space-7);
     }
 
+    .infra-subsection {
+      scroll-margin-top: 6.5rem;
+    }
+
+    .infra-subsection + .infra-subsection {
+      margin-top: var(--space-8);
+    }
+
+    .infra-subsection-title {
+      margin-bottom: var(--space-2);
+    }
+
+    .infra-subsection-blurb {
+      color: var(--color-text-muted);
+      max-width: 980px;
+      margin-bottom: var(--space-5);
+    }
+
     .grid-3 {
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 340px));
     }
 
     .infra-card {
       border-width: 2px;
+      position: relative;
     }
 
-    .infra-card-primary {
-      border-color: var(--color-accent);
+    .infra-category-tag {
+      align-self: flex-start;
+      margin-bottom: var(--space-3);
     }
 
     .infra-logo-wrap {
@@ -301,29 +523,8 @@ const registration = infrastructure
       height: 52px;
     }
 
-    .infra-card h3 {
+    .infra-card h4 {
       margin-bottom: var(--space-2);
-    }
-
-    .infra-category-tag {
-      align-self: flex-start;
-    }
-
-    /* Registration cards wrap the tag + details toggle together so both
-       stay glued to each other and pinned to the card's bottom as a unit,
-       regardless of how long the function description above them is —
-       keeps the tag at a fixed position immediately above "Show details"
-       on every card instead of drifting with paragraph length. */
-    .infra-card-footer {
-      margin-top: auto;
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-3);
-    }
-
-    .infra-card-footer .infra-details {
-      margin-top: 0;
-      padding-top: 0;
     }
 
     .infra-details {
