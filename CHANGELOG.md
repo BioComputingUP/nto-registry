@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/) — see
 CONTRIBUTING.md for the exact MAJOR/MINOR/PATCH bump policy applied to
 `catalogue-version`.
 
+## [2.1.0] - 2026-07-25
+
+### Added
+- **Software Management Plan**: added Zenodo, `active` — it can archive a
+  completed plan document with a citable DOI, shown on both its
+  Infrastructure page card ("Currently captures credit for") and its
+  Registry page card.
+
+### Changed
+- Replaced the placeholder favicon (an orange "N" on navy, explicitly
+  marked in its own source as a stand-in) with the real NTO Registry logo
+  mark — the same icon used in the site header.
+
 ## [2.0.0] - 2026-07-25
 
 ### Removed (breaking)

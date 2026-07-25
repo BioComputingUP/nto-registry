@@ -50,7 +50,7 @@
 #   added-in-version:
 #   last-modified-version:
 
-catalogue-version: 2.0.0
+catalogue-version: 2.1.0
 
 entries:
 
@@ -471,9 +471,12 @@ entries:
     examples:
       - name: ELIXIR Software Management Plan
         url: https://elixir-europe.github.io/software-management-plans/
-    supporting-infrastructure: []
+    supporting-infrastructure:
+      - infrastructure-id: zenodo
+        capture-function: Can archive a completed software management plan with a citable DOI.
+        status: active
     added-in-version: 1.0.0
-    last-modified-version: 2.0.0
+    last-modified-version: 2.1.0
 
   - id: software-demo
     category: Software
