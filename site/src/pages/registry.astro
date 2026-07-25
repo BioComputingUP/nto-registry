@@ -8,6 +8,15 @@ import stats from "../generated/stats.json";
 const infrastructureNames: Record<string, string> = Object.fromEntries(
   infrastructure.map((i) => [i.id, i.name])
 );
+
+// Registry cards must ingest supporting infrastructure 1:1 from the
+// Infrastructure page's Publishing & Persistent Identifier Provision
+// cards ONLY — the same tier-derivation logic as infrastructure.astro's
+// functionKeyOf(), so both pages always agree by construction rather than
+// via a hand-maintained id list.
+const pidInfraIds: string[] = infrastructure
+  .filter((i) => i.function.split(".")[0].trim() === "Publishing & PID provision")
+  .map((i) => i.id);
 ---
 
 <BaseLayout title="Registry" description="Browse and filter all Non-Traditional Output types, with examples and supporting infrastructure.">
@@ -45,7 +54,19 @@ const infrastructureNames: Record<string, string> = Object.fromEntries(
 
   <section class="section registry-explorer-section">
     <div class="container">
-      <RegistryExplorer client:load artefacts={catalogue.artefacts} categories={stats.categories} infrastructureNames={infrastructureNames} />
+      <RegistryExplorer client:load artefacts={catalogue.artefacts} categories={stats.categories} infrastructureNames={infrastructureNames} pidInfraIds={pidInfraIds} />
+    </div>
+  </section>
+
+  <section class="section cta-section">
+    <div class="container cta-inner">
+      <h2>Know of an output type missing from this list?</h2>
+      <p>
+        Propose a new example, a new artefact type, or a correction to an existing entry.
+      </p>
+      <a class="btn btn-primary" href="https://github.com/BioComputingUP/nto-registry/issues/new?template=submit_nto.yml" target="_blank" rel="noopener">
+        Submit new non-traditional output
+      </a>
     </div>
   </section>
 
@@ -76,6 +97,17 @@ const infrastructureNames: Record<string, string> = Object.fromEntries(
 
     .registry-explorer-section {
       padding-top: var(--space-6);
+    }
+
+    .cta-section {
+      text-align: center;
+      background: var(--color-surface);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .cta-inner {
+      max-width: 600px;
+      margin: 0 auto;
     }
   </style>
 </BaseLayout>

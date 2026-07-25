@@ -4,7 +4,7 @@
 # seeded from Table 3 of:
 #   Farrell G, Alloza E, Bouhraoua A, Capella-Gutierrez S, Goble C, Hermjakob H,
 #   Makaronidou M, Smith A, Sufi S, Vergoulis T, Zoubiri M, Quaglia F, Tosatto SCE.
-#   "Credit, recognition, and reward for non-traditional research artefacts in the
+#   "Credit, recognition, and reward for non-traditional research outputs in the
 #   Life Sciences" (2026).
 #
 # This file is versioned with Semantic Versioning (see catalogue-version below and
@@ -83,9 +83,6 @@ entries:
       - infrastructure-id: bip-scholar
         capture-function: Aggregates service stewardship into a discipline-tailored researcher profile.
         status: active
-      - infrastructure-id: bio-tools
-        capture-function: Provides a discoverable, persistent identifier for the data service.
-        status: active
       - infrastructure-id: fairsharing
         capture-function: >-
           Registers the data service itself as a discoverable, citable
@@ -93,7 +90,7 @@ entries:
           individual maintainers.
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.2.2
+    last-modified-version: 1.4.0
 
   - id: curated-knowledgebase-entry
     category: Data
@@ -141,11 +138,14 @@ entries:
       - name: FAIRCookbook
         url: https://faircookbook.elixir-europe.org
     supporting-infrastructure:
-      - infrastructure-id: openebench
-        capture-function: Enriches FAIRified dataset metadata with quality/compliance indicators.
+      - infrastructure-id: elixir-edd
+        capture-function: >-
+          Its deposition databases require standardised, comprehensive
+          metadata as a condition of acceptance, giving the record genuine
+          FAIR compliance rather than just a persistent home.
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.2.2
+    last-modified-version: 1.4.0
 
   - id: public-dataset-entry-submission
     category: Data

@@ -1,0 +1,93 @@
+name: "Submit or Update: Supporting Infrastructure"
+description: Propose a new technical platform that captures credit for a Non-Traditional Output, or suggest a correction to an existing entry in data/infrastructure_catalogue.yml.
+title: "[Infrastructure]: <platform name>"
+labels: ["infrastructure"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for `data/infrastructure_catalogue.yml` — the platforms
+        (comparable to APICURON, ORCID, bio.tools, Zenodo) that capture credit
+        for non-traditional outputs, shown on the
+        [Infrastructure page](https://biocomputingup.github.io/nto-registry/infrastructure/)
+        under Essential or Intermediary Infrastructure. Before you submit,
+        please read [CONTRIBUTING.md](../../CONTRIBUTING.md).
+
+        Proposing a new output type or example instead? Use
+        [Submit or Update: Registry Output](./submit_nto.yml).
+        Proposing a reform initiative instead? Use
+        [Submit or Update: Assessment Reform Initiative](./submit_reform.yml).
+
+  - type: dropdown
+    id: submission_type
+    attributes:
+      label: Submission Type
+      options:
+        - New infrastructure platform
+        - Correction to an existing entry
+    validations:
+      required: true
+
+  - type: input
+    id: entry_id
+    attributes:
+      label: Entry ID (corrections only)
+      description: The `id` of the affected entry in data/infrastructure_catalogue.yml (e.g. `apicuron`).
+    validations:
+      required: false
+
+  - type: input
+    id: name
+    attributes:
+      label: Platform Name
+      description: The full, human-readable name (e.g. "APICURON").
+    validations:
+      required: true
+
+  - type: input
+    id: url
+    attributes:
+      label: URL
+      description: The primary, stable homepage. Leave blank if none exists yet — do not guess.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: function
+    attributes:
+      label: Credit-Capture Function
+      description: Which of Table 2's technical-component categories does this platform belong under?
+      options:
+        - "Publishing & PID provision (Essential)"
+        - "Academic profiles (Essential)"
+        - "Aggregation (Intermediary)"
+        - "Metadata enrichment (Intermediary)"
+        - "Contribution tracking & incentives (Intermediary)"
+        - "Ontologies & controlled vocabularies (Intermediary)"
+        - Not sure / none of these
+    validations:
+      required: false
+
+  - type: textarea
+    id: explanation
+    attributes:
+      label: What credit-capture function does it perform, under the relevant category above?
+      description: 1-2 sentences on what it does and which non-traditional output type(s) it applies to.
+    validations:
+      required: true
+
+  - type: textarea
+    id: usability
+    attributes:
+      label: Applicability & usability (optional)
+      description: Practical notes on cost, who it's for, and what's required to get value from it (registration, upstream integration, etc) — shown in the platform's "Show details" panel on the Infrastructure page. NOT which output types it applies to (that's the field above).
+    validations:
+      required: false
+
+  - type: textarea
+    id: correction
+    attributes:
+      label: What's wrong and proposed fix (corrections only)
+      description: Describe the problem with the existing entry and what it should say/link instead.
+    validations:
+      required: false

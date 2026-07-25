@@ -1,0 +1,35 @@
+name: General Suggestion
+description: Free-form feedback, questions, or suggestions about the website/content — anything not covered by the registry, reform, or infrastructure submission templates.
+title: "[Suggestion]: <short summary>"
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for anything that isn't a specific new/updated entry in the
+        catalogue — e.g. site design or wording feedback, a question, a bug
+        in `scripts/validate_yaml.py` or the CI workflow, a documentation
+        issue, or a general idea for the registry.
+
+        Proposing a specific new output type, example, infrastructure
+        platform, or reform initiative — or correcting one? Use one of the
+        dedicated templates instead:
+        [Registry Output](./submit_nto.yml),
+        [Assessment Reform Initiative](./submit_reform.yml), or
+        [Supporting Infrastructure](./submit_infrastructure.yml).
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What's the suggestion, question, or feedback?
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context (optional)
+      description: Links, screenshots, logs, or anything else that helps.
+    validations:
+      required: false

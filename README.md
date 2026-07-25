@@ -25,7 +25,7 @@ reusable foundation for recognising this work.
 This registry operationalises the landscaping presented in Farrell G, Alloza
 E, Bouhraoua A, Capella-Gutierrez S, Goble C, Hermjakob H, Makaronidou M,
 Smith A, Sufi S, Vergoulis T, Zoubiri M, Quaglia F, Tosatto SCE, "Credit,
-recognition, and reward for non-traditional research artefacts in the Life
+recognition, and reward for non-traditional research outputs in the Life
 Sciences" (2026). That paper maps 24 non-traditional artefact types across 5
 categories (Data, Training, Software, Research support, Peer review),
 illustrated with Life Science examples from ELIXIR Europe, and calls for a
@@ -47,7 +47,7 @@ The catalogue data is maintained in human-readable YAML files within the
   (APICURON, ORCID, bio.tools, Zenodo, etc.) referenced by the entries above.
 * `data/reform_initiatives.yml` — key international research assessment reform
   initiatives (DORA, Leiden Manifesto, Hong Kong Principles, Hidden REF, CoARA)
-  and their relevance to non-traditional research artefacts.
+  and their relevance to non-traditional research outputs.
 * `data/CONTRIBUTORS.yml` — contributors to the registry's content.
 
 See [ARTEFACT_TAXONOMY.md](ARTEFACT_TAXONOMY.md) for the full taxonomy and

@@ -15,11 +15,37 @@ CONTRIBUTING.md for the exact MAJOR/MINOR/PATCH bump policy applied to
   paper: ELIXIR EDD (ELIXIR Deposition Databases), DMPonline, Software
   Heritage, and CRediT (Contributor Roles Taxonomy) — the last introducing
   a new "Ontologies & controlled vocabularies" infrastructure function.
+- Filled active credit-mapping gaps shown in Figure 2 but missing from
+  `data/nto_catalogue.yml`: DMPonline → Data Management Plan (DMP),
+  ELIXIR EDD → Public Dataset Entry Submission, Software Heritage →
+  Research Software Code Repository.
+- An optional `usability` field on infrastructure entries outside
+  Publishing & PID Provision (ORCID, BIP! Scholar, OpenAIRE Graph, BIP!,
+  OpenEBench, APICURON, CRediT) — practical applicability/cost notes shown
+  on the Infrastructure page's "Show details" panel.
 
 ### Changed
 - Clarified APICURON's function description to note it also supports
   direct registration of new curation activities, not just tracking
   credit for activity on already-registered entries.
+
+### Fixed
+- Removed an inaccurate bio.tools → Public Data Service credit-capture
+  mapping in `data/nto_catalogue.yml`; bio.tools registers software and
+  tools, not live data services like Ensembl or BacDive (FAIRsharing
+  already covers that registration role for this artefact).
+- Replaced an inaccurate OpenEBench → FAIR Metadata Record mapping with
+  ELIXIR EDD; OpenEBench benchmarks research software, it doesn't enrich
+  dataset metadata. ELIXIR EDD's deposition databases require
+  standardised, comprehensive metadata as a condition of acceptance,
+  which is a genuine fit for this artefact.
+- The Registry page's "Show details" panel only listed supporting
+  infrastructure from APICURON, ORCID, or BIP! Scholar — a stale filter
+  left over from before the Infrastructure page's Essential/Intermediary
+  restructure. It now ingests its "Supporting infrastructure" list
+  directly from whichever platforms the Infrastructure page classifies
+  under Publishing & PID Provision, so the two pages can't drift out of
+  sync with each other again.
 
 ## [1.3.0] - 2026-07-16
 

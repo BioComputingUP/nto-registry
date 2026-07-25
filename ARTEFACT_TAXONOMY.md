@@ -10,7 +10,7 @@ and activities that sustain modern research but are systematically
 under-represented in publication-centric assessment — data curation, research
 software, training, research support, and peer review. The taxonomy is seeded
 from Table 3 of Farrell et al., "Credit, recognition, and reward for
-non-traditional research artefacts in the Life Sciences" (2026), and is
+non-traditional research outputs in the Life Sciences" (2026), and is
 explicitly designed to be extended by the community over time (see
 CONTRIBUTING.md).
 
@@ -55,7 +55,7 @@ CONTRIBUTING.md).
 
 - **New example** — you know of a specific resource (e.g. a named database, a
   named training course) that illustrates an *existing* artefact type. Open a
-  ["Submit a new NTO example"](.github/ISSUE_TEMPLATE/submit_nto_example.yml)
+  ["Submit or Update: Registry Output"](.github/ISSUE_TEMPLATE/submit_nto.yml)
   issue, or a PR adding it to that artefact's `examples` list.
 - **New artefact type** — you believe there is a distinct category of
   non-traditional output not represented by any row above (it has its own
@@ -64,9 +64,10 @@ CONTRIBUTING.md).
   explain how it differs from the closest existing type.
 - **New supporting infrastructure** — you know of a platform that captures
   credit for one or more artefact types (comparable to APICURON, ORCID,
-  bio.tools, etc). Propose it via the same template; it will be added to
-  `data/infrastructure_catalogue.yml` and referenced from the relevant
-  artefact entries.
+  bio.tools, etc). Propose it via
+  ["Submit or Update: Supporting Infrastructure"](.github/ISSUE_TEMPLATE/submit_infrastructure.yml);
+  it will be added to `data/infrastructure_catalogue.yml` and referenced from
+  the relevant artefact entries.
 
 ## Out of scope
 

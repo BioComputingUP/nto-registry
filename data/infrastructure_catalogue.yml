@@ -3,7 +3,7 @@
 # Normalized registry of technical platforms capable of capturing credit for
 # Non-Traditional Outputs (NTOs), per Table 2 and Figure 2 of:
 # Farrell G, Alloza E, Bouhraoua A, et al. "Credit, recognition, and reward for
-# non-traditional research artefacts in the Life Sciences" (2026).
+# non-traditional research outputs in the Life Sciences" (2026).
 #
 # Each platform is defined once here. Artefact entries in nto_catalogue.yml
 # reference a platform by `id` and add an artefact-specific `capture-function`

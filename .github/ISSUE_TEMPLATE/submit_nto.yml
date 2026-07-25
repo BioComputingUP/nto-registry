@@ -1,0 +1,103 @@
+name: "Submit or Update: Registry Output"
+description: Propose a new example or a new artefact type for the NTO Registry, or suggest a correction to an existing entry in data/nto_catalogue.yml.
+title: "[Registry]: <short summary>"
+labels: ["registry"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for `data/nto_catalogue.yml` — the catalogue of Non-Traditional
+        Output types and their examples.
+
+        Before you submit, please read [CONTRIBUTING.md](../../CONTRIBUTING.md)
+        and [ARTEFACT_TAXONOMY.md](../../ARTEFACT_TAXONOMY.md) to check your
+        submission fits the scope, and to see whether "new example" or "new
+        artefact type" is the right choice below.
+
+        Proposing supporting infrastructure instead? Use
+        [Submit or Update: Supporting Infrastructure](./submit_infrastructure.yml).
+        Proposing an assessment reform initiative instead? Use
+        [Submit or Update: Assessment Reform Initiative](./submit_reform.yml).
+
+  - type: dropdown
+    id: submission_type
+    attributes:
+      label: Submission Type
+      options:
+        - New example for an existing artefact type
+        - New artefact type
+        - Correction to an existing entry
+    validations:
+      required: true
+
+  - type: input
+    id: entry_id
+    attributes:
+      label: Entry ID (corrections only)
+      description: The `id` of the affected entry in data/nto_catalogue.yml (e.g. `curated-knowledgebase-entry`).
+    validations:
+      required: false
+
+  - type: input
+    id: category
+    attributes:
+      label: Category
+      description: "One of: Data, Training, Software, Research support, Peer review. Leave blank for corrections that don't change category."
+    validations:
+      required: false
+
+  - type: input
+    id: artefact
+    attributes:
+      label: Artefact Type
+      description: The existing artefact type this belongs to (e.g. "Curated Knowledgebase Entry"), or your proposed name if this is a new artefact type. See ARTEFACT_TAXONOMY.md for the current list.
+    validations:
+      required: false
+
+  - type: input
+    id: name
+    attributes:
+      label: Example Name (new examples only)
+      description: The full, human-readable name of the resource (e.g. "UniProt entry").
+    validations:
+      required: false
+
+  - type: input
+    id: url
+    attributes:
+      label: URL
+      description: The primary, stable homepage. Leave blank if none exists yet — do not guess.
+    validations:
+      required: false
+
+  - type: textarea
+    id: explanation
+    attributes:
+      label: Explanation / What's wrong and proposed fix
+      description: For a new artefact type, explain what it is and how it differs from existing types. For a new example, briefly explain why it fits. For a correction, describe the problem and what it should say/link/be categorised as instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: activities
+    attributes:
+      label: Corresponding Activities (new artefact types only)
+      description: One or more activities that produce this artefact.
+    validations:
+      required: false
+
+  - type: textarea
+    id: alignment
+    attributes:
+      label: Ontological alignment / vocabulary usage (optional)
+      description: Does this output map to terms in an existing controlled vocabulary or ontology (e.g. CRediT contributor roles, EDAM, a domain-specific metadata standard)? Note any relevant term/mapping — useful for interoperability with the Infrastructure page's "Ontologies & Controlled Vocabularies" platforms.
+    validations:
+      required: false
+
+  - type: input
+    id: infrastructure
+    attributes:
+      label: Supporting Infrastructure (optional)
+      description: Any platform(s) that could capture credit for this (e.g. APICURON, ORCID, bio.tools). Leave blank if unsure.
+    validations:
+      required: false

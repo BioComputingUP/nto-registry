@@ -1,0 +1,83 @@
+name: "Submit or Update: Assessment Reform Initiative"
+description: Propose a new international research assessment reform initiative for the Registry, or suggest a correction to an existing entry in data/reform_initiatives.yml.
+title: "[Reform]: <initiative name>"
+labels: ["reform-initiative"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for `data/reform_initiatives.yml` — the international
+        research assessment reform movement (DORA, CoARA, the Leiden
+        Manifesto, etc.) this registry builds on. Before you submit, please
+        read [CONTRIBUTING.md](../../CONTRIBUTING.md).
+
+        Proposing a new output type or example instead? Use
+        [Submit or Update: Registry Output](./submit_nto.yml).
+        Proposing supporting infrastructure instead? Use
+        [Submit or Update: Supporting Infrastructure](./submit_infrastructure.yml).
+
+  - type: dropdown
+    id: submission_type
+    attributes:
+      label: Submission Type
+      options:
+        - New reform initiative
+        - Correction to an existing entry
+    validations:
+      required: true
+
+  - type: input
+    id: entry_id
+    attributes:
+      label: Entry ID (corrections only)
+      description: The `id` of the affected entry in data/reform_initiatives.yml (e.g. `dora`).
+    validations:
+      required: false
+
+  - type: input
+    id: initiative
+    attributes:
+      label: Initiative Name
+      description: The full name of the initiative (e.g. "DORA (San Francisco Declaration on Research Assessment)").
+    validations:
+      required: true
+
+  - type: input
+    id: year
+    attributes:
+      label: Year
+      description: The year the initiative was launched/published.
+    validations:
+      required: false
+
+  - type: input
+    id: url
+    attributes:
+      label: URL
+      description: The primary, stable homepage. Leave blank if none exists yet — do not guess.
+    validations:
+      required: false
+
+  - type: textarea
+    id: core_philosophy
+    attributes:
+      label: Core Philosophy
+      description: 1-2 sentences on what the initiative fundamentally argues for or against in research assessment.
+    validations:
+      required: true
+
+  - type: textarea
+    id: relevance
+    attributes:
+      label: Relevance to Non-Traditional Outputs
+      description: How does this initiative specifically support recognition of non-traditional research outputs (data, software, training, research support, peer review)?
+    validations:
+      required: true
+
+  - type: textarea
+    id: correction
+    attributes:
+      label: What's wrong and proposed fix (corrections only)
+      description: Describe the problem with the existing entry and what it should say/link instead.
+    validations:
+      required: false

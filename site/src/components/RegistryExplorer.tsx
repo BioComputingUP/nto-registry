@@ -5,15 +5,10 @@ interface Props {
   artefacts: Artefact[];
   categories: string[];
   infrastructureNames: Record<string, string>;
+  pidInfraIds: string[];
 }
 
 type StatusFilter = "any" | "active";
-
-// For now, only show these infrastructure platforms on registry cards, and
-// only where the credit-capture pathway is already active — no "planned"
-// entries are shown here (that nuance still lives on the Infrastructure
-// page, which lists every platform regardless of status).
-const VISIBLE_INFRA_IDS = new Set(["apicuron", "orcid", "bip-scholar"]);
 
 const CATEGORY_COLOR_VAR: Record<string, string> = {
   Data: "--cat-data",
@@ -27,7 +22,8 @@ function categoryColor(category: string) {
   return `var(${CATEGORY_COLOR_VAR[category] ?? "--color-navy-800"})`;
 }
 
-export default function RegistryExplorer({ artefacts, categories, infrastructureNames }: Props) {
+export default function RegistryExplorer({ artefacts, categories, infrastructureNames, pidInfraIds }: Props) {
+  const pidInfraIdSet = useMemo(() => new Set(pidInfraIds), [pidInfraIds]);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<string>("all");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("any");
@@ -175,10 +171,10 @@ export default function RegistryExplorer({ artefacts, categories, infrastructure
                     <h4>Supporting infrastructure</h4>
                     {(() => {
                       const visible = a["supporting-infrastructure"].filter(
-                        (ref) => ref.status === "active" && VISIBLE_INFRA_IDS.has(ref["infrastructure-id"])
+                        (ref) => ref.status === "active" && pidInfraIdSet.has(ref["infrastructure-id"])
                       );
                       if (visible.length === 0) {
-                        return <p className="infra-empty">No active infrastructure from APICURON, ORCID, or BIP! Scholar yet.</p>;
+                        return <p className="infra-empty">No active Publishing &amp; PID Provision infrastructure yet.</p>;
                       }
                       return (
                         <ul className="infra-list">

@@ -1,6 +1,6 @@
 ---
 name: add-nto-entry
-description: Use when adding a new example, a new artefact type, a new supporting-infrastructure platform, or a new assessment reform initiative to the NTO Registry, or when correcting an existing entry — whether the source is a filed GitHub issue (submit_nto_example / suggest_change) or an ad hoc request from a maintainer. Appends/edits data/nto_catalogue.yml, data/infrastructure_catalogue.yml, and data/reform_initiatives.yml correctly and validates before finishing.
+description: Use when adding a new example, a new artefact type, a new supporting-infrastructure platform, or a new assessment reform initiative to the NTO Registry, or when correcting an existing entry — whether the source is a filed GitHub issue (submit_nto / submit_reform / submit_infrastructure) or an ad hoc request from a maintainer. Appends/edits data/nto_catalogue.yml, data/infrastructure_catalogue.yml, and data/reform_initiatives.yml correctly and validates before finishing.
 ---
 
 # Add / Correct an NTO Registry Entry
@@ -22,10 +22,17 @@ This skill only handles the *content* change. After it, always invoke the
 ## Step 1 — Determine the intake path and submission type
 
 **From a GitHub issue:** read the issue body. It was filed via one of:
-- `submit_nto_example.yml` — submission type is one of "New example for an
-  existing artefact", "New artefact type", or "New supporting infrastructure".
-- `suggest_change.yml` — a correction to an existing entry (identified by
-  its `id`).
+- `submit_nto.yml` — submission type is one of "New example for an existing
+  artefact type", "New artefact type", or "Correction to an existing entry"
+  (identified by its `id`) in `data/nto_catalogue.yml`.
+- `submit_infrastructure.yml` — submission type is "New infrastructure
+  platform" or "Correction to an existing entry" in
+  `data/infrastructure_catalogue.yml`.
+- `submit_reform.yml` — submission type is "New reform initiative" or
+  "Correction to an existing entry" in `data/reform_initiatives.yml`.
+- `general_suggestion.yml` — free-form; only relevant here if it turns out to
+  actually describe one of the above (redirect the reporter to the right
+  template if so, rather than guessing at a structured entry from prose).
 
 **From an ad hoc request:** infer the same classification from what the user
 asks for (e.g. "add the Ersilia Model Hub as an example of Curated
@@ -79,15 +86,22 @@ artefact type).
 1. Check `data/infrastructure_catalogue.yml` for an existing entry first.
 2. Fill in `id` (kebab-case), `name`, `url`, `function` (one of: Publishing &
    PID provision, Aggregation, Metadata enrichment, Contribution tracking &
-   incentives, Academic profiles — or a short new phrase if none fit).
-3. Append to `data/infrastructure_catalogue.yml`.
-4. Then add `{infrastructure-id, capture-function, status}` references to it
+   incentives, Academic profiles, Ontologies & controlled vocabularies — or a
+   short new phrase if none fit — see the Infrastructure page's Essential vs.
+   Intermediary tiers, which are derived directly from this field).
+3. Optionally fill in `usability` — 1-2 sentences on practical applicability
+   (cost, who it's for, what's required to get value from it), NOT which
+   artefact types it applies to. Shown on the Infrastructure page's "Show
+   details" panel for every platform outside "Publishing & PID provision".
+4. Append to `data/infrastructure_catalogue.yml`.
+5. Then add `{infrastructure-id, capture-function, status}` references to it
    from the relevant artefact entries in `data/nto_catalogue.yml` — write a
    `capture-function` specific to *that* artefact, not a generic copy of
    `function`. Set `status: active` only if you have real evidence the
    pathway is live today; otherwise `status: planned`.
 
-### D. Correction (from `suggest_change.yml` or ad hoc)
+### D. Correction (from `submit_nto.yml` / `submit_reform.yml` /
+    `submit_infrastructure.yml`'s "Correction to an existing entry" path, or ad hoc)
 
 1. Locate the entry by `id`.
 2. Apply the minimal fix requested (wording, URL, category, infrastructure
@@ -100,7 +114,7 @@ artefact type).
 2. Fill in every field using the template at the top of that file: `id`
    (kebab-case of `initiative`), `initiative` (full name), `year`,
    `core-philosophy` (1-2 sentences), `relevance-to-ntos` (how it
-   specifically supports non-traditional research artefacts), `url`. Only
+   specifically supports non-traditional research outputs), `url`. Only
    set `url` to a real, confident homepage — `''` otherwise.
 3. Append to `data/reform_initiatives.yml`. This file has no top-level
    version field of its own — it shares `catalogue-version` from
@@ -137,7 +151,7 @@ change under SemVer and propagate the version bump across
   `activities`, `examples`, `supporting-infrastructure`, `added-in-version`,
   `last-modified-version`.
 - Field order for infrastructure entries: `id`, `name`, `url`, `function`,
-  `added-in-version`, `last-modified-version`.
+  `usability` (optional), `added-in-version`, `last-modified-version`.
 - `examples[].url` and infrastructure `url` are `''` (not omitted) when no
   confident URL exists.
 

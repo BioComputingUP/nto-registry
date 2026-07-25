@@ -25,10 +25,11 @@ supporting infrastructure entry without opening a Pull Request yourself, or
 have an idea for improving the registry's structure:
 
 1.  **Check existing issues:** See if someone has already reported the same thing or made a similar suggestion.
-2.  **Open the right form:**
-    * [Submit a New NTO Example/Type](../../issues/new?template=submit_nto_example.yml) — for a new example resource, a new artefact type, a new supporting-infrastructure platform, or a new assessment reform initiative.
-    * [Suggest a Change](../../issues/new?template=suggest_change.yml) — for corrections to an existing entry (broken link, wording, wrong category, etc).
-    * [General Issue](../../issues/new?template=general_issue.yml) — for questions, CI/validation bugs, documentation issues, or anything else. Blank issues are also enabled if none of the templates fit.
+2.  **Open the right form** — each covers both new submissions and corrections to existing entries:
+    * [Submit or Update: Registry Output](../../issues/new?template=submit_nto.yml) — a new example, a new artefact type, or a correction to `data/nto_catalogue.yml`.
+    * [Submit or Update: Assessment Reform Initiative](../../issues/new?template=submit_reform.yml) — a new reform initiative or a correction to `data/reform_initiatives.yml`.
+    * [Submit or Update: Supporting Infrastructure](../../issues/new?template=submit_infrastructure.yml) — a new credit-capture platform or a correction to `data/infrastructure_catalogue.yml`.
+    * [General Suggestion](../../issues/new?template=general_suggestion.yml) — for questions, CI/validation bugs, documentation issues, site design/wording feedback, or anything else. Blank issues are also enabled if none of the templates fit.
 
 ### Submitting Changes via Pull Requests
 This is the preferred way to add or modify entries directly.
@@ -75,7 +76,7 @@ We welcome contributions that add or improve:
 
 ## What Not to Contribute
 * Purely commercial resources with no meaningful open/free access component.
-* Off-topic content unrelated to credit/recognition for non-traditional research artefacts.
+* Off-topic content unrelated to credit/recognition for non-traditional research outputs.
 * Changes to core infrastructure files (GitHub Actions workflows, agent skills) without prior discussion with maintainers.
 * Promotional material disguised as an example.
 
@@ -107,4 +108,4 @@ Project maintainers will review Pull Requests.
 * Once approved, a maintainer will merge it into the `main` branch.
 
 We appreciate your contributions to building a valuable, versioned catalogue
-of non-traditional research artefacts!
+of non-traditional research outputs!

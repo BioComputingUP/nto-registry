@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { WHITE_ICONS } from "../lib/icons";
+import { ICONS, WHITE_ICONS } from "../lib/icons";
 import reforms from "../generated/reform-initiatives.json";
 
 const sorted = [...reforms].sort((a, b) => a.year - b.year);
@@ -55,9 +55,12 @@ const sorted = [...reforms].sort((a, b) => a.year - b.year);
           </thead>
           <tbody>
             {sorted.map((r) => (
-              <tr>
+              <tr class="reforms-row">
                 <th scope="row">
-                  <a href={r.url} target="_blank" rel="noopener" class="initiative-link">{r.initiative}</a>
+                  <a href={r.url} target="_blank" rel="noopener" class="initiative-link">
+                    {r.initiative}
+                    <span class="initiative-link-icon" set:html={ICONS["external-link"]} />
+                  </a>
                 </th>
                 <td>{r.year}</td>
                 <td>{r["core-philosophy"]}</td>
@@ -73,8 +76,8 @@ const sorted = [...reforms].sort((a, b) => a.year - b.year);
   <section class="section cta-section">
     <div class="container cta-inner">
       <h2>Know of another reform initiative?</h2>
-      <p>Suggest it for inclusion in this list.</p>
-      <a class="btn btn-primary" href="https://github.com/BioComputingUP/nto-registry/issues/new?template=submit_nto_example.yml" target="_blank" rel="noopener">
+      <p>Suggest it for inclusion in this list, or propose a correction to an existing one.</p>
+      <a class="btn btn-primary" href="https://github.com/BioComputingUP/nto-registry/issues/new?template=submit_reform.yml" target="_blank" rel="noopener">
         <span class="btn-icon" set:html={WHITE_ICONS.plus} />
         Suggest a reform initiative
       </a>
@@ -136,9 +139,68 @@ const sorted = [...reforms].sort((a, b) => a.year - b.year);
       background: color-mix(in srgb, var(--color-teal-500) 12%, var(--color-surface));
     }
 
+    /* Whole-row click target: the initiative link grows an invisible
+       overlay covering the entire row (the "stretched link" pattern), so
+       clicking anywhere in the row — not just the initiative name — opens
+       it. The row itself gets a hover background and the link an
+       external-link icon + underline so it's clear up front the row is
+       clickable, not just discoverable by accident. */
+    .reforms-row {
+      position: relative;
+      cursor: pointer;
+    }
+
+    /* Extra `.reforms-table tbody` prefix isn't structurally necessary but
+       bumps specificity above the column-tint nth-child rules above, which
+       would otherwise win over a plainer `.reforms-row:hover td` selector
+       and hide the hover state on 3 of every 4 cells. */
+    .reforms-table tbody tr.reforms-row:hover th,
+    .reforms-table tbody tr.reforms-row:hover td,
+    .reforms-table tbody tr.reforms-row:focus-within th,
+    .reforms-table tbody tr.reforms-row:focus-within td {
+      background: color-mix(in srgb, var(--color-accent) 12%, var(--color-surface));
+    }
+
     .initiative-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
       color: var(--color-heading);
       font-weight: 700;
+      text-decoration: none;
+    }
+
+    /* No positioned ancestor between this pseudo-element and .reforms-row
+       (the <tr>), so `inset: 0` sizes against the row's own box — the
+       overlay covers every cell, not just the <th> this link lives in. */
+    .initiative-link::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+    }
+
+    .reforms-row:hover .initiative-link,
+    .initiative-link:focus-visible {
+      text-decoration: underline;
+    }
+
+    .initiative-link-icon {
+      display: inline-flex;
+      flex-shrink: 0;
+      color: var(--color-text-muted);
+      opacity: 0.7;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+    }
+
+    .initiative-link-icon :global(svg) {
+      width: 14px;
+      height: 14px;
+    }
+
+    .reforms-row:hover .initiative-link-icon {
+      color: var(--color-accent);
+      opacity: 1;
+      transform: translate(1px, -1px);
     }
 
     .btn-icon {

@@ -242,7 +242,7 @@ function cardDescription(fn: string): string {
 
   <section class="section infra-tier-section">
     <div class="container">
-      <p class="eyebrow">Tier 1</p>
+      <p class="eyebrow">Essential</p>
       <h2 class="section-heading-left">Essential Infrastructure</h2>
       <p class="section-intro-left">
         The baseline layer without which non-traditional outputs cannot be credited at all:
@@ -255,7 +255,7 @@ function cardDescription(fn: string): string {
         const items = bySection.get(key) ?? [];
         const isPublishing = key === "Publishing & PID provision";
         return (
-          <div class="infra-subsection" id={meta.anchor}>
+          <div class="infra-subsection infra-subsection-essential" id={meta.anchor}>
             <h3 class="infra-subsection-title">{meta.title}</h3>
             <p class="infra-subsection-blurb">{meta.blurb}</p>
             <div class="grid grid-3">
@@ -273,7 +273,7 @@ function cardDescription(fn: string): string {
                         <span class="infra-logo-icon" style={`color:${logo.color}`} set:html={ICONS[logo.key]} />
                       )}
                     </div>
-                    <h4><a href={infra.url} target="_blank" rel="noopener">{infra.name}</a></h4>
+                    <h4><a class="infra-card-link" href={infra.url} target="_blank" rel="noopener">{infra.name}</a></h4>
                     <p>{cardDescription(infra.function)}</p>
                     <details class="infra-details">
                       <summary class="btn btn-outline registry-toggle">Show details</summary>
@@ -314,7 +314,7 @@ function cardDescription(fn: string): string {
 
   <section class="section section-subtle infra-tier-section">
     <div class="container">
-      <p class="eyebrow">Tier 2</p>
+      <p class="eyebrow infra-eyebrow-intermediary">Intermediary</p>
       <h2 class="section-heading-left">Intermediary Infrastructure</h2>
       <p class="section-intro-left">
         The layer that sits between raw publishing and the researcher's profile: aggregating
@@ -326,7 +326,7 @@ function cardDescription(fn: string): string {
         const meta = FUNCTION_META[key];
         const items = bySection.get(key) ?? [];
         return (
-          <div class="infra-subsection" id={meta.anchor}>
+          <div class="infra-subsection infra-subsection-intermediary" id={meta.anchor}>
             <h3 class="infra-subsection-title">{meta.title}</h3>
             <p class="infra-subsection-blurb">{meta.blurb}</p>
             <div class="grid grid-3">
@@ -344,7 +344,7 @@ function cardDescription(fn: string): string {
                         <span class="infra-logo-icon" style={`color:${logo.color}`} set:html={ICONS[logo.key]} />
                       )}
                     </div>
-                    <h4><a href={infra.url} target="_blank" rel="noopener">{infra.name}</a></h4>
+                    <h4><a class="infra-card-link" href={infra.url} target="_blank" rel="noopener">{infra.name}</a></h4>
                     <p>{cardDescription(infra.function)}</p>
                     <details class="infra-details">
                       <summary class="btn btn-outline registry-toggle">Show details</summary>
@@ -367,9 +367,10 @@ function cardDescription(fn: string): string {
     <div class="container cta-inner">
       <h2>Know of infrastructure that should be here?</h2>
       <p>
-        Propose a platform that captures credit for a non-traditional output type.
+        Propose a platform that captures credit for a non-traditional output type, under the
+        relevant category, or suggest a correction to an existing entry.
       </p>
-      <a class="btn btn-primary" href="https://github.com/BioComputingUP/nto-registry/issues/new?template=submit_nto_example.yml" target="_blank" rel="noopener">
+      <a class="btn btn-primary" href="https://github.com/BioComputingUP/nto-registry/issues/new?template=submit_infrastructure.yml" target="_blank" rel="noopener">
         Submit new infrastructure
       </a>
     </div>
@@ -435,6 +436,14 @@ function cardDescription(fn: string): string {
       background: var(--color-teal-500);
     }
 
+    /* Matches the teal top-accent bar on the Intermediary subsection
+       panels below, so the section eyebrow visually ties to them —
+       Essential's eyebrow keeps the site-wide default accent colour,
+       which already matches its own subsection panels' orange bar. */
+    .infra-eyebrow-intermediary {
+      color: var(--color-teal-500);
+    }
+
     .infra-jumpnav a {
       font-size: 0.9rem;
       padding: 0.3rem 0.7rem;
@@ -465,12 +474,49 @@ function cardDescription(fn: string): string {
       margin-bottom: var(--space-7);
     }
 
+    /* Each subsection is its own bordered, rounded panel with a coloured
+       top accent bar — matching the Essential/Intermediary colour-coding
+       already used in the jump-nav — so it reads as a visually distinct
+       group of resources rather than just another heading in a long list.
+       Panel fill alternates against its tier section's own background
+       (Essential tier is plain white, Intermediary tier is tinted grey via
+       .section-subtle) so the panel always has contrast either way. */
     .infra-subsection {
       scroll-margin-top: 6.5rem;
+      position: relative;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6) var(--space-6) var(--space-7);
+      overflow: hidden;
+    }
+
+    .infra-subsection::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+    }
+
+    .infra-subsection-essential {
+      background: var(--color-bg-subtle);
+    }
+
+    .infra-subsection-essential::before {
+      background: var(--color-accent);
+    }
+
+    .infra-subsection-intermediary {
+      background: var(--color-surface);
+    }
+
+    .infra-subsection-intermediary::before {
+      background: var(--color-teal-500);
     }
 
     .infra-subsection + .infra-subsection {
-      margin-top: var(--space-8);
+      margin-top: var(--space-7);
     }
 
     .infra-subsection-title {
@@ -490,6 +536,16 @@ function cardDescription(fn: string): string {
     .infra-card {
       border-width: 2px;
       position: relative;
+    }
+
+    /* The intermediary panel fill is white (to contrast with its own
+       Intermediary-tier section background), so cards inside it need the
+       subtle-tint fill instead of the default white .card background —
+       otherwise they'd blend into the panel with only their border
+       showing. Essential-tier panels are already the subtle tint, so
+       their cards keep the default white fill and don't need this. */
+    .infra-subsection-intermediary .infra-card {
+      background: var(--color-bg-subtle);
     }
 
     .infra-category-tag {
@@ -527,7 +583,25 @@ function cardDescription(fn: string): string {
       margin-bottom: var(--space-2);
     }
 
+    /* Whole-card click target: the title link grows an invisible overlay
+       covering the entire card (the "stretched link" pattern), so clicking
+       anywhere on the card opens the platform's site — not just the title
+       text. The "Show details" toggle sits on its own stacking layer above
+       that overlay so it keeps working as a separate, non-navigating click. */
+    .infra-card-link::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .infra-card:hover {
+      cursor: pointer;
+    }
+
     .infra-details {
+      position: relative;
+      z-index: 1;
       margin-top: auto;
       padding-top: var(--space-3);
     }
