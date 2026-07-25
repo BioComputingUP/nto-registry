@@ -7,7 +7,56 @@ and this project adheres to [Semantic Versioning](https://semver.org/) — see
 CONTRIBUTING.md for the exact MAJOR/MINOR/PATCH bump policy applied to
 `catalogue-version`.
 
+## [2.0.0] - 2026-07-25
+
+### Removed (breaking)
+- The `planned` value for `supporting-infrastructure[].status` is no longer
+  used anywhere in `data/nto_catalogue.yml`, and `scripts/validate_yaml.py`
+  now rejects it — every reference in the catalogue must be a real,
+  currently-live credit-capture pathway. Aspirational/not-yet-live
+  pathways are simply not recorded, rather than kept as a "planned"
+  placeholder.
+- Removed all 17 existing `status: planned` entries (across 14 artefacts).
+  For 7 of them, this was their *only* supporting-infrastructure content,
+  so they now have an explicit empty list (`supporting-infrastructure: []`)
+  instead — an honest gap rather than a guess: Supervised Student Project
+  Output, Software Management Plan, Software Demo, Science Communication /
+  Outreach Media, Administrative / Compliance Record, Grant Proposal, and
+  Grant Evaluation Report.
+- **Breaking for downstream consumers**: `data/nto_catalogue.yml` previously
+  guaranteed every `supporting-infrastructure` list was non-empty and that
+  `status` could be `active` or `planned`. Neither guarantee holds anymore —
+  the list may now be empty, and `status` is always `active`. The generated
+  `infrastructure-catalogue.json` also no longer includes a `plannedFor`
+  field per infrastructure entry (only `activeFor` remains), and
+  `site/src/lib/types.ts`'s `SupportingInfrastructureRef.status` type is
+  narrowed to `"active"` only.
+
 ## [1.4.0] - 2026-07-24
+
+### Added — infrastructure alignment with the updated Figure 2 wheel
+- **New platform: PREreview** (`prereview.org`) — Publishing & PID
+  provision. Open-source, journal-independent platform for publishing
+  community preprint reviews under the reviewer's ORCID. Mapped active to
+  **Published Peer Review Report**.
+- **Data Management Plan (DMP)**: Zenodo raised from `planned` to
+  `active` — it can archive a completed DMP with a citable DOI today.
+- **Policy Brief**: Zenodo raised from `planned` to `active` — confirmed
+  by the entry's own example, the ELIXIR STEERS Policy Brief, which is
+  already hosted on Zenodo (zenodo.org/records/17076988).
+- **Strategy Document**: added Zenodo, `active` — confirmed by its
+  example (zenodo.org/records/7120997).
+- **Event Output (Agenda / Proceedings / Report)**: added Zenodo,
+  `active` — confirmed by its example (zenodo.org/records/11517780).
+- **Grant Proposal**: added Zenodo, `planned` (not active) — most grant
+  proposals stay proprietary/unpublished, matching this entry's existing
+  ORCID caveat, so this one wasn't promoted to active.
+- Left **Software Demo** and **Software Management Plan**'s Zenodo
+  mappings as `planned`, unchanged — the updated figure may show Zenodo
+  active for these too, but the exact badge-to-segment position wasn't
+  legible enough to confirm confidently, and neither has a real example
+  hosted on Zenodo yet to corroborate it. Flagging for a follow-up check
+  against the source figure rather than guessing.
 
 ### Added
 - Four new supporting-infrastructure entries in
@@ -28,6 +77,11 @@ CONTRIBUTING.md for the exact MAJOR/MINOR/PATCH bump policy applied to
 - Clarified APICURON's function description to note it also supports
   direct registration of new curation activities, not just tracking
   credit for activity on already-registered entries.
+- Registry card "Supporting infrastructure" entries are now clickable —
+  each platform name links out to its real homepage (e.g. clicking
+  "bio.tools" goes to bio.tools), sourced directly from
+  `data/infrastructure_catalogue.yml`'s own `url` field so the Registry
+  and Infrastructure pages can't disagree on where a platform lives.
 
 ### Fixed
 - Removed an inaccurate bio.tools → Public Data Service credit-capture
@@ -46,6 +100,17 @@ CONTRIBUTING.md for the exact MAJOR/MINOR/PATCH bump policy applied to
   directly from whichever platforms the Infrastructure page classifies
   under Publishing & PID Provision, so the two pages can't drift out of
   sync with each other again.
+- Filled in 17 missing example URLs in `data/nto_catalogue.yml` (e.g.
+  ELIXIR Software Management Plan, ELIXIR Cloud demos, ELIXIR EOSC
+  strategy document, ELIXIR STEERS Policy Brief, and others across
+  Training/Software/Research support/Peer review), extracted from the
+  hyperlinks embedded in the paper's own examples table, so every Registry
+  card example that has a real source link is now clickable. Also
+  corrected two examples (TeSS Learning Paths, ELIXIR TeSS training
+  material) to their precise subpages instead of the bare tess.elixir-europe.org
+  homepage. One example (a generic "Bachelors, Masters, or PhD thesis")
+  has no source link in the paper and is intentionally left without a URL
+  rather than a fabricated one.
 
 ## [1.3.0] - 2026-07-16
 

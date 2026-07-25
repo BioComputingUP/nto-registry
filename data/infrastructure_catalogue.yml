@@ -7,10 +7,13 @@
 #
 # Each platform is defined once here. Artefact entries in nto_catalogue.yml
 # reference a platform by `id` and add an artefact-specific `capture-function`
-# note plus a `status` (active | planned) describing whether that particular
-# credit-capture pathway is already live for that artefact, per Figure 2's
-# "Planned feature" markers and the paper's discussion of maturity gaps
-# (e.g. peer review and research support currently lack structured platforms).
+# note plus a `status`, which must be `active` — a pathway that's already
+# live for that artefact today. We don't record aspirational/"planned"
+# pathways; where nothing live exists yet, the artefact's
+# supporting-infrastructure list is simply empty, per the paper's own
+# discussion of maturity gaps (e.g. peer review and research support have
+# historically lacked structured platforms — some of that gap is now closed,
+# see CHANGELOG.md, but it's not preemptively filled in with guesses).
 #
 # Entry template (fields in this order):
 # - id: lowercase-kebab-case unique identifier
@@ -214,5 +217,15 @@
     effect where a journal or submission system has integrated it into its
     workflow, so applicability depends on adoption upstream, not on the
     individual contributor.
+  added-in-version: 1.4.0
+  last-modified-version: 1.4.0
+
+- id: prereview
+  name: PREreview
+  url: https://prereview.org
+  function: >-
+    Publishing & PID provision. Open-source, journal-independent platform
+    for publishing community reviews of preprints, giving each review a
+    citable, publicly discoverable record tied to the reviewer's ORCID.
   added-in-version: 1.4.0
   last-modified-version: 1.4.0

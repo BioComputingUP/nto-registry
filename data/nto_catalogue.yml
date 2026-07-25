@@ -21,8 +21,11 @@
 #   supporting-infrastructure: list of {infrastructure-id, capture-function, status}
 #     - infrastructure-id: must exist in infrastructure_catalogue.yml
 #     - capture-function: how that platform captures credit for THIS artefact
-#     - status: active (credit pathway is live today) | planned (not yet live,
-#       per Figure 2 of the paper and its discussion of infrastructure maturity gaps)
+#     - status: must be 'active' — the pathway is live today. We don't record
+#       aspirational/"planned" pathways here; if nothing live exists yet for
+#       this artefact, leave supporting-infrastructure as an empty list ([])
+#       rather than inventing one — that gap is itself meaningful data, per
+#       the paper's own discussion of infrastructure maturity gaps.
 #   added-in-version: registry version this entry was first added in
 #   last-modified-version: registry version this entry was last changed in
 #
@@ -47,7 +50,7 @@
 #   added-in-version:
 #   last-modified-version:
 
-catalogue-version: 1.4.0
+catalogue-version: 2.0.0
 
 entries:
 
@@ -205,7 +208,7 @@ entries:
         status: active
       - infrastructure-id: zenodo
         capture-function: Can archive a completed DMP document with a citable DOI.
-        status: planned
+        status: active
     added-in-version: 1.0.0
     last-modified-version: 1.4.0
 
@@ -225,21 +228,18 @@ entries:
         resources for learners.
     examples:
       - name: ELIXIR TeSS training material
-        url: https://tess.elixir-europe.org
+        url: https://tess.elixir-europe.org/materials
       - name: ELIXIR Slovenia e-Learning modules
-        url: ''
+        url: https://elixir.mf.uni-lj.si/
     supporting-infrastructure:
       - infrastructure-id: elixir-tess
         capture-function: Primary PID-issuing registry for discovering and citing training materials.
         status: active
-      - infrastructure-id: apicuron
-        capture-function: Could credit granular material update and maintenance events.
-        status: planned
       - infrastructure-id: orcid
         capture-function: Links author identity to created materials.
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.0.0
+    last-modified-version: 2.0.0
 
   - id: educational-module
     category: Training
@@ -257,16 +257,13 @@ entries:
         outcomes and assessment criteria for formal higher education.
     examples:
       - name: Accredited 5 ECTS bioinformatics module for an MSc programme
-        url: ''
+        url: https://www.universityofgalway.ie/courses/taught-postgraduate-courses/biomedical-genomics.html
     supporting-infrastructure:
       - infrastructure-id: orcid
         capture-function: Links the module designer/lecturer identity to the accredited content.
         status: active
-      - infrastructure-id: bip-scholar
-        capture-function: Formal curricula are not yet well represented in academic profile aggregators.
-        status: planned
     added-in-version: 1.0.0
-    last-modified-version: 1.0.0
+    last-modified-version: 2.0.0
 
   - id: fair-training-material-release
     category: Training
@@ -281,9 +278,9 @@ entries:
         by the wider community.
     examples:
       - name: 10 Simple Rules for Making Training Materials FAIR
-        url: ''
+        url: https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007854
       - name: ELIXIR FAIR Training Handbook
-        url: ''
+        url: https://elixir-europe-training.github.io/ELIXIR-TrP-FAIR-training-handbook/
     supporting-infrastructure:
       - infrastructure-id: apicuron
         capture-function: Credits the FAIRification and release-preparation event as a discrete, trackable contribution.
@@ -298,7 +295,7 @@ entries:
         capture-function: Links the release to its responsible author(s).
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.3.0
+    last-modified-version: 1.4.0
 
   - id: learning-path
     category: Training
@@ -312,13 +309,13 @@ entries:
         cohesive educational journey.
     examples:
       - name: TeSS Learning Paths
-        url: https://tess.elixir-europe.org
+        url: https://tess.elixir-europe.org/learning_paths
     supporting-infrastructure:
       - infrastructure-id: elixir-tess
         capture-function: Hosts and links the chained sequence of training materials.
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.2.2
+    last-modified-version: 1.4.0
 
   - id: supervised-student-project-output
     category: Training
@@ -333,12 +330,9 @@ entries:
     examples:
       - name: Bachelors, Masters, or PhD thesis
         url: ''
-    supporting-infrastructure:
-      - infrastructure-id: orcid
-        capture-function: Can record a supervisory contributor role against the student's output.
-        status: planned
+    supporting-infrastructure: []
     added-in-version: 1.0.0
-    last-modified-version: 1.0.0
+    last-modified-version: 2.0.0
 
   # ---------------------------------------------------------------------------
   # Category: Software
@@ -358,7 +352,7 @@ entries:
       - name: Read the Docs
         url: https://readthedocs.org
       - name: Repository README file
-        url: ''
+        url: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes
     supporting-infrastructure:
       - infrastructure-id: github
         capture-function: Hosts documentation alongside the versioned codebase.
@@ -367,7 +361,7 @@ entries:
         capture-function: Enriches software entries with documentation-quality indicators.
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.0.0
+    last-modified-version: 1.4.0
 
   - id: research-software-code-repository
     category: Software
@@ -397,11 +391,8 @@ entries:
           permanent SWHID, preserving its exact state even if the original
           hosting location later disappears.
         status: active
-      - infrastructure-id: apicuron
-        capture-function: Could credit individual commit/maintenance contribution events.
-        status: planned
     added-in-version: 1.0.0
-    last-modified-version: 1.4.0
+    last-modified-version: 2.0.0
 
   - id: software-package
     category: Software
@@ -479,13 +470,10 @@ entries:
         a software project.
     examples:
       - name: ELIXIR Software Management Plan
-        url: ''
-    supporting-infrastructure:
-      - infrastructure-id: zenodo
-        capture-function: Can archive a completed plan document with a citable DOI.
-        status: planned
+        url: https://elixir-europe.github.io/software-management-plans/
+    supporting-infrastructure: []
     added-in-version: 1.0.0
-    last-modified-version: 1.2.2
+    last-modified-version: 2.0.0
 
   - id: software-demo
     category: Software
@@ -500,13 +488,10 @@ entries:
         broader scientific community to encourage adoption.
     examples:
       - name: ELIXIR Cloud demos
-        url: ''
-    supporting-infrastructure:
-      - infrastructure-id: zenodo
-        capture-function: Can archive recorded demo material with a citable DOI.
-        status: planned
+        url: https://github.com/elixir-cloud-aai/elixir-cloud-demos
+    supporting-infrastructure: []
     added-in-version: 1.0.0
-    last-modified-version: 1.2.2
+    last-modified-version: 2.0.0
 
   # ---------------------------------------------------------------------------
   # Category: Research support
@@ -524,18 +509,13 @@ entries:
         collaborations, and managing node activities.
     examples:
       - name: ELIXIR EOSC strategy document
-        url: ''
+        url: https://zenodo.org/records/7120997
     supporting-infrastructure:
-      - infrastructure-id: orcid
-        capture-function: >-
-          Research support currently lacks a structured credit-capture entry
-          point; ORCID could record authorship once adopted.
-        status: planned
-      - infrastructure-id: bip-scholar
-        capture-function: Could surface strategy authorship within a researcher profile.
-        status: planned
+      - infrastructure-id: zenodo
+        capture-function: Can archive a published strategy document with a citable DOI.
+        status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.0.0
+    last-modified-version: 2.0.0
 
   - id: event-output
     category: Research support
@@ -549,16 +529,13 @@ entries:
         such as speaker line up and organising event venue.
     examples:
       - name: ELIXIR Compute Platform event report
-        url: ''
+        url: https://zenodo.org/records/11517780
     supporting-infrastructure:
-      - infrastructure-id: orcid
-        capture-function: Could record event organisation as a contributor role once adopted.
-        status: planned
-      - infrastructure-id: bip-scholar
-        capture-function: Could surface event organisation within a researcher profile.
-        status: planned
+      - infrastructure-id: zenodo
+        capture-function: Can archive the event's agenda, proceedings, or report with a citable DOI.
+        status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.0.0
+    last-modified-version: 2.0.0
 
   - id: science-communication-outreach-media
     category: Research support
@@ -572,17 +549,14 @@ entries:
         topics.
     examples:
       - name: Website news posts
-        url: ''
+        url: https://elixir-europe.org/news
       - name: ELIXIR newsletters
-        url: ''
+        url: https://elixir-europe.org/news/newsletters
       - name: Scientific podcasts
-        url: ''
-    supporting-infrastructure:
-      - infrastructure-id: orcid
-        capture-function: Could record outreach authorship as a contributor role once adopted.
-        status: planned
+        url: https://elixir-europe.org/industry/podcast
+    supporting-infrastructure: []
     added-in-version: 1.0.0
-    last-modified-version: 1.0.0
+    last-modified-version: 2.0.0
 
   - id: administrative-compliance-record
     category: Research support
@@ -597,15 +571,12 @@ entries:
         related to ethics.
     examples:
       - name: Post-award financial and delivery progress reports
-        url: ''
+        url: https://rea.ec.europa.eu/horizon-europe-grants-reporting_en
       - name: HORIZON Europe Ethics self-assessment documentation
-        url: ''
-    supporting-infrastructure:
-      - infrastructure-id: orcid
-        capture-function: Could record administrative contribution roles once adopted.
-        status: planned
+        url: https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/common/guidance/how-to-complete-your-ethics-self-assessment_en.pdf
+    supporting-infrastructure: []
     added-in-version: 1.0.0
-    last-modified-version: 1.0.0
+    last-modified-version: 2.0.0
 
   - id: policy-brief
     category: Research support
@@ -619,16 +590,13 @@ entries:
         guidance for policymakers or industry standards.
     examples:
       - name: ELIXIR STEERS Policy Brief
-        url: ''
+        url: https://zenodo.org/records/17076988
     supporting-infrastructure:
       - infrastructure-id: zenodo
         capture-function: Can archive a published policy brief with a citable DOI.
-        status: planned
-      - infrastructure-id: orcid
-        capture-function: Could record policy brief authorship once adopted.
-        status: planned
+        status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.0.0
+    last-modified-version: 2.0.0
 
   - id: grant-proposal
     category: Research support
@@ -642,15 +610,10 @@ entries:
         competitive funding applications.
     examples:
       - name: Horizon Europe project proposals
-        url: ''
-    supporting-infrastructure:
-      - infrastructure-id: orcid
-        capture-function: >-
-          Could record proposal authorship; grant proposals are frequently
-          proprietary/unpublished, limiting open credit capture.
-        status: planned
+        url: https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/programmes/horizon
+    supporting-infrastructure: []
     added-in-version: 1.0.0
-    last-modified-version: 1.0.0
+    last-modified-version: 2.0.0
 
   # ---------------------------------------------------------------------------
   # Category: Peer review
@@ -670,18 +633,19 @@ entries:
       - name: Open peer review reports on the F1000Research Gateway
         url: https://f1000research.com
     supporting-infrastructure:
+      - infrastructure-id: prereview
+        capture-function: >-
+          Publishes the review itself as a citable, journal-independent
+          record tied to the reviewer's ORCID, regardless of whether the
+          reviewed manuscript's own venue exposes peer review at all.
+        status: active
       - infrastructure-id: bip-scholar
         capture-function: >-
           Highlights peer-reviewing activity as a named contribution on the
           reviewer's researcher profile, alongside publication-based indicators.
         status: active
-      - infrastructure-id: orcid
-        capture-function: >-
-          Can record verified peer-review contributions where publishers expose
-          them; coverage is currently uneven across publishers.
-        status: planned
     added-in-version: 1.0.0
-    last-modified-version: 1.3.0
+    last-modified-version: 2.0.0
 
   - id: grant-evaluation-report
     category: Peer review
@@ -695,14 +659,9 @@ entries:
         funding submissions.
     examples:
       - name: Review panel summaries for the EOSC OSCARS open call
-        url: ''
-    supporting-infrastructure:
-      - infrastructure-id: orcid
-        capture-function: >-
-          Could record grant review panel service once funders adopt structured
-          disclosure; grant peer review is rarely published.
-        status: planned
+        url: https://oscars-project.eu/open-calls
+    supporting-infrastructure: []
     added-in-version: 1.0.0
-    last-modified-version: 1.0.0
+    last-modified-version: 2.0.0
 
   # NTO Registry entries end

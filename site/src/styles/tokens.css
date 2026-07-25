@@ -415,7 +415,7 @@ img {
   border-top: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-5);
 }
 
 .registry-card-details h4 {
@@ -435,14 +435,115 @@ img {
   margin-bottom: var(--space-2);
 }
 
+/* Registry card detail panel: Activities + Examples sit side by side on
+   wide cards (each a distinct, evenly-weighted block), Supporting
+   Infrastructure always spans full width below since its entries carry
+   more text. A divider between the top row and the infrastructure block
+   keeps the three subsections legible as separate groups rather than one
+   long undifferentiated scroll. */
+.details-top-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-5);
+}
+
+.details-block h4 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.details-icon {
+  display: inline-flex;
+  color: var(--color-accent);
+}
+
+.details-icon svg {
+  width: 15px;
+  height: 15px;
+}
+
+.activity-list {
+  padding-left: 1.1rem;
+}
+
+.activity-list li::marker {
+  color: var(--color-accent);
+}
+
+.example-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.example-chip {
+  display: inline-flex;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-subtle);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--color-heading);
+  text-decoration: none;
+  line-height: 1.3;
+}
+
+.example-chip[href]:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.example-chip-plain {
+  color: var(--color-text-muted);
+  font-weight: 500;
+  font-style: italic;
+}
+
+.details-block-infra {
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border);
+}
+
+.infra-list {
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
 .infra-list li {
   list-style: none;
-  margin-left: -1.2rem;
-  margin-bottom: var(--space-3);
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  border-left: 3px solid var(--color-accent);
+  background: var(--color-bg-subtle);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.infra-name {
+  font-weight: 700;
+  color: var(--color-heading);
+  font-size: var(--fs-small);
+}
+
+.infra-name-link {
+  text-decoration: none;
+  width: fit-content;
+}
+
+.infra-name-link:hover {
+  color: var(--color-accent);
+  text-decoration: underline;
 }
 
 .infra-capture {
   color: var(--color-text-muted);
+  font-size: var(--fs-small);
 }
 
 .infra-empty {

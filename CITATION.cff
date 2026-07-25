@@ -5,8 +5,8 @@ authors:
   given-names: Gavin
   orcid: https://orcid.org/0000-0001-5166-8551
 title: "NTO Registry: A Catalogue of Non-Traditional Outputs in the Life Sciences"
-version: v1.4.0
-date-released: 2026-07-24
+version: v2.0.0
+date-released: 2026-07-25
 preferred-citation:
   type: preprint
   title: "Credit, recognition, and reward for non-traditional research outputs in the Life Sciences"

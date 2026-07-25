@@ -156,8 +156,8 @@ def validate_catalogue(known_infra_ids, errors):
 
         infra_refs = entry.get("supporting-infrastructure")
         if infra_refs is not None:
-            if not isinstance(infra_refs, list) or len(infra_refs) == 0:
-                errors.append(f"{where} ({entry_id}): 'supporting-infrastructure' must be a non-empty list")
+            if not isinstance(infra_refs, list):
+                errors.append(f"{where} ({entry_id}): 'supporting-infrastructure' must be a list (may be empty — a real gap is better than a fabricated 'planned' entry)")
             else:
                 for ref in infra_refs:
                     if not isinstance(ref, dict):
@@ -170,9 +170,9 @@ def validate_catalogue(known_infra_ids, errors):
                         errors.append(
                             f"{where} ({entry_id}): infrastructure-id '{infra_id}' not found in {INFRA_PATH.name}"
                         )
-                    if ref.get("status") not in ("active", "planned"):
+                    if ref.get("status") != "active":
                         errors.append(
-                            f"{where} ({entry_id}): supporting-infrastructure status must be 'active' or 'planned', got '{ref.get('status')}'"
+                            f"{where} ({entry_id}): supporting-infrastructure status must be 'active' — 'planned' is no longer used; omit the entry entirely if the pathway isn't live yet, got '{ref.get('status')}'"
                         )
                     if not ref.get("capture-function"):
                         errors.append(f"{where} ({entry_id}): supporting-infrastructure item missing 'capture-function'")

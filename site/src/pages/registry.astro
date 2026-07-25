@@ -5,8 +5,8 @@ import catalogue from "../generated/nto-catalogue.json";
 import infrastructure from "../generated/infrastructure-catalogue.json";
 import stats from "../generated/stats.json";
 
-const infrastructureNames: Record<string, string> = Object.fromEntries(
-  infrastructure.map((i) => [i.id, i.name])
+const infrastructureInfo: Record<string, { name: string; url: string }> = Object.fromEntries(
+  infrastructure.map((i) => [i.id, { name: i.name, url: i.url }])
 );
 
 // Registry cards must ingest supporting infrastructure 1:1 from the
@@ -54,7 +54,7 @@ const pidInfraIds: string[] = infrastructure
 
   <section class="section registry-explorer-section">
     <div class="container">
-      <RegistryExplorer client:load artefacts={catalogue.artefacts} categories={stats.categories} infrastructureNames={infrastructureNames} pidInfraIds={pidInfraIds} />
+      <RegistryExplorer client:load artefacts={catalogue.artefacts} categories={stats.categories} infrastructureInfo={infrastructureInfo} pidInfraIds={pidInfraIds} />
     </div>
   </section>
 

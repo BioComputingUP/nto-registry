@@ -86,7 +86,7 @@ We welcome contributions that add or improve:
 `version`, and the README badge **must** move together, following strict
 [Semantic Versioning](https://semver.org/):
 
-* **MAJOR** — a breaking schema change: a required field is renamed/removed, the category set is restructured, or an existing artefact `id` is removed.
+* **MAJOR** — a breaking schema change: a required field is renamed/removed, the category set is restructured, an existing artefact `id` is removed, or a previously-valid value/guarantee is removed or tightened (e.g. dropping a valid enum value).
 * **MINOR** — a backward-compatible addition: a new artefact type, a new category, a new infrastructure entry, a new reform initiative, a new example, or a new optional field.
 * **PATCH** — a correction that adds/removes nothing: typo fixes, broken-URL fixes, wording clarifications.
 

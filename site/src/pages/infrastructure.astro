@@ -40,6 +40,10 @@ type LogoEntry =
 // OpenEBench's logo is its own app icon, pulled from its own site
 // (openebench.bsc.es) — it and OpenAIRE Graph/BIP! were previously hidden
 // from this page entirely and never needed a logo; now shown per Table 2.
+// PREreview's icon mark is cropped (via viewBox) from its own hosted SVG
+// (prereview.org), which cleanly separates the icon from the wordmark in
+// its own <g id="mark"> group — a real, small, already-optimised asset,
+// unlike the wordmark logos elsewhere on this page that needed rasterising.
 const LOGOS: Record<string, LogoEntry> = {
   apicuron: { type: "img", src: `${base}img/logos/apicuron.png` },
   orcid: { type: "img", src: "https://orcid.org/assets/vectors/orcid.logo.icon.svg" },
@@ -57,6 +61,7 @@ const LOGOS: Record<string, LogoEntry> = {
   dmponline: { type: "img", src: `${base}img/logos/dmponline.png`, width: 168 },
   "software-heritage": { type: "img", src: `${base}img/logos/software-heritage.png` },
   "credit-taxonomy": { type: "img", src: `${base}img/logos/credit.png` },
+  prereview: { type: "img", src: `${base}img/logos/prereview.svg` },
 };
 
 // Which NTO category each platform is most associated with (shown as a
@@ -75,6 +80,7 @@ const NTO_CATEGORY: Record<string, string> = {
   "software-heritage": "Software",
   openebench: "Software",
   "elixir-tess": "Training",
+  prereview: "Peer review",
   orcid: "General",
   "bip-scholar": "General",
   "bip-finder": "General",

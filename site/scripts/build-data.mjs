@@ -38,28 +38,25 @@ const artefacts = catalogue.entries;
 const catalogueVersion = catalogue["catalogue-version"];
 
 // Join: for every infrastructure entry, find which artefacts reference it,
-// split by status, so the Infrastructure page can show "currently captures
-// credit for" vs "planned to capture credit for" without a manually
-// maintained field.
+// so the Infrastructure page can show "currently captures credit for"
+// without a manually maintained field. Every reference is status: active —
+// the registry doesn't record aspirational/"planned" pathways.
 const infrastructureEnriched = infrastructure.map((infra) => {
   const activeFor = [];
-  const plannedFor = [];
 
   for (const artefact of artefacts) {
     for (const ref of artefact["supporting-infrastructure"] ?? []) {
       if (ref["infrastructure-id"] !== infra.id) continue;
-      const entry = {
+      activeFor.push({
         id: artefact.id,
         artefact: artefact.artefact,
         category: artefact.category,
         captureFunction: ref["capture-function"],
-      };
-      if (ref.status === "active") activeFor.push(entry);
-      else if (ref.status === "planned") plannedFor.push(entry);
+      });
     }
   }
 
-  return { ...infra, activeFor, plannedFor };
+  return { ...infra, activeFor };
 });
 
 const categories = [...new Set(artefacts.map((a) => a.category))];

@@ -6,7 +6,7 @@ export interface Example {
 export interface SupportingInfrastructureRef {
   "infrastructure-id": string;
   "capture-function": string;
-  status: "active" | "planned";
+  status: "active";
 }
 
 export interface Artefact {
@@ -41,7 +41,6 @@ export interface InfrastructureEntry {
   "added-in-version": string;
   "last-modified-version": string;
   activeFor: ArtefactRef[];
-  plannedFor: ArtefactRef[];
 }
 
 export interface ReformInitiative {

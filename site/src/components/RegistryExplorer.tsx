@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import type { Artefact } from "../lib/types";
+import { ICONS } from "../lib/icons";
 
 interface Props {
   artefacts: Artefact[];
   categories: string[];
-  infrastructureNames: Record<string, string>;
+  infrastructureInfo: Record<string, { name: string; url: string }>;
   pidInfraIds: string[];
 }
 
@@ -22,7 +23,7 @@ function categoryColor(category: string) {
   return `var(${CATEGORY_COLOR_VAR[category] ?? "--color-navy-800"})`;
 }
 
-export default function RegistryExplorer({ artefacts, categories, infrastructureNames, pidInfraIds }: Props) {
+export default function RegistryExplorer({ artefacts, categories, infrastructureInfo, pidInfraIds }: Props) {
   const pidInfraIdSet = useMemo(() => new Set(pidInfraIds), [pidInfraIds]);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<string>("all");
@@ -141,34 +142,36 @@ export default function RegistryExplorer({ artefacts, categories, infrastructure
 
               {isOpen && (
                 <div className="registry-card-details">
-                  <div>
-                    <h4>Corresponding activities</h4>
-                    <ul>
-                      {a.activities.map((act, i) => (
-                        <li key={i}>{act}</li>
-                      ))}
-                    </ul>
-                  </div>
+                  <div className="details-top-row">
+                    <div className="details-block">
+                      <h4><span className="details-icon" dangerouslySetInnerHTML={{ __html: ICONS.flag }} />Activities</h4>
+                      <ul className="activity-list">
+                        {a.activities.map((act, i) => (
+                          <li key={i}>{act}</li>
+                        ))}
+                      </ul>
+                    </div>
 
-                  <div>
-                    <h4>Examples</h4>
-                    <ul>
-                      {a.examples.map((ex, i) => (
-                        <li key={i}>
-                          {ex.url ? (
-                            <a href={ex.url} target="_blank" rel="noopener">
+                    <div className="details-block">
+                      <h4><span className="details-icon" dangerouslySetInnerHTML={{ __html: ICONS.link }} />Examples</h4>
+                      <div className="example-chips">
+                        {a.examples.map((ex, i) =>
+                          ex.url ? (
+                            <a key={i} className="example-chip" href={ex.url} target="_blank" rel="noopener">
                               {ex.name}
                             </a>
                           ) : (
-                            ex.name
-                          )}
-                        </li>
-                      ))}
-                    </ul>
+                            <span key={i} className="example-chip example-chip-plain">
+                              {ex.name}
+                            </span>
+                          )
+                        )}
+                      </div>
+                    </div>
                   </div>
 
-                  <div>
-                    <h4>Supporting infrastructure</h4>
+                  <div className="details-block details-block-infra">
+                    <h4><span className="details-icon" dangerouslySetInnerHTML={{ __html: ICONS.server }} />Supporting infrastructure</h4>
                     {(() => {
                       const visible = a["supporting-infrastructure"].filter(
                         (ref) => ref.status === "active" && pidInfraIdSet.has(ref["infrastructure-id"])
@@ -178,12 +181,21 @@ export default function RegistryExplorer({ artefacts, categories, infrastructure
                       }
                       return (
                         <ul className="infra-list">
-                          {visible.map((ref, i) => (
-                            <li key={i}>
-                              <strong>{infrastructureNames[ref["infrastructure-id"]] ?? ref["infrastructure-id"]}</strong>
-                              <span className="infra-capture"> — {ref["capture-function"]}</span>
-                            </li>
-                          ))}
+                          {visible.map((ref, i) => {
+                            const info = infrastructureInfo[ref["infrastructure-id"]];
+                            return (
+                              <li key={i}>
+                                {info?.url ? (
+                                  <a className="infra-name infra-name-link" href={info.url} target="_blank" rel="noopener">
+                                    {info.name}
+                                  </a>
+                                ) : (
+                                  <span className="infra-name">{info?.name ?? ref["infrastructure-id"]}</span>
+                                )}
+                                <span className="infra-capture">{ref["capture-function"]}</span>
+                              </li>
+                            );
+                          })}
                         </ul>
                       );
                     })()}

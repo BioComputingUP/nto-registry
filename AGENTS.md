@@ -91,9 +91,19 @@ filterable Registry page, live at `site/`.
   the consuming `.astro`/`.tsx` files (`site/src/lib/types.ts`,
   `site/src/pages/*.astro`, `site/src/components/RegistryExplorer.tsx`) to
   match if you added/renamed fields the site reads.
-- **Adding a new artefact/infrastructure/reform-initiative entry needs no
-  site changes at all** — the next build picks it up automatically via the
-  YAML → JSON pipeline.
+- **Adding a new artefact or reform-initiative entry needs no site changes**
+  — the next build picks it up automatically via the YAML → JSON pipeline.
+  **Adding a new infrastructure platform is the one exception**: it also
+  needs a manual entry in `site/src/pages/infrastructure.astro`'s `LOGOS`
+  map (a real logo — see the file's own sourcing comments for the
+  fetch/crop/rasterise conventions already used there), or the Infrastructure
+  page build crashes outright (`Cannot read properties of undefined (reading
+  'type')` — this has happened multiple times). Also add an entry to that
+  file's `NTO_CATEGORY` map (optional — it falls back to "General" if
+  missing, so this one won't break the build, just look slightly generic).
+  `scripts/validate_yaml.py` does **not** catch a missing `LOGOS` entry — it
+  only validates the YAML, not the site — so the only real check is
+  building the site (`npm run build` from `site/`) after adding one.
 - **Local dev:** from `site/`, either `npm run dev` (Node 22.12+) or
   `docker compose up` (no local Node needed — see `site/README.md`). Both
   give hot reload at `http://localhost:4321/nto-registry/`.

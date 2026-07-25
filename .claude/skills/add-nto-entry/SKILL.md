@@ -9,9 +9,12 @@ description: Use when adding a new example, a new artefact type, a new supportin
 hoc — into a correctly formatted entry in `data/nto_catalogue.yml`,
 `data/infrastructure_catalogue.yml`, and/or `data/reform_initiatives.yml`.
 
-The public website (`site/`) reads these files at build time and needs no
-manual update — see AGENTS.md's "Website" section. Never edit anything under
-`site/src/generated/` to reflect a data change; it's regenerated automatically.
+The public website (`site/`) reads these files at build time and mostly
+needs no manual update — see AGENTS.md's "Website" section. Never edit
+anything under `site/src/generated/` to reflect a data change; it's
+regenerated automatically. **The one exception is new infrastructure
+platforms**, which need a manual `site/src/pages/infrastructure.astro`
+update too — see procedure C, step 6 below; skipping it breaks the build.
 
 This skill only handles the *content* change. After it, always invoke the
 `semver-maintenance` skill to bump the version consistently — do not bump
@@ -72,7 +75,7 @@ artefact type).
    | `explanation` | 1–3 sentences, what it is (not how to make it) |
    | `activities` | list of 1+ activities that produce this artefact — this can and often should have multiple items |
    | `examples` | list of `{name, url}`, url `''` if not confident |
-   | `supporting-infrastructure` | list of `{infrastructure-id, capture-function, status}` — see Step 3 |
+   | `supporting-infrastructure` | list of `{infrastructure-id, capture-function, status: active}` — see procedure C below. `[]` if nothing live exists yet; never fabricate an entry to avoid an empty list |
    | `added-in-version` / `last-modified-version` | leave as a placeholder; `semver-maintenance` fills in the real next version |
 
 4. Show the complete draft YAML block to the user before writing it.
@@ -97,8 +100,45 @@ artefact type).
 5. Then add `{infrastructure-id, capture-function, status}` references to it
    from the relevant artefact entries in `data/nto_catalogue.yml` — write a
    `capture-function` specific to *that* artefact, not a generic copy of
-   `function`. Set `status: active` only if you have real evidence the
-   pathway is live today; otherwise `status: planned`.
+   `function`. `status` must be `active` and you need real evidence the
+   pathway is live today — we no longer record aspirational/"planned"
+   entries. If you don't have evidence of a live pathway, don't add the
+   reference at all (a real gap is better than a fabricated one).
+6. **Required, not optional — the site build crashes without this:** add an
+   entry for the new `id` to the `LOGOS` map in
+   `site/src/pages/infrastructure.astro`. Source a *real* logo (fetch it from
+   the platform's own site; the file's own top-of-file comment documents the
+   fetch/crop/rasterise pattern already used for every existing entry — e.g.
+   preferring a small hosted SVG/PNG icon mark over a huge auto-vectorised
+   asset, cropping via `viewBox` windowing rather than hand-editing complex
+   path data, rasterising to PNG if the source SVG is bloated). Never leave
+   an `id` out of `LOGOS` — `logoBoxStyle()` dereferences it unconditionally
+   and throws `Cannot read properties of undefined (reading 'type')` at build
+   time if it's missing, which `scripts/validate_yaml.py` will **not** catch
+   (it only validates the YAML, not the site). Also add the `id` to
+   `NTO_CATEGORY` in the same file (which category tag/colour the card
+   shows) — this one is optional and falls back to "General" if omitted.
+   If the platform's `function` introduces a genuinely new category phrase
+   (not one of the existing six — check `FUNCTION_META` in that file), you
+   must also add a matching `FUNCTION_META` entry, or it won't be grouped
+   into either the Essential or Intermediary tier section at all.
+7. Verify with an actual site build, not just the YAML validator:
+   ```bash
+   cd site && npm run build
+   ```
+   (or `npm run dev`/`docker compose up` and visually check the
+   Infrastructure page renders the new card with a real logo).
+
+**Note on the Registry page:** an artefact's "Supporting infrastructure" list
+there is *not* the same as its full `supporting-infrastructure` in the YAML —
+it's automatically filtered to only the platforms whose `function` in
+`data/infrastructure_catalogue.yml` starts with "Publishing & PID provision"
+(computed in `site/src/pages/registry.astro`, not a hand-maintained list).
+An artefact whose only active infrastructure is e.g. APICURON or ORCID
+(Contribution tracking / Academic profiles, not PID provision) will
+correctly show "No active Publishing & PID Provision infrastructure yet." on
+its Registry card even though the Infrastructure page shows it as active
+elsewhere — that's by design, not a bug to fix.
 
 ### D. Correction (from `submit_nto.yml` / `submit_reform.yml` /
     `submit_infrastructure.yml`'s "Correction to an existing entry" path, or ad hoc)
@@ -133,6 +173,12 @@ Run:
 python3 scripts/validate_yaml.py
 ```
 Fix any reported errors before considering the change complete.
+
+**If this change touched `data/infrastructure_catalogue.yml`** (procedure C),
+the YAML validator alone is not enough — it has no awareness of the site.
+Also do procedure C's step 7 (an actual `site` build) before considering the
+change complete; a missing `LOGOS` entry passes YAML validation cleanly but
+crashes the site build.
 
 ## Step 5 — Hand off to versioning
 

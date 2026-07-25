@@ -43,7 +43,7 @@ function isActive(href: string) {
     <header class="site-nav">
       <div class="container site-nav-inner">
         <a class="brand" href={`${base}`}>
-          <span class="brand-mark" aria-hidden="true">NTO</span>
+          <img class="brand-mark" src={`${base}img/brand/nto-registry-mark.png`} alt="" width="62" height="42" />
           <span class="brand-text">NTO Registry</span>
         </a>
 
@@ -130,25 +130,23 @@ function isActive(href: string) {
         gap: var(--space-3);
         color: #fff;
         font-weight: 700;
-        font-size: 1.1rem;
+        margin-left: -0.5rem;
       }
 
       .brand:hover {
         text-decoration: none;
       }
 
+      .brand-text {
+        font-size: 1.54rem;
+        line-height: 1;
+      }
+
       .brand-mark {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 42px;
-        height: 42px;
-        border-radius: var(--radius-sm);
-        background: var(--color-accent);
-        color: #fff;
-        font-size: 0.7rem;
-        font-weight: 800;
-        letter-spacing: 0.02em;
+        display: block;
+        width: 43px;
+        height: 29px;
+        object-fit: contain;
         flex-shrink: 0;
       }
 

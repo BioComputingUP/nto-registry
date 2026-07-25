@@ -29,6 +29,7 @@ Look at the diff (or the change about to be made) against
 | Remove or rename a required field in the entry schema | **MAJOR** |
 | Restructure the category set (add/remove/rename a category) | **MAJOR** |
 | Remove an existing artefact `id` or infrastructure `id` | **MAJOR** |
+| Remove a previously-valid enum value or tighten/loosen a documented schema guarantee (e.g. removing `status: planned` — previously `active`\|`planned` was valid and `supporting-infrastructure` was guaranteed non-empty; now only `active` is valid and the list may be empty) | **MAJOR** |
 | Add a new artefact type | **MINOR** |
 | Add a new category (if deliberately expanding scope, not a breaking rename) | **MINOR** |
 | Add a new supporting-infrastructure platform | **MINOR** |
