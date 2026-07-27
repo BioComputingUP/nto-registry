@@ -3,10 +3,9 @@ import { defineConfig } from 'astro/config';
 
 import react from '@astrojs/react';
 
-// GitHub Pages project-site config. When a custom domain is attached later,
-// change `site` to the new domain and set `base` to '/'.
+// Custom domain config. Served at the apex, so base is '/'.
 export default defineConfig({
-  site: 'https://biocomputingup.github.io',
-  base: '/nto-registry/',
+  site: 'https://nto-registry.org',
+  base: '/',
   integrations: [react()]
 });
