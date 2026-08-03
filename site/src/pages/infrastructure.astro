@@ -270,7 +270,7 @@ function cardDescription(fn: string): string {
                 const tagCategory = NTO_CATEGORY[infra.id] ?? "General";
                 const tagColor = `var(${CATEGORY_COLOR_VAR[tagCategory]})`;
                 return (
-                  <article class="card infra-card" style={`border-color:${tagColor}`}>
+                  <article class="card infra-card" id={infra.id} style={`border-color:${tagColor}`}>
                     <span class="badge badge-category infra-category-tag" style={`background:${tagColor}`}>{tagCategory}</span>
                     <div class="infra-logo-wrap" style={logoBoxStyle(logo)}>
                       {logo.type === "img" && <img class="infra-logo" src={logo.src} alt="" loading="lazy" />}
@@ -341,7 +341,7 @@ function cardDescription(fn: string): string {
                 const tagCategory = NTO_CATEGORY[infra.id] ?? "General";
                 const tagColor = `var(${CATEGORY_COLOR_VAR[tagCategory]})`;
                 return (
-                  <article class="card infra-card" style={`border-color:${tagColor}`}>
+                  <article class="card infra-card" id={infra.id} style={`border-color:${tagColor}`}>
                     <span class="badge badge-category infra-category-tag" style={`background:${tagColor}`}>{tagCategory}</span>
                     <div class="infra-logo-wrap" style={logoBoxStyle(logo)}>
                       {logo.type === "img" && <img class="infra-logo" src={logo.src} alt="" loading="lazy" />}
@@ -542,6 +542,7 @@ function cardDescription(fn: string): string {
     .infra-card {
       border-width: 2px;
       position: relative;
+      scroll-margin-top: 6.5rem;
     }
 
     /* The intermediary panel fill is white (to contrast with its own

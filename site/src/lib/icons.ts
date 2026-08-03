@@ -44,6 +44,21 @@ export const ICONS: Record<string, string> = {
     '<path d="M14 4h6v6"/><path d="M20 4 11 13"/><path d="M20 14v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"/>'
   ),
   plus: wrap('<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>'),
+  scale: wrap(
+    '<path d="M12 3v18"/><path d="M7 5h10"/><path d="M5 5 2 11a3 3 0 0 0 6 0L5 5Z"/><path d="M19 5l-3 6a3 3 0 0 0 6 0l-3-6Z"/><path d="M8 21h8"/>'
+  ),
+  building: wrap(
+    '<path d="M3 10 12 4l9 6"/><path d="M5 10v9M9 10v9M15 10v9M19 10v9"/><path d="M3 21h18"/><path d="M3 10h18"/>'
+  ),
+  coins: wrap('<circle cx="9" cy="15" r="6"/><circle cx="15" cy="9" r="6"/>'),
+  star: wrap(
+    '<path d="M12 2.5 14.7 9l7 .6-5.3 4.6 1.6 6.8L12 17.6 5.9 21l1.7-6.8L2.3 9.6l7-.6L12 2.5Z"/>'
+  ),
+  award: wrap(
+    '<circle cx="12" cy="8" r="5.5"/><path d="M8.5 12.8 7 21l5-3 5 3-1.5-8.2"/>'
+  ),
+  "trending-up": wrap('<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>'),
+  "arrow-right": wrap('<path d="M4 12h16M14 6l6 6-6 6"/>'),
 };
 
 // Same stroke set as ICONS but rendered white, for use inside solid-color

@@ -11,7 +11,8 @@ const { title, description = "A versioned, community-extensible catalogue of Non
 const nav = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
-  { href: "/reforms", label: "Assessment Reforms" },
+  { href: "/get-started", label: "Get started" },
+  { href: "/reforms", label: "Assessment reforms" },
   { href: "/registry", label: "Registry" },
   { href: "/infrastructure", label: "Infrastructure" },
 ];
@@ -156,12 +157,13 @@ function isActive(href: string) {
         justify-content: flex-end;
       }
 
-      @media (min-width: 1080px) {
+      @media (min-width: 1000px) {
         .primary-nav {
           flex: none;
           position: absolute;
           left: 50%;
           top: 50%;
+          width: max-content;
           transform: translate(-50%, -50%);
         }
       }
@@ -169,7 +171,7 @@ function isActive(href: string) {
       .nav-links {
         display: flex;
         list-style: none;
-        gap: var(--space-5);
+        gap: 1.85rem;
         margin: 0;
         padding: 0;
         flex-wrap: wrap;
@@ -234,7 +236,7 @@ function isActive(href: string) {
         top: 7px;
       }
 
-      @media (max-width: 860px) {
+      @media (max-width: 999px) {
         .nav-toggle {
           display: inline-flex;
         }

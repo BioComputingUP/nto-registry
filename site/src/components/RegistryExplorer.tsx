@@ -29,16 +29,7 @@ export default function RegistryExplorer({ artefacts, categories, infrastructure
   const [category, setCategory] = useState<string>("all");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("any");
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
-
-  // Deep-link support: pages like the homepage link here with
-  // ?category=Data so the relevant filter is already applied on arrival.
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const requested = params.get("category");
-    if (requested && categories.includes(requested)) {
-      setCategory(requested);
-    }
-  }, [categories]);
+  const [pendingScrollId, setPendingScrollId] = useState<string | null>(null);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -60,6 +51,35 @@ export default function RegistryExplorer({ artefacts, categories, infrastructure
       return haystack.includes(q);
     });
   }, [artefacts, query, category, statusFilter]);
+
+  // Deep-link support: pages like the homepage link here with
+  // ?category=Data so the relevant filter is already applied on arrival, and
+  // pages like Get Started link with ?artefact=<id> to land pre-expanded on
+  // one specific card (e.g. to check its PID-registration infrastructure).
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const requestedCategory = params.get("category");
+    if (requestedCategory && categories.includes(requestedCategory)) {
+      setCategory(requestedCategory);
+    }
+    const requestedArtefact = params.get("artefact");
+    if (requestedArtefact && artefacts.some((a) => a.id === requestedArtefact)) {
+      setExpanded((prev) => new Set(prev).add(requestedArtefact));
+      setPendingScrollId(requestedArtefact);
+    }
+  }, [categories, artefacts]);
+
+  // Scroll only once the target card is actually in the DOM (post-filter,
+  // post-expand), rather than guessing at a fixed delay. Depends on
+  // `filtered` so it re-checks after the list/expansion state settles.
+  useEffect(() => {
+    if (!pendingScrollId) return;
+    const el = document.getElementById(`registry-card-${pendingScrollId}`);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+      setPendingScrollId(null);
+    }
+  }, [pendingScrollId, filtered]);
 
   function toggle(id: string) {
     setExpanded((prev) => {
@@ -129,7 +149,7 @@ export default function RegistryExplorer({ artefacts, categories, infrastructure
           const isOpen = expanded.has(a.id);
           const color = categoryColor(a.category);
           return (
-            <article className="card registry-card" key={a.id} style={{ borderColor: color }}>
+            <article className="card registry-card" id={`registry-card-${a.id}`} key={a.id} style={{ borderColor: color }}>
               <div className="registry-card-header">
                 <span className="badge badge-category" style={{ background: color }}>{a.category}</span>
                 <h3>{a.artefact}</h3>

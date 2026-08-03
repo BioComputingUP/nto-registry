@@ -1,0 +1,977 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { ICONS } from "../lib/icons";
+import stats from "../generated/stats.json";
+import catalogue from "../generated/nto-catalogue.json";
+import infrastructure from "../generated/infrastructure-catalogue.json";
+
+const base = import.meta.env.BASE_URL;
+
+const categoryIcons: Record<string, string> = {
+  Data: "database",
+  Training: "cap",
+  Software: "code",
+  "Research support": "document",
+  "Peer review": "check",
+};
+
+const CATEGORY_COLOR_VAR: Record<string, string> = {
+  Data: "--cat-data",
+  Training: "--cat-training",
+  Software: "--cat-software",
+  "Research support": "--cat-research-support",
+  "Peer review": "--cat-peer-review",
+};
+
+// The three artefacts with `supporting-infrastructure: []` cited in the
+// gaps-commentary section, pulled live from the catalogue rather than
+// hardcoded so this section can't drift from data/nto_catalogue.yml.
+const gapIds = ["grant-proposal", "administrative-compliance-record", "grant-evaluation-report"];
+const gapArtefacts = gapIds.map((id) => {
+  const artefact = catalogue.artefacts.find((a) => a.id === id)!;
+  return { ...artefact, colorVar: CATEGORY_COLOR_VAR[artefact.category] ?? "--cat-generic" };
+});
+
+// Artefacts grouped by category, for the Researchers & dRTPs category
+// accordion below — pulled live from the catalogue so the expanded list
+// can't drift from data/nto_catalogue.yml.
+const artefactsByCategory: Record<string, typeof catalogue.artefacts> = {};
+for (const category of stats.categories) {
+  artefactsByCategory[category] = catalogue.artefacts.filter((a) => a.category === category);
+}
+
+// Same derivation as registry.astro's pidInfraIds: only Publishing & PID
+// provision platforms are what RegistryExplorer's card details actually
+// display under "Supporting infrastructure". Kept in sync by construction
+// (same filter logic), not a hand-maintained id list.
+const pidInfraIdSet = new Set(
+  infrastructure
+    .filter((i) => i.function.split(".")[0].trim() === "Publishing & PID provision")
+    .map((i) => i.id)
+);
+
+type ArtefactLink = { type: "registry" } | { type: "infrastructure"; infraId: string } | null;
+
+// Where an accordion artefact pill should link, in priority order:
+// 1. If it has an active Publishing & PID provision entry, its Registry
+//    card actually has something to show under "Supporting infrastructure"
+//    — link there.
+// 2. Otherwise, if it has any other active supporting infrastructure (e.g.
+//    APICURON for contribution tracking), link straight to that platform's
+//    own card on the Infrastructure page.
+// 3. Otherwise there's nowhere to send them — stays plain, unclickable text.
+function accordionLinkTarget(artefact: (typeof catalogue.artefacts)[number]): ArtefactLink {
+  const active = artefact["supporting-infrastructure"].filter((ref) => ref.status === "active");
+  if (active.some((ref) => pidInfraIdSet.has(ref["infrastructure-id"]))) {
+    return { type: "registry" };
+  }
+  if (active.length > 0) {
+    return { type: "infrastructure", infraId: active[0]["infrastructure-id"] };
+  }
+  return null;
+}
+---
+
+<BaseLayout title="Get Started" description="A role-based guide to using the NTO Registry for policy makers, institutions, funders, and researchers.">
+  <section class="section page-header-section">
+    <div class="container">
+      <div class="get-started-title-row">
+        <div>
+          <p class="eyebrow">Help to get started</p>
+          <h1>Get started with the NTO Registry</h1>
+          <p class="section-intro" style="margin-left:0;">
+            For stakeholders like policy makers, institutions, funders, and researchers: this page helps you navigate and use the registry.
+          </p>
+        </div>
+        <div class="get-started-hero-badge" aria-hidden="true">
+          <svg viewBox="0 0 260 240" xmlns="http://www.w3.org/2000/svg" role="presentation">
+            <circle cx="196" cy="56" r="52" fill="var(--color-teal-500)" opacity="0.14" />
+            <circle cx="44" cy="184" r="40" fill="var(--color-accent)" opacity="0.12" />
+            <circle cx="232" cy="192" r="20" fill="var(--color-teal-500)" opacity="0.18" />
+            <circle cx="18" cy="26" r="16" fill="var(--color-navy-700)" opacity="0.1" />
+
+            <g transform="translate(34,24)">
+              <rect width="192" height="192" rx="30" fill="var(--color-surface)" stroke="var(--color-border)" />
+              <g transform="translate(48,48) scale(4)" stroke="var(--color-accent)" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12Z" />
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section crr-section">
+    <div class="container">
+      <p class="eyebrow">Understanding the chain</p>
+      <h2 class="section-heading">Moving from credit, to recognition and reward</h2>
+      <p class="section-intro crr-intro">
+        Credit, recognition, and reward are sequential, and not interchangeable. Formal credit for
+        a contribution makes it visible to recognition processes like institutional appraisal and
+        hiring, and recognition determines whether it ever translates into reward: promotion,
+        salary, or funding. Most assessment systems are built around discrete, easily-counted
+        units like journal articles, so non-traditional outputs (NTOs) usually stall at the very
+        first step, never receiving formal credit at all.
+      </p>
+
+      <div class="crr-pathway">
+        <div class="crr-stage crr-stage-credit">
+          <div class="crr-stage-header">
+            <span class="crr-stage-icon" set:html={ICONS.star} />
+            <h3>Credit</h3>
+          </div>
+          <ul class="crr-item-list">
+            {stats.categories.map((category) => (
+              <li>
+                <a class="crr-item crr-item-link" href={`${base}registry/?category=${encodeURIComponent(category)}`}>
+                  <span class="crr-item-icon" set:html={ICONS[categoryIcons[category] ?? "grid"]} />
+                  {category}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <span class="crr-arrow crr-arrow-recognition" aria-hidden="true" set:html={ICONS["arrow-right"]} />
+
+        <div class="crr-stage crr-stage-recognition">
+          <div class="crr-stage-header">
+            <span class="crr-stage-icon" set:html={ICONS.users} />
+            <h3>Recognition</h3>
+          </div>
+          <ul class="crr-item-list">
+            <li>
+              <a class="crr-item crr-item-link" href={`${base}get-started/?for=institutions#stakeholders`}>
+                <span class="crr-item-icon" set:html={ICONS.building} />
+                Institutional appraisal &amp; hiring
+              </a>
+            </li>
+            <li>
+              <a class="crr-item crr-item-link" href={`${base}reforms/`}>
+                <span class="crr-item-icon" set:html={ICONS.flag} />
+                Assessment reform commitments
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <span class="crr-arrow crr-arrow-reward" aria-hidden="true" set:html={ICONS["arrow-right"]} />
+
+        <div class="crr-stage crr-stage-reward">
+          <div class="crr-stage-header">
+            <span class="crr-stage-icon" set:html={ICONS.award} />
+            <h3>Reward</h3>
+          </div>
+          <ul class="crr-item-list">
+            <li class="crr-item crr-item-static">
+              <span class="crr-item-icon" set:html={ICONS.check} />
+              Promotion / employment
+            </li>
+            <li class="crr-item crr-item-static">
+              <span class="crr-item-icon" set:html={ICONS["trending-up"]} />
+              Increased salary
+            </li>
+            <li>
+              <a class="crr-item crr-item-link" href={`${base}get-started/?for=funders#stakeholders`}>
+                <span class="crr-item-icon" set:html={ICONS.coins} />
+                Additional funding
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="crr-transition">
+        See below to discover how an NTO enters the first stage of credit, so it can be recognised, and in time, rewarded, or <a href="#stakeholders">choose your stakeholder role</a> for guidance on the sections of this registry most relevant to you.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section-subtle" id="stakeholders">
+    <div class="container">
+      <h2 class="section-heading">Help me use the registry</h2>
+
+      <div class="role-flow">
+        <span class="role-flow-lead">I am a&hellip;</span>
+        <div class="stakeholder-tablist" role="tablist" aria-label="Choose your role">
+          <button type="button" class="stakeholder-tab" role="tab" id="tab-researchers" aria-controls="panel-researchers" aria-selected="true" data-stakeholder="researchers">
+            <span set:html={ICONS.users} /> Researcher or dRTP
+          </button>
+          <button type="button" class="stakeholder-tab" role="tab" id="tab-policy" aria-controls="panel-policy" aria-selected="false" tabindex="-1" data-stakeholder="policy">
+            <span set:html={ICONS.scale} /> Policy maker
+          </button>
+          <button type="button" class="stakeholder-tab" role="tab" id="tab-institutions" aria-controls="panel-institutions" aria-selected="false" tabindex="-1" data-stakeholder="institutions">
+            <span set:html={ICONS.building} /> Institution
+          </button>
+          <button type="button" class="stakeholder-tab" role="tab" id="tab-funders" aria-controls="panel-funders" aria-selected="false" tabindex="-1" data-stakeholder="funders">
+            <span set:html={ICONS.coins} /> Funder
+          </button>
+        </div>
+      </div>
+
+      <div class="stakeholder-panels">
+        <div class="card stakeholder-panel" id="panel-researchers" role="tabpanel" aria-labelledby="tab-researchers" data-stakeholder-panel="researchers">
+          <h3>For researchers &amp; digital research technical professionals (dRTPs)</h3>
+          <ul class="stakeholder-relevance">
+            <li>
+              <span class="stakeholder-relevance-label">What you produce</span>
+              <span>You already produce non-traditional outputs: data, training material, software, research support work, or peer review.</span>
+            </li>
+            <li>
+              <span class="stakeholder-relevance-label">Infrastructure exists</span>
+              <span>Credit-capture infrastructure exists for most of these, turning effort into a citable, persistent record.</span>
+            </li>
+            <li>
+              <span class="stakeholder-relevance-label">Where to start</span>
+              <span>Start with your category below to see real examples and find where to register.</span>
+            </li>
+          </ul>
+          <hr class="stakeholder-panel-divider" />
+
+          <p class="stakeholder-panel-note">
+            Getting a persistent identifier (PID) or a public web presence for your NTO is what lets it enter the credit stage of the chain above. Expand a category below: NTOs with active credit-capture infrastructure are clickable, linking straight to where you can check the details and register.
+          </p>
+
+          <div class="category-accordion">
+            {stats.categories.map((category) => (
+              <details class="category-accordion-item card" style={`border-color:var(${CATEGORY_COLOR_VAR[category]})`}>
+                <summary class="category-accordion-summary">
+                  <span class="category-chip-icon" style={`color:var(${CATEGORY_COLOR_VAR[category]})`} set:html={ICONS[categoryIcons[category] ?? "grid"]} />
+                  <span class="category-chip-label">{category}</span>
+                  <span class="category-accordion-count">{artefactsByCategory[category].length} output types</span>
+                </summary>
+                <div class="category-accordion-body">
+                  <ul class="category-accordion-artefacts">
+                    {artefactsByCategory[category].map((a) => {
+                      const link = accordionLinkTarget(a);
+                      if (!link) {
+                        return <li class="category-accordion-artefact-plain">{a.artefact}</li>;
+                      }
+                      const href = link.type === "registry"
+                        ? `${base}registry/?category=${encodeURIComponent(category)}&artefact=${a.id}`
+                        : `${base}infrastructure/#${link.infraId}`;
+                      return (
+                        <li>
+                          <a href={href}>{a.artefact}</a>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                  <a class="btn btn-outline" href={`${base}registry/?category=${encodeURIComponent(category)}`}>
+                    Browse {category} NTOs in the Registry
+                  </a>
+                </div>
+              </details>
+            ))}
+          </div>
+
+          <p class="stakeholder-panel-note">
+            Some NTOs don't have a registration point yet. <a href="#infrastructure-landscape-gaps">See why below.</a>
+          </p>
+          <div class="stakeholder-panel-cta-row">
+            <a class="btn btn-outline" href={`${base}infrastructure/`}>Browse all infrastructure</a>
+          </div>
+        </div>
+
+        <div class="card stakeholder-panel" id="panel-policy" role="tabpanel" aria-labelledby="tab-policy" hidden data-stakeholder-panel="policy">
+          <h3>For policy makers</h3>
+          <ul class="stakeholder-relevance">
+            <li>
+              <span class="stakeholder-relevance-label">Ready-made blueprints</span>
+              <span>International reform initiatives such as DORA, CoARA, the Leiden Manifesto, and the Hong Kong Principles are ready-made blueprints for valuing non-traditional outputs.</span>
+            </li>
+            <li>
+              <span class="stakeholder-relevance-label">Adapt at scale</span>
+              <span>Most were written for adoption at national or institutional scale. Adapt their commitments into your own research assessment policy.</span>
+            </li>
+            <li>
+              <span class="stakeholder-relevance-label">CoARA's language</span>
+              <span>CoARA, for example, already commits signatories to recognising the diversity of contributions to, and careers in, research: language you can reuse directly in a national mandate.</span>
+            </li>
+          </ul>
+          <hr class="stakeholder-panel-divider" />
+          <div class="stakeholder-panel-cta-row">
+            <a class="btn btn-primary" href={`${base}reforms/`}>Explore reform initiatives</a>
+          </div>
+        </div>
+
+        <div class="card stakeholder-panel" id="panel-institutions" role="tabpanel" aria-labelledby="tab-institutions" hidden data-stakeholder-panel="institutions">
+          <h3>For institutions</h3>
+          <ul class="stakeholder-relevance">
+            <li>
+              <span class="stakeholder-relevance-label">Sign up to reform</span>
+              <span>Discover and sign up to reform commitments such as CoARA, DORA, or the Hidden REF.</span>
+            </li>
+            <li>
+              <span class="stakeholder-relevance-label">Policy mandate</span>
+              <span>That gives your review and promotion criteria a policy mandate to value non-traditional outputs across all {stats.categoryCount} categories: Data, Training, Software, Research support, and Peer review.</span>
+            </li>
+            <li>
+              <span class="stakeholder-relevance-label">Back it with proof</span>
+              <span>Back the mandate with credit-capture infrastructure, so recognition rests on a verifiable record, not just a policy statement.</span>
+            </li>
+          </ul>
+          <hr class="stakeholder-panel-divider" />
+          <div class="stakeholder-panel-cta-row">
+            <a class="btn btn-primary" href={`${base}reforms/`}>Explore reform commitments</a>
+            <a class="btn btn-outline" href={`${base}registry/`}>Browse the {stats.artefactCount} output types</a>
+          </div>
+        </div>
+
+        <div class="card stakeholder-panel" id="panel-funders" role="tabpanel" aria-labelledby="tab-funders" hidden data-stakeholder-panel="funders">
+          <h3>For funders</h3>
+          <ul class="stakeholder-relevance">
+            <li>
+              <span class="stakeholder-relevance-label">Mandate output types</span>
+              <span>Mandate specific non-traditional output types as fundable deliverables, not just publications.</span>
+            </li>
+            <li>
+              <span class="stakeholder-relevance-label">Point to infrastructure</span>
+              <span>Point grantees at Essential-tier infrastructure: Publishing &amp; PID provision and Academic profiles, so mandated outputs actually enter the credit chain.</span>
+            </li>
+            <li>
+              <span class="stakeholder-relevance-label">Make it enforceable</span>
+              <span>Registration through these platforms is what makes a mandate enforceable and auditable.</span>
+            </li>
+          </ul>
+          <hr class="stakeholder-panel-divider" />
+          <div class="stakeholder-panel-cta-row">
+            <a class="btn btn-primary" href={`${base}registry/`}>Browse output types to mandate</a>
+            <a class="btn btn-outline" href={`${base}infrastructure/#publishing-pid`}>Publishing &amp; PID platforms</a>
+            <a class="btn btn-outline" href={`${base}infrastructure/#academic-profiles`}>Academic profile platforms</a>
+          </div>
+        </div>
+      </div>
+
+      <noscript>
+        <style>
+          .stakeholder-panel[hidden] { display: flex !important; }
+        </style>
+      </noscript>
+    </div>
+  </section>
+
+  <section class="section" id="infrastructure-landscape-gaps">
+    <div class="container">
+      <h2 class="section-heading">Why don't all NTOs have a registration point?</h2>
+      <p class="section-intro">
+        Of the {stats.artefactCount} non-traditional output types (NTOs) in the registry, a
+        handful currently have no active supporting infrastructure yet, for two different reasons:
+      </p>
+
+      <div class="grid grid-2 gap-reason-grid">
+        <div class="card gap-reason-card">
+          <h3>Some NTO content is inherently sensitive</h3>
+          <p>
+            Grant proposals, grant evaluation reports, and administrative/compliance records
+            involve funding applications, panel reviews, financial audits, and ethics
+            self-assessments: content that's restricted by design, not meant for public
+            indexing. No public registration point exists for these NTOs because a public one
+            wouldn't be appropriate.
+          </p>
+        </div>
+        <div class="card gap-reason-card">
+          <h3>Certain NTO infrastructure hasn't emerged yet</h3>
+          <p>
+            These NTOs often end up scattered across disparate points of deposition rather than
+            one citable record. Science communication, for instance, is commonly published on
+            individual news pages or organisation websites with no PID: its relevance is
+            time-sensitive, so it isn't archived the way more durable outputs are. Others stay
+            closer to home, such as supervised student project outputs (often left in internal
+            institutional repositories, e.g. theses) or software demos (sometimes hosted on
+            general-purpose platforms like YouTube), both more institutional in scope and
+            relevance than public. That's a maturity gap in the landscape, not a deliberate
+            exclusion.
+          </p>
+        </div>
+      </div>
+
+      <p class="gap-third-note">
+        <strong>Note:</strong> relevant infrastructure may already exist but hasn't been added to
+        this registry yet, simply because it's emergent or unknown to us. If you know of one, <a href="https://github.com/BioComputingUP/nto-registry/issues/new?template=submit_infrastructure.yml" target="_blank" rel="noopener">let us know</a>.
+      </p>
+
+      <div class="gap-example-list">
+        <p class="gap-example-list-label">Three examples with no known registration point today:</p>
+        <ul>
+          {gapArtefacts.map((a) => (
+            <li>
+              <span class="badge badge-category" style={`background:var(${a.colorVar})`}>{a.category}</span>
+              <strong>{a.artefact}</strong>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-subtle">
+    <div class="container">
+      <h2 class="section-heading">Keep exploring</h2>
+      <p class="section-intro">Whatever brought you here, the whole registry is open to browse.</p>
+      <div class="grid grid-3 feature-grid">
+        <a class="card feature-card" href={`${base}registry/`}>
+          <div class="feature-card-head">
+            <span class="feature-icon" set:html={ICONS.layers} />
+            <h3>Registry</h3>
+          </div>
+          <p>All {stats.artefactCount} output types across {stats.categoryCount} categories, with examples and supporting infrastructure.</p>
+          <span class="feature-link">Explore &rarr;</span>
+        </a>
+        <a class="card feature-card" href={`${base}infrastructure/`}>
+          <div class="feature-card-head">
+            <span class="feature-icon" set:html={ICONS.server} />
+            <h3>Infrastructure</h3>
+          </div>
+          <p>{stats.infrastructureCount} platforms that turn output-level effort into citable credit.</p>
+          <span class="feature-link">Explore &rarr;</span>
+        </a>
+        <a class="card feature-card" href={`${base}reforms/`}>
+          <div class="feature-card-head">
+            <span class="feature-icon" set:html={ICONS.flag} />
+            <h3>Assessment Reforms</h3>
+          </div>
+          <p>{stats.reformInitiativeCount} international initiatives this registry builds on, including CoARA and the Hidden REF.</p>
+          <span class="feature-link">Explore &rarr;</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const tabs = document.querySelectorAll<HTMLButtonElement>(".stakeholder-tab");
+    const panels = document.querySelectorAll<HTMLElement>(".stakeholder-panel");
+    const order = ["researchers", "policy", "institutions", "funders"];
+
+    function activate(key: string, focusTab = false) {
+      tabs.forEach((tab) => {
+        const isActive = tab.dataset.stakeholder === key;
+        tab.setAttribute("aria-selected", String(isActive));
+        tab.tabIndex = isActive ? 0 : -1;
+      });
+      panels.forEach((panel) => {
+        panel.hidden = panel.dataset.stakeholderPanel !== key;
+      });
+      if (focusTab) {
+        tabs.forEach((t) => {
+          if (t.dataset.stakeholder === key) t.focus();
+        });
+      }
+    }
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => activate(tab.dataset.stakeholder!));
+    });
+
+    document.querySelector(".stakeholder-tablist")?.addEventListener("keydown", (e) => {
+      const key = (e as KeyboardEvent).key;
+      if (key !== "ArrowRight" && key !== "ArrowLeft") return;
+      const current = (document.activeElement as HTMLButtonElement)?.dataset.stakeholder;
+      const idx = order.indexOf(current ?? "");
+      if (idx === -1) return;
+      e.preventDefault();
+      const next = key === "ArrowRight" ? (idx + 1) % order.length : (idx - 1 + order.length) % order.length;
+      activate(order[next], true);
+    });
+
+    const requested = new URLSearchParams(window.location.search).get("for");
+    if (requested && order.includes(requested)) activate(requested);
+  </script>
+
+  <style>
+    /* This page's own sections read as denser/more app-like than the rest
+       of the site (lots of short interactive blocks stacked vertically), so
+       the shared .section vertical rhythm from tokens.css is halved here
+       only — scoped to this page by Astro's automatic style scoping, the
+       hero header keeps the full padding since it's a one-off intro block,
+       not a repeated section pattern. */
+    .section:not(.page-header-section) {
+      padding-top: calc(var(--space-8) / 2);
+      padding-bottom: calc(var(--space-8) / 2);
+    }
+
+    .get-started-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-5);
+    }
+
+    .get-started-hero-badge {
+      flex-shrink: 0;
+      width: 190px;
+    }
+
+    .get-started-hero-badge svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    @media (max-width: 820px) {
+      .get-started-hero-badge {
+        display: none;
+      }
+    }
+
+    /* ---- Credit / Recognition / Reward pathway ---- */
+
+    .crr-pathway {
+      display: flex;
+      align-items: stretch;
+      gap: var(--space-4);
+      margin: var(--space-7) 0 var(--space-5);
+    }
+
+    .crr-stage {
+      flex: 1 1 0;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      background: var(--color-surface);
+      padding: var(--space-5) var(--space-5) var(--space-6);
+      overflow: hidden;
+    }
+
+    .crr-stage::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+    }
+
+    .crr-stage-credit::before { background: var(--cat-research-support); }
+    .crr-stage-recognition::before { background: var(--color-teal-500); }
+    .crr-stage-reward::before { background: var(--color-orange-500); }
+
+    .crr-stage-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-4);
+      flex-shrink: 0;
+    }
+
+    .crr-stage-header h3 {
+      margin: 0;
+    }
+
+    .crr-stage-credit .crr-stage-icon { color: var(--cat-research-support); }
+    .crr-stage-recognition .crr-stage-icon { color: var(--color-teal-500); }
+    .crr-stage-reward .crr-stage-icon { color: var(--color-orange-500); }
+
+    .crr-stage-icon {
+      display: inline-flex;
+      flex-shrink: 0;
+    }
+
+    .crr-stage-icon :global(svg) {
+      width: 28px;
+      height: 28px;
+    }
+
+    .crr-item-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: var(--space-2);
+      flex: 1;
+    }
+
+    .crr-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: 0.5rem 0.75rem;
+      border-radius: var(--radius-sm);
+      font-size: var(--fs-small);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .crr-item-link {
+      background: var(--color-bg-subtle);
+      color: var(--color-heading);
+    }
+
+    .crr-item-link:hover {
+      background: var(--color-accent);
+      color: var(--color-accent-contrast);
+      text-decoration: none;
+    }
+
+    .crr-item-static {
+      background: var(--color-bg-subtle);
+      color: var(--color-heading);
+      font-weight: 600;
+    }
+
+    .crr-item-icon {
+      display: inline-flex;
+      flex-shrink: 0;
+    }
+
+    .crr-item-icon :global(svg) {
+      width: 16px;
+      height: 16px;
+    }
+
+    .crr-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .crr-arrow :global(svg) {
+      width: 32px;
+      height: 32px;
+    }
+
+    .crr-arrow-recognition { color: var(--color-teal-500); }
+    .crr-arrow-reward { color: var(--color-accent); }
+
+    .crr-intro {
+      max-width: 980px;
+    }
+
+    .crr-transition {
+      text-align: center;
+      max-width: 1080px;
+      margin: var(--space-6) auto 0;
+      color: var(--color-text-muted);
+    }
+
+    @media (max-width: 860px) {
+      .crr-pathway {
+        flex-direction: column;
+      }
+
+      .crr-arrow {
+        transform: rotate(90deg);
+      }
+    }
+
+    /* ---- Stakeholder selector ---- */
+
+    .role-flow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-4);
+      margin: var(--space-6) 0 var(--space-7);
+    }
+
+    .role-flow-lead {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--color-heading);
+    }
+
+    .stakeholder-tablist {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      justify-content: center;
+    }
+
+    .stakeholder-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--color-navy-800);
+      background: var(--color-navy-800);
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .stakeholder-tab:hover {
+      background: var(--color-navy-700);
+      border-color: var(--color-navy-700);
+    }
+
+    .stakeholder-tab svg {
+      width: 20px;
+      height: 20px;
+      color: #fff;
+    }
+
+    .stakeholder-tab[aria-selected="true"] {
+      background: var(--color-accent);
+      border-color: var(--color-accent);
+    }
+
+    .stakeholder-tab[aria-selected="true"]:hover {
+      background: var(--color-orange-600);
+      border-color: var(--color-orange-600);
+    }
+
+    .stakeholder-panel {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      width: 100%;
+    }
+
+    /* Needed because `.stakeholder-panel { display: flex }` above has the
+       same specificity as the UA default `[hidden] { display: none }` and
+       would otherwise win by cascade order, leaving every panel visible
+       regardless of the `hidden` attribute the tab script toggles. */
+    .stakeholder-panel[hidden] {
+      display: none;
+    }
+
+    .stakeholder-panel h3 {
+      margin-bottom: 0;
+    }
+
+    .stakeholder-relevance {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: var(--space-4);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .stakeholder-relevance li {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.3rem;
+    }
+
+    .stakeholder-relevance-label {
+      display: block;
+      white-space: nowrap;
+      font-size: var(--fs-small);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--color-accent);
+    }
+
+    .stakeholder-panel-divider {
+      border: none;
+      border-top: 1px solid var(--color-border);
+      margin: 0;
+    }
+
+    .stakeholder-panel-note {
+      color: var(--color-text-muted);
+      font-size: var(--fs-small);
+      margin: 0;
+    }
+
+    .stakeholder-panel-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+
+    /* ---- Category chips (icon/label reused by the accordion summary below) ---- */
+
+    .category-chip-icon {
+      display: inline-flex;
+      flex-shrink: 0;
+      color: var(--color-accent);
+    }
+
+    .category-chip-icon :global(svg) {
+      width: 26px;
+      height: 26px;
+    }
+
+    .category-chip-label {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--color-heading);
+    }
+
+    /* ---- Researcher category accordion ---- */
+
+    .category-accordion {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .category-accordion-item {
+      padding: 0;
+      border-width: 2px;
+      overflow: hidden;
+    }
+
+    .category-accordion-summary {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-4) var(--space-5);
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .category-accordion-summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .category-accordion-summary::marker {
+      content: "";
+    }
+
+    .category-accordion-count {
+      margin-left: auto;
+      font-size: var(--fs-small);
+      font-weight: 500;
+      color: var(--color-text-muted);
+      white-space: nowrap;
+    }
+
+    .category-accordion-body {
+      padding: 0 var(--space-5) var(--space-5);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .category-accordion-artefacts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .category-accordion-artefacts li {
+      display: flex;
+    }
+
+    .category-accordion-artefacts a,
+    .category-accordion-artefact-plain {
+      background: var(--color-bg-subtle);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-full);
+      padding: 0.3rem 0.8rem;
+      font-size: var(--fs-small);
+      font-weight: 600;
+    }
+
+    .category-accordion-artefact-plain {
+      color: var(--color-text-muted);
+      font-weight: 500;
+      font-style: italic;
+    }
+
+    .category-accordion-artefacts a {
+      color: var(--color-heading);
+      text-decoration: none;
+    }
+
+    .category-accordion-artefacts a:hover {
+      background: var(--color-accent);
+      border-color: var(--color-accent);
+      color: var(--color-accent-contrast);
+    }
+
+    /* ---- Infrastructure gaps commentary ---- */
+
+    .gap-reason-grid {
+      margin: var(--space-6) 0;
+    }
+
+    .gap-reason-card h3 {
+      margin-top: 0;
+    }
+
+    .gap-third-note {
+      color: var(--color-text-muted);
+      font-size: var(--fs-small);
+      max-width: 900px;
+      margin: 0 0 var(--space-6);
+    }
+
+    .gap-example-list ul {
+      list-style: none;
+      margin: 0 0 var(--space-4);
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .gap-example-list li {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .gap-example-list-label {
+      font-weight: 600;
+      color: var(--color-heading);
+    }
+
+    /* ---- Keep-exploring feature cards (shared visual language with the homepage) ---- */
+
+    .feature-grid {
+      align-items: stretch;
+    }
+
+    .feature-card {
+      color: var(--color-text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .feature-card:hover {
+      text-decoration: none;
+      transform: translateY(-3px);
+    }
+
+    .feature-card-head {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-2);
+    }
+
+    .feature-icon {
+      color: var(--color-accent);
+      display: inline-flex;
+      flex-shrink: 0;
+    }
+
+    .feature-icon :global(svg) {
+      width: 26px;
+      height: 26px;
+    }
+
+    .feature-card h3 {
+      color: var(--color-heading);
+      margin: 0;
+    }
+
+    .feature-link {
+      margin-top: auto;
+      padding-top: var(--space-3);
+      color: var(--color-accent);
+      font-weight: 600;
+    }
+  </style>
+</BaseLayout>
