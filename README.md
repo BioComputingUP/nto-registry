@@ -1,10 +1,10 @@
 # NTO Registry: Non-Traditional Outputs in the Life Sciences
 
-[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 [![Catalogue Version](https://img.shields.io/badge/catalogue--version-2.1.0-blue.svg)](CHANGELOG.md)
 
-### 🌐 [Browse the live registry](https://biocomputingup.github.io/nto-registry/)
+### 🌐 [Browse the live registry](https://nto-registry.org/)
 
 Welcome to the **NTO Registry**! This repository hosts a community-curated,
 versioned catalogue of **Non-Traditional Outputs (NTOs)** — the
@@ -54,17 +54,59 @@ See [ARTEFACT_TAXONOMY.md](ARTEFACT_TAXONOMY.md) for the full taxonomy and
 selection criteria.
 
 A public website ([`site/`](site/), built with Astro + React and deployed to
-GitHub Pages at https://biocomputingup.github.io/nto-registry/ via
-[`.github/workflows/deploy-site.yml`](.github/workflows/deploy-site.yml))
-presents this data as a filterable Registry, an Assessment Reforms table, an
-Infrastructure directory, and an About page — built directly from the YAML
-above on every push, so the site and the data never drift apart. See
-`site/README.md` for local development (including a Docker option) and the
-"Website" section of [AGENTS.md](AGENTS.md) for the build/deploy contract.
+GitHub Pages at the custom domain https://nto-registry.org/ via
+[`.github/workflows/deploy-site.yml`](.github/workflows/deploy-site.yml) and
+[`site/public/CNAME`](site/public/CNAME)) presents this data as a filterable
+Registry, an Assessment Reforms table, an Infrastructure directory, a
+role-based Get Started guide, and an About page — built directly from the
+YAML above on every push, so the site and the data never drift apart. See
+[Local Development & Preview](#local-development--preview) below to run it
+locally, and the "Website" section of [AGENTS.md](AGENTS.md) for the
+build/deploy contract.
 
 > [!NOTE]
 > This registry is under active development and curation. Contributions and
 > suggestions are highly encouraged!
+
+## Local Development & Preview
+
+Before opening a PR — or any time you're planning a catalogue update or
+debugging the site — you can run a full local copy of the registry website to
+see your changes rendered before they're committed. Both options below
+support hot reload for anything under `site/`; **editing `data/*.yml`,
+however, requires restarting the dev server** — `build-data.mjs` regenerates
+`site/src/generated/*.json` once, via the `predev` npm hook, before the
+server starts, not on an ongoing watch basis.
+
+### Docker (recommended — no local Node install needed)
+
+Also the quickest way to sidestep Node version mismatches, since Astro
+requires Node **22.12+** and the container always matches regardless of
+what's installed on your host:
+
+```sh
+cd site
+docker compose up
+```
+
+Opens at `http://localhost:4321/` with hot reload. `Ctrl+C` to stop; after
+editing `data/*.yml`, stop and run `docker compose up` again to pick up the
+change.
+
+### Node directly
+
+```sh
+cd site
+npm install
+npm run dev
+```
+
+Requires Node.js **22.12+**. Same behaviour as Docker — `Ctrl+C` and rerun
+`npm run dev` after editing `data/*.yml`.
+
+See [`site/README.md`](site/README.md) for the full command reference
+(`build-data`, `build`, `preview`) and the "Website" section of
+[AGENTS.md](AGENTS.md) for the build/deploy contract.
 
 ## Versioning
 

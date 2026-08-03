@@ -9,7 +9,7 @@ body:
         Use this for `data/infrastructure_catalogue.yml` — the platforms
         (comparable to APICURON, ORCID, bio.tools, Zenodo) that capture credit
         for non-traditional outputs, shown on the
-        [Infrastructure page](https://biocomputingup.github.io/nto-registry/infrastructure/)
+        [Infrastructure page](https://nto-registry.org/infrastructure/)
         under Essential or Intermediary Infrastructure. Before you submit,
         please read [CONTRIBUTING.md](../../CONTRIBUTING.md).
 

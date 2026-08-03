@@ -7,6 +7,8 @@ authors:
 title: "NTO Registry: A Catalogue of Non-Traditional Outputs in the Life Sciences"
 version: v2.1.0
 date-released: 2026-07-25
+url: "https://nto-registry.org"
+repository-code: "https://github.com/BioComputingUP/nto-registry"
 preferred-citation:
   type: preprint
   title: "Credit, recognition, and reward for non-traditional research outputs in the Life Sciences"

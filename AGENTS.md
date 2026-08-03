@@ -79,9 +79,10 @@ followed by invoking the SemVer skill before a PR is opened.
 
 ## Website (`site/`)
 
-The public site (deployed to https://biocomputingup.github.io/nto-registry/) is
-an [Astro](https://astro.build) project with a React island for the
-filterable Registry page, live at `site/`.
+The public site (deployed to https://nto-registry.org/, a custom domain on
+GitHub Pages configured via `site/public/CNAME`) is an
+[Astro](https://astro.build) project with a React island for the filterable
+Registry page, live at `site/`.
 
 - **Data flow is one-directional and automatic.** `site/scripts/build-data.mjs`
   reads `data/*.yml` and writes JSON into `site/src/generated/` (gitignored).
@@ -106,7 +107,7 @@ filterable Registry page, live at `site/`.
   building the site (`npm run build` from `site/`) after adding one.
 - **Local dev:** from `site/`, either `npm run dev` (Node 22.12+) or
   `docker compose up` (no local Node needed — see `site/README.md`). Both
-  give hot reload at `http://localhost:4321/nto-registry/`.
+  give hot reload at `http://localhost:4321/`.
 - **Deploy:** `.github/workflows/deploy-site.yml` builds `site/` and deploys
   `site/dist` to GitHub Pages via the official `actions/deploy-pages` flow on
   every push to `main` touching `site/**` or `data/**`. There is no manual
@@ -115,10 +116,17 @@ filterable Registry page, live at `site/`.
   `site/src/styles/tokens.css`, sourced from BioComputingUP/OSAI_ecosystem's
   ELIXIR-style branding (navy `#103344`/`#0b2735`, accent orange `#F66729`,
   font `Lato`). Reuse these tokens rather than introducing new one-off colors.
-- **Site base path:** `site/astro.config.mjs` sets `base: '/nto-registry/'`
-  for the current free GitHub Pages URL. If a custom domain is attached
-  later, update `site` and `base` there (and add a `public/CNAME` file) —
-  nothing else needs to change.
+- **Site base path:** `site/astro.config.mjs` sets `site: 'https://nto-registry.org'`
+  and `base: '/'`, matching the custom domain configured via
+  `site/public/CNAME`. If the domain ever changes, update both `site` and
+  `base` there (and `public/CNAME`) together — nothing else needs to change.
+- **Astro whitespace gotcha:** a line break between trailing text and an
+  inline tag (or between a closing inline tag and continuing text) can
+  collapse to zero spaces instead of one in the rendered output, gluing
+  words together (e.g. `...to the` followed by a newline then
+  `<a>Assessment Reforms</a>` can render as "theAssessment Reforms"). Keep
+  text immediately adjacent to an inline element on the same source line, or
+  use an explicit `{" "}` if a line break is needed for readability.
 
 ### Caching and deploy cadence
 
