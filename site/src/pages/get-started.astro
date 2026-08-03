@@ -3,7 +3,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { ICONS } from "../lib/icons";
 import stats from "../generated/stats.json";
 import catalogue from "../generated/nto-catalogue.json";
-import infrastructure from "../generated/infrastructure-catalogue.json";
 
 const base = import.meta.env.BASE_URL;
 
@@ -40,35 +39,25 @@ for (const category of stats.categories) {
   artefactsByCategory[category] = catalogue.artefacts.filter((a) => a.category === category);
 }
 
-// Same derivation as registry.astro's pidInfraIds: only Publishing & PID
-// provision platforms are what RegistryExplorer's card details actually
-// display under "Supporting infrastructure". Kept in sync by construction
-// (same filter logic), not a hand-maintained id list.
-const pidInfraIdSet = new Set(
-  infrastructure
-    .filter((i) => i.function.split(".")[0].trim() === "Publishing & PID provision")
-    .map((i) => i.id)
-);
-
 type ArtefactLink = { type: "registry" } | { type: "infrastructure"; infraId: string } | null;
 
-// Where an accordion artefact pill should link, in priority order:
-// 1. If it has an active Publishing & PID provision entry, its Registry
-//    card actually has something to show under "Supporting infrastructure"
-//    — link there.
-// 2. Otherwise, if it has any other active supporting infrastructure (e.g.
-//    APICURON for contribution tracking), link straight to that platform's
-//    own card on the Infrastructure page.
-// 3. Otherwise there's nowhere to send them — stays plain, unclickable text.
+// Where an accordion artefact pill should link:
+// - No active supporting infrastructure at all -> nowhere, stays plain,
+//   unclickable text.
+// - APICURON is the sole exception that links straight to its own card on
+//   the Infrastructure page (its contribution-tracking role doesn't surface
+//   in the Registry card's "Supporting infrastructure" panel, which only
+//   lists Publishing & PID provision entries, so sending readers to the
+//   Registry card would show them nothing).
+// - Everything else with active infrastructure links to its own Registry
+//   card, where "Supporting infrastructure" shows the relevant entry.
 function accordionLinkTarget(artefact: (typeof catalogue.artefacts)[number]): ArtefactLink {
   const active = artefact["supporting-infrastructure"].filter((ref) => ref.status === "active");
-  if (active.some((ref) => pidInfraIdSet.has(ref["infrastructure-id"]))) {
-    return { type: "registry" };
+  if (active.length === 0) return null;
+  if (active.some((ref) => ref["infrastructure-id"] === "apicuron")) {
+    return { type: "infrastructure", infraId: "apicuron" };
   }
-  if (active.length > 0) {
-    return { type: "infrastructure", infraId: active[0]["infrastructure-id"] };
-  }
-  return null;
+  return { type: "registry" };
 }
 ---
 
