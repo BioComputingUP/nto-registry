@@ -14,6 +14,12 @@
 # Entry template (fields must appear in this order):
 # - id: unique, lowercase, kebab-case identifier
 #   category: one of Data | Training | Software | Research support | Peer review
+#   opus-raf-domain: (optional) one of Research | Education | Leadership | Valorisation —
+#     the OPUS Research Assessment Framework (https://zenodo.org/records/15826745) domain
+#     this artefact best corresponds to. Powers the Registry page's optional OPUS RAF
+#     view. See the add-nto-entry skill for how to assign it when proposing a new
+#     artefact type — every current entry has one, don't skip it just because it's
+#     schema-optional.
 #   artefact: full human-readable artefact name
 #   explanation: what the artefact is, in 1-3 sentences
 #   activities: list of one or more corresponding activities that produce this artefact
@@ -33,6 +39,7 @@
 #
 # - id:
 #   category:
+#   opus-raf-domain:
 #   artefact:
 #   explanation: >-
 #
@@ -50,7 +57,7 @@
 #   added-in-version:
 #   last-modified-version:
 
-catalogue-version: 2.1.0
+catalogue-version: 2.2.0
 
 entries:
 
@@ -62,6 +69,7 @@ entries:
 
   - id: public-data-service
     category: Data
+    opus-raf-domain: Research
     artefact: Public Data Service
     explanation: >-
       A fully functional, maintained online data service such as a knowledgebase or
@@ -93,10 +101,11 @@ entries:
           individual maintainers.
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.4.0
+    last-modified-version: 2.2.0
 
   - id: curated-knowledgebase-entry
     category: Data
+    opus-raf-domain: Research
     artefact: Curated Knowledgebase Entry
     explanation: >-
       A structured, annotated biological record synthesized from literature,
@@ -121,10 +130,11 @@ entries:
           service, making otherwise invisible curator effort machine-readable.
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.2.2
+    last-modified-version: 2.2.0
 
   - id: fair-metadata-record
     category: Data
+    opus-raf-domain: Research
     artefact: FAIR Metadata Record
     explanation: >-
       Ensuring a dataset has comprehensive metadata, in a standard format, with
@@ -148,10 +158,11 @@ entries:
           FAIR compliance rather than just a persistent home.
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.4.0
+    last-modified-version: 2.2.0
 
   - id: public-dataset-entry-submission
     category: Data
+    opus-raf-domain: Research
     artefact: Public Dataset Entry Submission
     explanation: >-
       A packaged, structured dataset resulting directly from primary laboratory
@@ -184,10 +195,11 @@ entries:
         capture-function: Links the depositor's identity to the primary data submission.
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.4.0
+    last-modified-version: 2.2.0
 
   - id: data-management-plan
     category: Data
+    opus-raf-domain: Research
     artefact: Data Management Plan (DMP)
     explanation: >-
       A formal document outlining how research data will be collected, stored,
@@ -210,7 +222,7 @@ entries:
         capture-function: Can archive a completed DMP document with a citable DOI.
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.4.0
+    last-modified-version: 2.2.0
 
   # ---------------------------------------------------------------------------
   # Category: Training
@@ -218,6 +230,7 @@ entries:
 
   - id: training-material
     category: Training
+    opus-raf-domain: Education
     artefact: Training Material
     explanation: >-
       Instructional content designed to teach specific skills, ranging from
@@ -239,10 +252,11 @@ entries:
         capture-function: Links author identity to created materials.
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 2.0.0
+    last-modified-version: 2.2.0
 
   - id: educational-module
     category: Training
+    opus-raf-domain: Education
     artefact: Educational Module
     explanation: >-
       A comprehensive, formalized unit of teaching that is part of a standardized
@@ -263,10 +277,11 @@ entries:
         capture-function: Links the module designer/lecturer identity to the accredited content.
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 2.0.0
+    last-modified-version: 2.2.0
 
   - id: fair-training-material-release
     category: Training
+    opus-raf-domain: Education
     artefact: FAIR Training Material Release
     explanation: >-
       A preserved, versioned, and citable educational resource packaged with
@@ -295,10 +310,11 @@ entries:
         capture-function: Links the release to its responsible author(s).
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.4.0
+    last-modified-version: 2.2.0
 
   - id: learning-path
     category: Training
+    opus-raf-domain: Education
     artefact: Learning Path
     explanation: >-
       Chained together logical learning pathways of materials designed for an
@@ -315,10 +331,11 @@ entries:
         capture-function: Hosts and links the chained sequence of training materials.
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.4.0
+    last-modified-version: 2.2.0
 
   - id: supervised-student-project-output
     category: Training
+    opus-raf-domain: Education
     artefact: Supervised Student Project Output
     explanation: >-
       A scholarly output primarily authored by a student under the direct
@@ -332,7 +349,7 @@ entries:
         url: ''
     supporting-infrastructure: []
     added-in-version: 1.0.0
-    last-modified-version: 2.0.0
+    last-modified-version: 2.2.0
 
   # ---------------------------------------------------------------------------
   # Category: Software
@@ -340,6 +357,7 @@ entries:
 
   - id: documentation
     category: Software
+    opus-raf-domain: Research
     artefact: Documentation
     explanation: >-
       User manuals, developer documentation, or interactive notebooks that
@@ -361,10 +379,11 @@ entries:
         capture-function: Enriches software entries with documentation-quality indicators.
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.4.0
+    last-modified-version: 2.2.0
 
   - id: research-software-code-repository
     category: Software
+    opus-raf-domain: Research
     artefact: Research Software Code Repository
     explanation: >-
       The functional source code, scripts, or algorithms developed to execute
@@ -392,10 +411,11 @@ entries:
           hosting location later disappears.
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 2.0.0
+    last-modified-version: 2.2.0
 
   - id: software-package
     category: Software
+    opus-raf-domain: Research
     artefact: Software Package
     explanation: >-
       A bundled, standardized, and easily installable collection of code,
@@ -421,10 +441,11 @@ entries:
         capture-function: Links the package maintainer to ongoing distribution effort.
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.0.0
+    last-modified-version: 2.2.0
 
   - id: fair-software-release
     category: Software
+    opus-raf-domain: Research
     artefact: FAIR Software Release
     explanation: >-
       A preserved, versioned, and citable software release equipped with
@@ -456,10 +477,11 @@ entries:
         capture-function: Registers releases that are packaged as part of a computational workflow.
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 1.3.0
+    last-modified-version: 2.2.0
 
   - id: software-management-plan
     category: Software
+    opus-raf-domain: Research
     artefact: Software Management Plan
     explanation: >-
       A strategic document detailing the architecture, lifecycle, maintenance,
@@ -476,10 +498,11 @@ entries:
         capture-function: Can archive a completed software management plan with a citable DOI.
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 2.1.0
+    last-modified-version: 2.2.0
 
   - id: software-demo
     category: Software
+    opus-raf-domain: Research
     artefact: Software Demo
     explanation: >-
       A live or recorded presentation showcasing the functionality, interface,
@@ -494,7 +517,7 @@ entries:
         url: https://github.com/elixir-cloud-aai/elixir-cloud-demos
     supporting-infrastructure: []
     added-in-version: 1.0.0
-    last-modified-version: 2.0.0
+    last-modified-version: 2.2.0
 
   # ---------------------------------------------------------------------------
   # Category: Research support
@@ -502,6 +525,7 @@ entries:
 
   - id: strategy-document
     category: Research support
+    opus-raf-domain: Leadership
     artefact: Strategy Document
     explanation: >-
       Formal documents guiding network efforts, outlining strategic direction,
@@ -518,10 +542,11 @@ entries:
         capture-function: Can archive a published strategy document with a citable DOI.
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 2.0.0
+    last-modified-version: 2.2.0
 
   - id: event-output
     category: Research support
+    opus-raf-domain: Valorisation
     artefact: Event Output (Agenda / Proceedings / Report)
     explanation: >-
       The captured materials resulting from organising a community event,
@@ -538,10 +563,11 @@ entries:
         capture-function: Can archive the event's agenda, proceedings, or report with a citable DOI.
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 2.0.0
+    last-modified-version: 2.2.0
 
   - id: science-communication-outreach-media
     category: Research support
+    opus-raf-domain: Valorisation
     artefact: Science Communication / Outreach Media
     explanation: >-
       Accessible content designed to translate complex scientific outcomes for
@@ -559,10 +585,11 @@ entries:
         url: https://elixir-europe.org/industry/podcast
     supporting-infrastructure: []
     added-in-version: 1.0.0
-    last-modified-version: 2.0.0
+    last-modified-version: 2.2.0
 
   - id: administrative-compliance-record
     category: Research support
+    opus-raf-domain: Leadership
     artefact: Administrative / Compliance Record
     explanation: >-
       Essential paperwork required for institutional and legal research
@@ -579,10 +606,11 @@ entries:
         url: https://ec.europa.eu/info/funding-tenders/opportunities/docs/2021-2027/common/guidance/how-to-complete-your-ethics-self-assessment_en.pdf
     supporting-infrastructure: []
     added-in-version: 1.0.0
-    last-modified-version: 2.0.0
+    last-modified-version: 2.2.0
 
   - id: policy-brief
     category: Research support
+    opus-raf-domain: Valorisation
     artefact: Policy Brief
     explanation: >-
       A concise summary of research findings formatted to advise government,
@@ -599,10 +627,11 @@ entries:
         capture-function: Can archive a published policy brief with a citable DOI.
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 2.0.0
+    last-modified-version: 2.2.0
 
   - id: grant-proposal
     category: Research support
+    opus-raf-domain: Research
     artefact: Grant Proposal
     explanation: >-
       The comprehensive, authored document detailing a proposed research
@@ -616,7 +645,7 @@ entries:
         url: https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/programmes/horizon
     supporting-infrastructure: []
     added-in-version: 1.0.0
-    last-modified-version: 2.0.0
+    last-modified-version: 2.2.0
 
   # ---------------------------------------------------------------------------
   # Category: Peer review
@@ -624,6 +653,7 @@ entries:
 
   - id: published-peer-review-report
     category: Peer review
+    opus-raf-domain: Research
     artefact: Published Peer Review Report
     explanation: >-
       The formal, critical evaluation document of a scholarly manuscript, which
@@ -648,10 +678,11 @@ entries:
           reviewer's researcher profile, alongside publication-based indicators.
         status: active
     added-in-version: 1.0.0
-    last-modified-version: 2.0.0
+    last-modified-version: 2.2.0
 
   - id: grant-evaluation-report
     category: Peer review
+    opus-raf-domain: Research
     artefact: Grant Evaluation Report
     explanation: >-
       The critical assessment document or panel summary provided to a funding
@@ -665,6 +696,6 @@ entries:
         url: https://oscars-project.eu/open-calls
     supporting-infrastructure: []
     added-in-version: 1.0.0
-    last-modified-version: 2.0.0
+    last-modified-version: 2.2.0
 
   # NTO Registry entries end

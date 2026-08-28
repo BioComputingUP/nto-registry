@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/) — see
 CONTRIBUTING.md for the exact MAJOR/MINOR/PATCH bump policy applied to
 `catalogue-version`.
 
+## [2.2.0] - 2026-08-28
+
+### Added
+- **`opus-raf-domain`**: a new optional field on every artefact entry in
+  `data/nto_catalogue.yml` (24/24 entries), tagging each output type with
+  the domain it best fits in the OPUS Research Assessment Framework (OPUS
+  RAF — https://zenodo.org/records/15826745): Research, Education,
+  Leadership, or Valorisation. `Data`, `Software`, and `Peer review` map to
+  Research; `Training` maps to Education; `Research support` entries are
+  mapped individually rather than as a block (spanning Leadership,
+  Valorisation, and Research depending on the specific artefact).
+- Registry page: an off-by-default "View by OPUS RAF domain" toggle. Turning
+  it on swaps the Category filter to the 4 OPUS domains and adds a small
+  supplementary badge to each card alongside its existing NTO category
+  badge, without changing the primary taxonomy. Includes a click-to-open
+  (and hover-preview) info popover explaining OPUS RAF with a link to its
+  Zenodo record.
+- `scripts/validate_yaml.py` now checks `opus-raf-domain` against its closed
+  set of 4 values when the field is present.
+
 ## [2.1.0] - 2026-07-25
 
 ### Added

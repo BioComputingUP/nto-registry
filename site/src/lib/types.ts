@@ -9,9 +9,12 @@ export interface SupportingInfrastructureRef {
   status: "active";
 }
 
+export type OpusRafDomain = "Research" | "Education" | "Leadership" | "Valorisation";
+
 export interface Artefact {
   id: string;
   category: string;
+  "opus-raf-domain"?: OpusRafDomain;
   artefact: string;
   explanation: string;
   activities: string[];

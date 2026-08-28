@@ -23,6 +23,7 @@ INFRA_PATH = REPO_ROOT / "data" / "infrastructure_catalogue.yml"
 REFORMS_PATH = REPO_ROOT / "data" / "reform_initiatives.yml"
 
 KNOWN_CATEGORIES = {"Data", "Training", "Software", "Research support", "Peer review"}
+KNOWN_OPUS_DOMAINS = {"Research", "Education", "Leadership", "Valorisation"}
 KEBAB_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 SEMVER_RE = re.compile(r"^\d+\.\d+\.\d+$")
 YEAR_RE = re.compile(r"^\d{4}$")
@@ -135,6 +136,13 @@ def validate_catalogue(known_infra_ids, errors):
         if category and category not in KNOWN_CATEGORIES:
             errors.append(
                 f"{where} ({entry_id}): unknown category '{category}', expected one of {sorted(KNOWN_CATEGORIES)}"
+            )
+
+        opus_domain = entry.get("opus-raf-domain")
+        if opus_domain and opus_domain not in KNOWN_OPUS_DOMAINS:
+            errors.append(
+                f"{where} ({entry_id}): unknown opus-raf-domain '{opus_domain}', "
+                f"expected one of {sorted(KNOWN_OPUS_DOMAINS)} or omitted"
             )
 
         activities = entry.get("activities")

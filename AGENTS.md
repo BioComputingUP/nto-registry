@@ -94,6 +94,13 @@ Registry page, live at `site/`.
   match if you added/renamed fields the site reads.
 - **Adding a new artefact or reform-initiative entry needs no site changes**
   — the next build picks it up automatically via the YAML → JSON pipeline.
+  (This is about adding a new *row* — adding a new *field* to the schema is
+  different: e.g. `opus-raf-domain`, the artefact-level OPUS Research
+  Assessment Framework tag powering the Registry page's OPUS RAF toggle,
+  required matching updates to `site/src/lib/types.ts` (the `Artefact`
+  interface), `site/src/components/RegistryExplorer.tsx` (toggle/filter/badge
+  logic), and `site/src/styles/tokens.css` (new colour tokens). A new field
+  is not automatically picked up by the site the way a new entry is.)
   **Adding a new infrastructure platform is the one exception**: it also
   needs a manual entry in `site/src/pages/infrastructure.astro`'s `LOGOS`
   map (a real logo — see the file's own sourcing comments for the

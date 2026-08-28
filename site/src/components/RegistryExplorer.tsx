@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import type { Artefact } from "../lib/types";
+import { useEffect, useMemo, useRef, useState } from "react";
+import type { Artefact, OpusRafDomain } from "../lib/types";
 import { ICONS } from "../lib/icons";
 
 interface Props {
@@ -23,6 +23,25 @@ function categoryColor(category: string) {
   return `var(${CATEGORY_COLOR_VAR[category] ?? "--color-navy-800"})`;
 }
 
+// The OPUS Research Assessment Framework's domains are a fixed, external
+// 4-item taxonomy (https://zenodo.org/records/15826745) — unlike `categories`
+// (a prop derived from the live catalogue), this list isn't data-driven and
+// never grows without a deliberate code change.
+const OPUS_DOMAINS: OpusRafDomain[] = ["Research", "Education", "Leadership", "Valorisation"];
+
+const OPUS_DOMAIN_COLOR_VAR: Record<OpusRafDomain, string> = {
+  Research: "--opus-research",
+  Education: "--opus-education",
+  Leadership: "--opus-leadership",
+  Valorisation: "--opus-valorisation",
+};
+
+function opusDomainColor(domain: OpusRafDomain | undefined) {
+  return `var(${domain ? OPUS_DOMAIN_COLOR_VAR[domain] : "--color-gray-600"})`;
+}
+
+const OPUS_RAF_URL = "https://zenodo.org/records/15826745";
+
 export default function RegistryExplorer({ artefacts, categories, infrastructureInfo, pidInfraIds }: Props) {
   const pidInfraIdSet = useMemo(() => new Set(pidInfraIds), [pidInfraIds]);
   const [query, setQuery] = useState("");
@@ -30,11 +49,17 @@ export default function RegistryExplorer({ artefacts, categories, infrastructure
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("any");
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
   const [pendingScrollId, setPendingScrollId] = useState<string | null>(null);
+  const [opusView, setOpusView] = useState(false);
+  const [opusInfoOpen, setOpusInfoOpen] = useState(false);
+  const opusInfoRef = useRef<HTMLDivElement>(null);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return artefacts.filter((a) => {
-      if (category !== "all" && a.category !== category) return false;
+      if (category !== "all") {
+        const value = opusView ? a["opus-raf-domain"] : a.category;
+        if (value !== category) return false;
+      }
       if (statusFilter !== "any") {
         const hasStatus = a["supporting-infrastructure"].some((ref) => ref.status === statusFilter);
         if (!hasStatus) return false;
@@ -50,7 +75,7 @@ export default function RegistryExplorer({ artefacts, categories, infrastructure
         .toLowerCase();
       return haystack.includes(q);
     });
-  }, [artefacts, query, category, statusFilter]);
+  }, [artefacts, query, category, statusFilter, opusView]);
 
   // Deep-link support: pages like the homepage link here with
   // ?category=Data so the relevant filter is already applied on arrival, and
@@ -81,6 +106,34 @@ export default function RegistryExplorer({ artefacts, categories, infrastructure
     }
   }, [pendingScrollId, filtered]);
 
+  // Dismiss the OPUS RAF info popover on outside click or Escape, so it
+  // behaves like a standard disclosure popover rather than staying pinned
+  // open until the info button is clicked again.
+  useEffect(() => {
+    if (!opusInfoOpen) return;
+    function handlePointerDown(e: MouseEvent) {
+      if (opusInfoRef.current && !opusInfoRef.current.contains(e.target as Node)) {
+        setOpusInfoOpen(false);
+      }
+    }
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpusInfoOpen(false);
+    }
+    document.addEventListener("mousedown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [opusInfoOpen]);
+
+  function toggleOpusView() {
+    setOpusView((prev) => !prev);
+    // A selected NTO category isn't a valid OPUS domain value and vice versa
+    // — reset rather than risk a stale filter silently hiding everything.
+    setCategory("all");
+  }
+
   function toggle(id: string) {
     setExpanded((prev) => {
       const next = new Set(prev);
@@ -93,6 +146,51 @@ export default function RegistryExplorer({ artefacts, categories, infrastructure
   return (
     <div className="registry-explorer">
       <div className="registry-filters card">
+        <div className="opus-toggle-row">
+          <label className="opus-toggle">
+            <input type="checkbox" role="switch" checked={opusView} onChange={toggleOpusView} />
+            <span className="opus-toggle-track" aria-hidden="true">
+              <span className="opus-toggle-thumb" />
+            </span>
+            <span className="opus-toggle-label">View by OPUS RAF domain</span>
+          </label>
+
+          <div className="opus-info" ref={opusInfoRef}>
+            <button
+              type="button"
+              className="opus-info-btn"
+              aria-expanded={opusInfoOpen}
+              aria-controls="opus-info-panel"
+              aria-label="What is the OPUS RAF?"
+              onClick={() => setOpusInfoOpen((v) => !v)}
+            >
+              <span aria-hidden="true" dangerouslySetInnerHTML={{ __html: ICONS.info }} />
+            </button>
+            <div
+              className={`opus-info-panel${opusInfoOpen ? " is-open" : ""}`}
+              id="opus-info-panel"
+              role="tooltip"
+            >
+              <p>
+                The <strong>OPUS Research Assessment Framework (OPUS RAF)</strong> groups
+                researcher activity into four domains — an alternative, discipline-neutral lens
+                layered on top of this registry's own categories to help institutions already
+                using OPUS RAF map straight onto it.
+              </p>
+              <ul className="opus-info-domains">
+                <li><strong>Research</strong> — proposals, methods, data, software, publications, peer review.</li>
+                <li><strong>Education</strong> — courses, resources, teaching, supervision, skills development.</li>
+                <li><strong>Leadership</strong> — leading people/projects, management roles, recognised expertise.</li>
+                <li><strong>Valorisation</strong> — science communication, collaboration, exploitation &amp; entrepreneurship.</li>
+              </ul>
+              <a href={OPUS_RAF_URL} target="_blank" rel="noopener">
+                Read the full definitions on Zenodo{" "}
+                <span aria-hidden="true" dangerouslySetInnerHTML={{ __html: ICONS["external-link"] }} />
+              </a>
+            </div>
+          </div>
+        </div>
+
         <div className="filter-field">
           <label htmlFor="registry-search">Search</label>
           <input
@@ -104,10 +202,10 @@ export default function RegistryExplorer({ artefacts, categories, infrastructure
           />
         </div>
         <div className="filter-field">
-          <label htmlFor="registry-category">Category</label>
+          <label htmlFor="registry-category">{opusView ? "OPUS RAF domain" : "Category"}</label>
           <select id="registry-category" value={category} onChange={(e) => setCategory(e.target.value)}>
-            <option value="all">All categories</option>
-            {categories.map((c) => (
+            <option value="all">{opusView ? "All domains" : "All categories"}</option>
+            {(opusView ? OPUS_DOMAINS : categories).map((c) => (
               <option key={c} value={c}>
                 {c}
               </option>
@@ -151,7 +249,20 @@ export default function RegistryExplorer({ artefacts, categories, infrastructure
           return (
             <article className="card registry-card" id={`registry-card-${a.id}`} key={a.id} style={{ borderColor: color }}>
               <div className="registry-card-header">
-                <span className="badge badge-category" style={{ background: color }}>{a.category}</span>
+                <div className="registry-card-badges">
+                  <span className="badge badge-category" style={{ background: color }}>{a.category}</span>
+                  {opusView && a["opus-raf-domain"] && (
+                    <span
+                      className="badge badge-opus"
+                      style={{
+                        borderColor: opusDomainColor(a["opus-raf-domain"]),
+                        color: opusDomainColor(a["opus-raf-domain"]),
+                      }}
+                    >
+                      {a["opus-raf-domain"]}
+                    </span>
+                  )}
+                </div>
                 <h3>{a.artefact}</h3>
               </div>
               <p>{a.explanation}</p>

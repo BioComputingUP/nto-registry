@@ -71,6 +71,7 @@ artefact type).
    |---|---|
    | `id` | kebab-case of `artefact` (e.g. "Curated Knowledgebase Entry" → `curated-knowledgebase-entry`). Must be unique. |
    | `category` | one of the 5 known categories |
+   | `opus-raf-domain` | one of `Research`, `Education`, `Leadership`, `Valorisation` — the OPUS Research Assessment Framework domain (https://zenodo.org/records/15826745) this artefact best fits. Derive it, don't default it: `category` Data/Software/Peer review → `Research`; `category` Training → `Education`; `category` Research support → judge individually against the OPUS domain definitions based on what the artefact's `activities` actually involve — Research support entries span Research, Leadership, and Valorisation depending on the specific artefact, never assume the whole category maps to one domain. Optional in the schema, but every entry should have one — don't skip it. |
    | `artefact` | full human-readable name |
    | `explanation` | 1–3 sentences, what it is (not how to make it) |
    | `activities` | list of 1+ activities that produce this artefact — this can and often should have multiple items |
@@ -145,7 +146,9 @@ elsewhere — that's by design, not a bug to fix.
 
 1. Locate the entry by `id`.
 2. Apply the minimal fix requested (wording, URL, category, infrastructure
-   reference). Do not rewrite unrelated fields.
+   reference). Do not rewrite unrelated fields. If the correction changes
+   `category`, re-check whether `opus-raf-domain` still fits — moving an
+   entry (e.g. out of Research support) can change its OPUS domain too.
 3. Bump that entry's `last-modified-version` (value TBD by `semver-maintenance`).
 
 ### E. New assessment reform initiative
@@ -193,9 +196,9 @@ change under SemVer and propagate the version bump across
 
 - `id`: lowercase kebab-case only (e.g. `ersilia-model-hub`), no spaces or underscores.
 - Multi-sentence text fields use YAML folded block scalar `>-`, matching surrounding entries.
-- Field order for artefact entries: `id`, `category`, `artefact`, `explanation`,
-  `activities`, `examples`, `supporting-infrastructure`, `added-in-version`,
-  `last-modified-version`.
+- Field order for artefact entries: `id`, `category`, `opus-raf-domain`,
+  `artefact`, `explanation`, `activities`, `examples`,
+  `supporting-infrastructure`, `added-in-version`, `last-modified-version`.
 - Field order for infrastructure entries: `id`, `name`, `url`, `function`,
   `usability` (optional), `added-in-version`, `last-modified-version`.
 - `examples[].url` and infrastructure `url` are `''` (not omitted) when no
