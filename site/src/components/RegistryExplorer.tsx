@@ -55,7 +55,7 @@ export default function RegistryExplorer({ artefacts, categories, infrastructure
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return artefacts.filter((a) => {
+    const result = artefacts.filter((a) => {
       if (category !== "all") {
         const value = opusView ? a["opus-raf-domain"] : a.category;
         if (value !== category) return false;
@@ -75,6 +75,18 @@ export default function RegistryExplorer({ artefacts, categories, infrastructure
         .toLowerCase();
       return haystack.includes(q);
     });
+    // Regroup into OPUS domain order (Research/Education/Leadership/
+    // Valorisation) when viewing by OPUS RAF, rather than leaving cards in
+    // the catalogue's native NTO-category order — Array.sort is stable, so
+    // cards within the same domain keep their original relative order.
+    if (opusView) {
+      result.sort(
+        (a, b) =>
+          OPUS_DOMAINS.indexOf(a["opus-raf-domain"] as OpusRafDomain) -
+          OPUS_DOMAINS.indexOf(b["opus-raf-domain"] as OpusRafDomain)
+      );
+    }
+    return result;
   }, [artefacts, query, category, statusFilter, opusView]);
 
   // Deep-link support: pages like the homepage link here with
@@ -171,12 +183,6 @@ export default function RegistryExplorer({ artefacts, categories, infrastructure
               id="opus-info-panel"
               role="tooltip"
             >
-              <p>
-                The <strong>OPUS Research Assessment Framework (OPUS RAF)</strong> groups
-                researcher activity into four domains — an alternative, discipline-neutral lens
-                layered on top of this registry's own categories to help institutions already
-                using OPUS RAF map straight onto it.
-              </p>
               <ul className="opus-info-domains">
                 <li><strong>Research</strong> — proposals, methods, data, software, publications, peer review.</li>
                 <li><strong>Education</strong> — courses, resources, teaching, supervision, skills development.</li>
@@ -184,8 +190,7 @@ export default function RegistryExplorer({ artefacts, categories, infrastructure
                 <li><strong>Valorisation</strong> — science communication, collaboration, exploitation &amp; entrepreneurship.</li>
               </ul>
               <a href={OPUS_RAF_URL} target="_blank" rel="noopener">
-                Read the full definitions on Zenodo{" "}
-                <span aria-hidden="true" dangerouslySetInnerHTML={{ __html: ICONS["external-link"] }} />
+                Full definitions on Zenodo
               </a>
             </div>
           </div>
@@ -245,22 +250,31 @@ export default function RegistryExplorer({ artefacts, categories, infrastructure
       <div className="grid grid-2 registry-grid">
         {filtered.map((a) => {
           const isOpen = expanded.has(a.id);
-          const color = categoryColor(a.category);
+          const categoryBadgeColor = categoryColor(a.category);
+          // When viewing by OPUS RAF, that domain becomes the card's primary
+          // colour (border + solid badge) since it's now the active grouping
+          // lens, and the NTO category demotes to the secondary outlined
+          // badge — otherwise toggling the view wouldn't visibly regroup
+          // anything beyond the filter dropdown.
+          const primaryColor = opusView ? opusDomainColor(a["opus-raf-domain"]) : categoryBadgeColor;
           return (
-            <article className="card registry-card" id={`registry-card-${a.id}`} key={a.id} style={{ borderColor: color }}>
+            <article className="card registry-card" id={`registry-card-${a.id}`} key={a.id} style={{ borderColor: primaryColor }}>
               <div className="registry-card-header">
                 <div className="registry-card-badges">
-                  <span className="badge badge-category" style={{ background: color }}>{a.category}</span>
-                  {opusView && a["opus-raf-domain"] && (
-                    <span
-                      className="badge badge-opus"
-                      style={{
-                        borderColor: opusDomainColor(a["opus-raf-domain"]),
-                        color: opusDomainColor(a["opus-raf-domain"]),
-                      }}
-                    >
-                      {a["opus-raf-domain"]}
-                    </span>
+                  {opusView && a["opus-raf-domain"] ? (
+                    <>
+                      <span className="badge badge-category" style={{ background: primaryColor }}>
+                        {a["opus-raf-domain"]}
+                      </span>
+                      <span
+                        className="badge badge-secondary"
+                        style={{ borderColor: categoryBadgeColor, color: categoryBadgeColor }}
+                      >
+                        {a.category}
+                      </span>
+                    </>
+                  ) : (
+                    <span className="badge badge-category" style={{ background: categoryBadgeColor }}>{a.category}</span>
                   )}
                 </div>
                 <h3>{a.artefact}</h3>

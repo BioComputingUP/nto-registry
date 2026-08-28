@@ -54,11 +54,10 @@
   --cat-generic: #606c71;
 
   /* One distinct, muted colour per OPUS RAF domain (Research/Education/
-     Leadership/Valorisation — see the Registry page's OPUS RAF toggle),
-     used only by .badge-opus (border + text, never a solid fill).
-     Deliberately desaturated relative to --cat-* above so the supplementary
-     OPUS badge reads as secondary rather than competing with the primary
-     .badge-category fill it always sits beside. */
+     Leadership/Valorisation — see the Registry page's OPUS RAF toggle).
+     Used as the card's primary colour (border + solid .badge-category
+     fill) when the OPUS view is on, and by .badge-secondary (border + text
+     only) when a card's NTO category is demoted to the secondary badge. */
   --opus-research: #2f6690;
   --opus-education: #5f7a2e;
   --opus-leadership: #8a5a2b;
@@ -301,12 +300,13 @@ img {
   color: #fff;
 }
 
-/* Supplementary OPUS RAF domain badge, shown beside .badge-category only
-   when the Registry page's OPUS toggle is on. Outlined/transparent rather
-   than a solid fill so it reads as a secondary, optional lens layered on
-   the primary NTO category badge, not a replacement for it. Colour is set
-   inline per-domain via opusDomainColor() in RegistryExplorer.tsx. */
-.badge-opus {
+/* Secondary badge, shown beside the primary .badge-category only when the
+   Registry page's OPUS toggle is on — holds whichever taxonomy (NTO
+   category or OPUS domain) isn't currently driving the card's primary
+   colour. Outlined/transparent rather than a solid fill so it reads as a
+   demoted, supplementary lens. Colour is set inline in
+   RegistryExplorer.tsx. */
+.badge-secondary {
   background: transparent;
   border: 1.5px solid transparent;
   font-weight: 600;
@@ -525,7 +525,7 @@ img {
   z-index: 20;
   top: calc(100% + 8px);
   left: 0;
-  width: min(320px, 80vw);
+  width: min(270px, 80vw);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
@@ -543,10 +543,6 @@ img {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
-}
-
-.opus-info-panel p {
-  margin: 0 0 var(--space-3);
 }
 
 .opus-info-domains {
