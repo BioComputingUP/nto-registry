@@ -15,7 +15,7 @@
 # - id: unique, lowercase, kebab-case identifier
 #   category: one of Data | Training | Software | Research support | Peer review
 #   opus-raf-domain: (optional) one of Research | Education | Leadership | Valorisation —
-#     the OPUS Research Assessment Framework (https://zenodo.org/records/15826745) domain
+#     the OPUS Research Assessment Framework (https://zenodo.org/records/14672476) domain
 #     this artefact best corresponds to. Powers the Registry page's optional OPUS RAF
 #     view. See the add-nto-entry skill for how to assign it when proposing a new
 #     artefact type — every current entry has one, don't skip it just because it's

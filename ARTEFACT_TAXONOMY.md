@@ -26,7 +26,7 @@ CONTRIBUTING.md).
 
 Alongside these 5 categories, every artefact type is also mapped to a domain
 in the **OPUS Research Assessment Framework (RAF)**
-(https://zenodo.org/records/15826745) — a discipline-neutral 4-domain model
+(https://zenodo.org/records/14672476) — a discipline-neutral 4-domain model
 some institutions already use for assessment. This is optional, supplementary
 metadata (the Registry page's OPUS RAF view is off by default), stored as
 `opus-raf-domain` in `data/nto_catalogue.yml`.

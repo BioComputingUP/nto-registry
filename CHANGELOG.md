@@ -13,7 +13,7 @@ CONTRIBUTING.md for the exact MAJOR/MINOR/PATCH bump policy applied to
 - **`opus-raf-domain`**: a new optional field on every artefact entry in
   `data/nto_catalogue.yml` (24/24 entries), tagging each output type with
   the domain it best fits in the OPUS Research Assessment Framework (OPUS
-  RAF — https://zenodo.org/records/15826745): Research, Education,
+  RAF — https://zenodo.org/records/14672476): Research, Education,
   Leadership, or Valorisation. `Data`, `Software`, and `Peer review` map to
   Research; `Training` maps to Education; `Research support` entries are
   mapped individually rather than as a block (spanning Leadership,

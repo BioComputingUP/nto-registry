@@ -24,7 +24,7 @@ function categoryColor(category: string) {
 }
 
 // The OPUS Research Assessment Framework's domains are a fixed, external
-// 4-item taxonomy (https://zenodo.org/records/15826745) — unlike `categories`
+// 4-item taxonomy (https://zenodo.org/records/14672476) — unlike `categories`
 // (a prop derived from the live catalogue), this list isn't data-driven and
 // never grows without a deliberate code change.
 const OPUS_DOMAINS: OpusRafDomain[] = ["Research", "Education", "Leadership", "Valorisation"];
@@ -40,7 +40,7 @@ function opusDomainColor(domain: OpusRafDomain | undefined) {
   return `var(${domain ? OPUS_DOMAIN_COLOR_VAR[domain] : "--color-gray-600"})`;
 }
 
-const OPUS_RAF_URL = "https://zenodo.org/records/15826745";
+const OPUS_RAF_URL = "https://zenodo.org/records/14672476";
 
 export default function RegistryExplorer({ artefacts, categories, infrastructureInfo, pidInfraIds }: Props) {
   const pidInfraIdSet = useMemo(() => new Set(pidInfraIds), [pidInfraIds]);
@@ -183,6 +183,9 @@ export default function RegistryExplorer({ artefacts, categories, infrastructure
               id="opus-info-panel"
               role="tooltip"
             >
+              <p className="opus-info-intro">
+                An alternative view of these outputs, grouped by OPUS RAF's four assessment domains.
+              </p>
               <ul className="opus-info-domains">
                 <li><strong>Research</strong> — proposals, methods, data, software, publications, peer review.</li>
                 <li><strong>Education</strong> — courses, resources, teaching, supervision, skills development.</li>

@@ -508,9 +508,17 @@ img {
   height: 16px;
 }
 
-.opus-info-btn:hover,
+/* Orange is reserved for the click-pinned state (aria-expanded) only — not
+   :hover — so it's unambiguous that clicking is what keeps the popover
+   open, distinct from the transient hover preview. Hover gets its own
+   neutral affordance instead of borrowing the "pinned" colour. */
+.opus-info-btn:hover {
+  background: var(--color-bg-subtle);
+}
+
 .opus-info-btn[aria-expanded="true"] {
   color: var(--color-accent);
+  background: var(--color-badge-planned-bg);
 }
 
 /* Always rendered (not conditionally mounted) so a plain CSS :hover on the
@@ -543,6 +551,11 @@ img {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
+}
+
+.opus-info-intro {
+  margin: 0 0 var(--space-3);
+  color: var(--color-text-muted);
 }
 
 .opus-info-domains {
