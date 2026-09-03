@@ -99,8 +99,12 @@ Registry page, live at `site/`.
   Assessment Framework tag powering the Registry page's OPUS RAF toggle,
   required matching updates to `site/src/lib/types.ts` (the `Artefact`
   interface), `site/src/components/RegistryExplorer.tsx` (toggle/filter/badge
-  logic), and `site/src/styles/tokens.css` (new colour tokens). A new field
-  is not automatically picked up by the site the way a new entry is.)
+  logic), and `site/src/styles/tokens.css` (new colour tokens). The same was
+  true of `coara-tiers`, the platform-level CoARA OI4RRA tier list powering
+  the Infrastructure page's CoARA toggle: `types.ts`, `tokens.css`,
+  `site/src/pages/infrastructure.astro`, and a list-aware check in
+  `scripts/validate_yaml.py`. A new field is not automatically picked up by
+  the site the way a new entry is.)
   **Adding a new infrastructure platform is the one exception**: it also
   needs a manual entry in `site/src/pages/infrastructure.astro`'s `LOGOS`
   map (a real logo — see the file's own sourcing comments for the

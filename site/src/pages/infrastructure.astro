@@ -2,13 +2,11 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { ICONS, GITHUB_ICON } from "../lib/icons";
 import infrastructure from "../generated/infrastructure-catalogue.json";
+import InfraCard from "../components/InfraCard.astro";
+import type { CoaraTier, LogoEntry } from "../lib/types";
 
 const base = import.meta.env.BASE_URL;
 
-type LogoEntry =
-  | { type: "img"; src: string; scale?: number; width?: number }
-  | { type: "svg"; markup: string }
-  | { type: "icon"; key: string; color: string };
 
 // Real logos, fetched from each platform's own official asset: ORCID's
 // hosted icon, the GitHub mark already used elsewhere on the site,
@@ -226,6 +224,110 @@ if (unplaced.length) {
   throw new Error(`infrastructure.astro: pipeline diagram has no place for FUNCTION_META group(s): ${unplaced.join(", ")}`);
 }
 
+// CoARA's OI4RRA four-tier reference architecture is a fixed, external
+// taxonomy — like OPUS_DOMAINS in RegistryExplorer.tsx it isn't data-driven
+// and never grows without a deliberate code change. Only the per-platform
+// assignment is data (`coara-tiers` in infrastructure_catalogue.yml). The
+// definitions below are verbatim from the working group.
+const COARA_WG_URL =
+  "https://www.coara.org/working-groups/wg-towards-open-infrastructures-for-responsible-research-assessment-oi4rra/";
+const COARA_REPORT_URL = "https://doi.org/10.5281/zenodo.15297695";
+
+const COARA_TIERS: { tier: CoaraTier; anchor: string; title: string; definition: string; gist: string }[] = [
+  {
+    tier: "Tier 0",
+    anchor: "coara-tier-0",
+    title: "Tier 0 — Foundation",
+    definition:
+      "Essential metadata, ensuring consistent tracking with Persistent Identifiers (PIDs), and adopting standardised protocols.",
+    gist: "metadata, PIDs and standardised protocols",
+  },
+  {
+    tier: "Tier 1",
+    anchor: "coara-tier-1",
+    title: "Tier 1 — Research Publishing Venues",
+    definition:
+      "Repositories, open access journals and publishers where the public is accessing the research products like articles, data, software, and many others.",
+    gist: "the repositories and venues outputs are published in",
+  },
+  {
+    tier: "Tier 2",
+    anchor: "coara-tier-2",
+    title: "Tier 2 — Scholarly Metadata Aggregators",
+    definition:
+      "Database aggregators or Scientific Knowledge Graph that contains the metadata in tiers 0 and 1.",
+    gist: "aggregators and knowledge graphs over tiers 0 and 1",
+  },
+  {
+    tier: "Tier 3",
+    anchor: "coara-tier-3",
+    title: "Tier 3 — Research Assessment Services",
+    definition:
+      "Services and platforms that are leveraging the previous tiers in order to generate metrics, analytics and indicators tailored for RRA.",
+    gist: "metrics, analytics and indicators built on the tiers below",
+  },
+];
+
+const COARA_TIER_COLOR: Record<CoaraTier, string> = {
+  "Tier 0": "var(--coara-tier-0)",
+  "Tier 1": "var(--coara-tier-1)",
+  "Tier 2": "var(--coara-tier-2)",
+  "Tier 3": "var(--coara-tier-3)",
+};
+
+// A fan-out, not a partition: a platform appears under every tier it holds,
+// because CoARA's tiers describe functions and some platforms perform two
+// (ORCID is both the researcher PID and the record assessment panels read).
+const byCoaraTier = new Map<CoaraTier, typeof infrastructure>();
+for (const t of COARA_TIERS) byCoaraTier.set(t.tier, []);
+const unmappedToCoara: typeof infrastructure = [];
+for (const infra of infrastructure) {
+  const tiers = (infra["coara-tiers"] ?? []) as CoaraTier[];
+  if (tiers.length === 0) {
+    unmappedToCoara.push(infra);
+    continue;
+  }
+  for (const tier of tiers) {
+    const bucket = byCoaraTier.get(tier);
+    if (!bucket) {
+      throw new Error(`infrastructure.astro: unknown coara-tier '${tier}' on '${infra.id}'`);
+    }
+    bucket.push(infra);
+  }
+}
+for (const list of byCoaraTier.values()) {
+  list.sort((a, b) => a.name.localeCompare(b.name));
+}
+
+// Which of our own groups a CoARA tier's members actually came from. Derived
+// from the members themselves, so the CoARA view states what it's standing in
+// for rather than hiding it, and can't drift from the assignment.
+function nativeGroupsFor(items: typeof infrastructure): string {
+  const seen = new Set<string>();
+  for (const infra of items) {
+    const meta = FUNCTION_META[functionKeyOf(infra.function)];
+    seen.add(`${meta.title} (${meta.tier === "essential" ? "Essential" : "Intermediary"})`);
+  }
+  return [...seen].join(" · ");
+}
+
+// The demoted native-tier badge each card carries in the CoARA view.
+function nativeTierBadge(infra: (typeof infrastructure)[number]) {
+  const { tier } = FUNCTION_META[functionKeyOf(infra.function)];
+  return {
+    label: tier === "essential" ? "Essential" : "Intermediary",
+    color: tier === "essential" ? "var(--color-accent)" : "var(--color-teal-500)",
+    style: "outline" as const,
+  };
+}
+
+// Publishing & PID platforms list what they actively capture credit for;
+// everything else shows its usability note. Per card, because a CoARA tier
+// can hold both kinds.
+function showsActiveFor(infra: (typeof infrastructure)[number]): boolean {
+  return functionKeyOf(infra.function) === "Publishing & PID provision";
+}
+
 // The description text after the leading category phrase — that phrase is
 // now conveyed by the section heading itself, so it's trimmed from the
 // per-card copy to avoid repeating it on every card.
@@ -321,128 +423,190 @@ function cardDescription(fn: string): string {
     </div>
   </section>
 
-  <section class="section infra-tier-section">
-    <div class="container">
-      <p class="eyebrow">Essential</p>
-      <h2 class="section-heading-left">Essential Infrastructure</h2>
-      <p class="section-intro-left">
-        The baseline layer without which non-traditional outputs cannot be credited at all:
-        platforms that give an output its first persistent, discoverable identity, and systems
-        that surface that identity as part of a researcher's formal academic profile.
-      </p>
+  <div id="infra-views" data-view="native">
+    <div class="infra-view-bar" hidden>
+      <div class="container">
+        <div class="view-toggle-row">
+          <label class="view-toggle">
+            <input type="checkbox" role="switch" id="coara-view-toggle" />
+            <span class="view-toggle-track" aria-hidden="true"><span class="view-toggle-thumb"></span></span>
+            <span class="view-toggle-label">View by CoARA tier</span>
+          </label>
 
-      {essentialSections.map((key) => {
-        const meta = FUNCTION_META[key];
-        const items = bySection.get(key) ?? [];
-        const isPublishing = key === "Publishing & PID provision";
-        return (
-          <div class="infra-subsection infra-subsection-essential" id={meta.anchor}>
-            <h3 class="infra-subsection-title">{meta.title}</h3>
-            <p class="infra-subsection-blurb">{meta.blurb}</p>
-            <div class="grid grid-3">
-              {items.map((infra) => {
-                const logo = LOGOS[infra.id];
-                const tagCategory = NTO_CATEGORY[infra.id] ?? "General";
-                const tagColor = `var(${CATEGORY_COLOR_VAR[tagCategory]})`;
-                return (
-                  <article class="card infra-card" id={infra.id} style={`border-color:${tagColor}`}>
-                    <span class="badge badge-category infra-category-tag" style={`background:${tagColor}`}>{tagCategory}</span>
-                    <div class="infra-logo-wrap" style={logoBoxStyle(logo)}>
-                      {logo.type === "img" && <img class="infra-logo" src={logo.src} alt="" loading="lazy" />}
-                      {logo.type === "svg" && <span class="infra-logo-icon" set:html={logo.markup} />}
-                      {logo.type === "icon" && (
-                        <span class="infra-logo-icon" style={`color:${logo.color}`} set:html={ICONS[logo.key]} />
-                      )}
-                    </div>
-                    <h4><a class="infra-card-link" href={infra.url} target="_blank" rel="noopener">{infra.name}</a></h4>
-                    <p>{cardDescription(infra.function)}</p>
-                    <details class="infra-details">
-                      <summary class="btn btn-outline registry-toggle">Show details</summary>
-                      <div class="registry-card-details">
-                        {isPublishing ? (
-                          <>
-                            <h4>Currently captures credit for</h4>
-                            {infra.activeFor.length > 0 ? (
-                              <ul class="infra-focus-list">
-                                {infra.activeFor.map((ref) => (
-                                  <li><strong>{ref.artefact}</strong> ({ref.category})</li>
-                                ))}
-                                {infra.id === "zenodo" && (
-                                  <li><strong>Host for digital NTOs</strong> (General)</li>
-                                )}
-                              </ul>
-                            ) : (
-                              <p class="infra-focus-empty">No active mappings yet.</p>
-                            )}
-                          </>
-                        ) : (
-                          <>
-                            <h4>Applicability &amp; usability</h4>
-                            <p class="infra-usability">{infra.usability}</p>
-                          </>
-                        )}
-                      </div>
-                    </details>
-                  </article>
-                );
-              })}
+          <div class="view-info" id="coara-view-info">
+            <button
+              type="button"
+              class="view-info-btn"
+              aria-expanded="false"
+              aria-controls="infra-view-info-panel"
+              aria-label="What is the CoARA four-tier model?"
+            >
+              <span aria-hidden="true" set:html={ICONS.info} />
+            </button>
+            <div class="view-info-panel" id="infra-view-info-panel" role="tooltip">
+              <p class="view-info-intro">
+                The same platforms, cross-walked onto CoARA OI4RRA's four-tier reference
+                architecture. Essential and Intermediary stay this registry's own structure —
+                CoARA's tiers cut across them rather than nesting inside them.
+              </p>
+              <ul class="view-info-list">
+                {COARA_TIERS.map((t) => (
+                  <li><strong>{t.tier}</strong> — {t.gist}.</li>
+                ))}
+              </ul>
+              <a href={COARA_REPORT_URL} target="_blank" rel="noopener">Full definitions in the OI4RRA report</a>
             </div>
           </div>
-        );
-      })}
+        </div>
+      </div>
     </div>
-  </section>
 
-  <section class="section section-subtle infra-tier-section">
-    <div class="container">
-      <p class="eyebrow infra-eyebrow-intermediary">Intermediary</p>
-      <h2 class="section-heading-left">Intermediary Infrastructure</h2>
-      <p class="section-intro-left">
-        The layer that sits between raw publishing and the researcher's profile: aggregating
-        records to avoid double-counting, enriching them with quality context, tracking granular
-        ongoing labour, and providing the shared vocabularies that let all of the above interoperate.
-      </p>
+    <div class="infra-native-tree">
+      <section class="section infra-tier-section">
+        <div class="container">
+          <p class="eyebrow">Essential</p>
+          <h2 class="section-heading-left">Essential Infrastructure</h2>
+          <p class="section-intro-left">
+            The baseline layer without which non-traditional outputs cannot be credited at all:
+            platforms that give an output its first persistent, discoverable identity, and systems
+            that surface that identity as part of a researcher's formal academic profile.
+          </p>
 
-      {intermediarySections.map((key) => {
-        const meta = FUNCTION_META[key];
-        const items = bySection.get(key) ?? [];
-        return (
-          <div class="infra-subsection infra-subsection-intermediary" id={meta.anchor}>
-            <h3 class="infra-subsection-title">{meta.title}</h3>
-            <p class="infra-subsection-blurb">{meta.blurb}</p>
-            <div class="grid grid-3">
-              {items.map((infra) => {
-                const logo = LOGOS[infra.id];
-                const tagCategory = NTO_CATEGORY[infra.id] ?? "General";
-                const tagColor = `var(${CATEGORY_COLOR_VAR[tagCategory]})`;
-                return (
-                  <article class="card infra-card" id={infra.id} style={`border-color:${tagColor}`}>
-                    <span class="badge badge-category infra-category-tag" style={`background:${tagColor}`}>{tagCategory}</span>
-                    <div class="infra-logo-wrap" style={logoBoxStyle(logo)}>
-                      {logo.type === "img" && <img class="infra-logo" src={logo.src} alt="" loading="lazy" />}
-                      {logo.type === "svg" && <span class="infra-logo-icon" set:html={logo.markup} />}
-                      {logo.type === "icon" && (
-                        <span class="infra-logo-icon" style={`color:${logo.color}`} set:html={ICONS[logo.key]} />
-                      )}
-                    </div>
-                    <h4><a class="infra-card-link" href={infra.url} target="_blank" rel="noopener">{infra.name}</a></h4>
-                    <p>{cardDescription(infra.function)}</p>
-                    <details class="infra-details">
-                      <summary class="btn btn-outline registry-toggle">Show details</summary>
-                      <div class="registry-card-details">
-                        <h4>Applicability &amp; usability</h4>
-                        <p class="infra-usability">{infra.usability}</p>
-                      </div>
-                    </details>
-                  </article>
-                );
-              })}
+          {essentialSections.map((key) => {
+            const meta = FUNCTION_META[key];
+            const items = bySection.get(key) ?? [];
+            return (
+              <div class="infra-subsection infra-subsection-essential" id={meta.anchor}>
+                <h3 class="infra-subsection-title">{meta.title}</h3>
+                <p class="infra-subsection-blurb">{meta.blurb}</p>
+                <div class="grid grid-3">
+                  {items.map((infra) => {
+                    const tagCategory = NTO_CATEGORY[infra.id] ?? "General";
+                    const tagColor = `var(${CATEGORY_COLOR_VAR[tagCategory]})`;
+                    return (
+                      <InfraCard
+                        infra={infra}
+                        logo={LOGOS[infra.id]}
+                        variant="essential"
+                        cardId={infra.id}
+                        borderColor={tagColor}
+                        badges={[{ label: tagCategory, color: tagColor, style: "solid" }]}
+                        showActiveFor={showsActiveFor(infra)}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <section class="section section-subtle infra-tier-section">
+        <div class="container">
+          <p class="eyebrow infra-eyebrow-intermediary">Intermediary</p>
+          <h2 class="section-heading-left">Intermediary Infrastructure</h2>
+          <p class="section-intro-left">
+            The layer that sits between raw publishing and the researcher's profile: aggregating
+            records to avoid double-counting, enriching them with quality context, tracking granular
+            ongoing labour, and providing the shared vocabularies that let all of the above interoperate.
+          </p>
+
+          {intermediarySections.map((key) => {
+            const meta = FUNCTION_META[key];
+            const items = bySection.get(key) ?? [];
+            return (
+              <div class="infra-subsection infra-subsection-intermediary" id={meta.anchor}>
+                <h3 class="infra-subsection-title">{meta.title}</h3>
+                <p class="infra-subsection-blurb">{meta.blurb}</p>
+                <div class="grid grid-3">
+                  {items.map((infra) => {
+                    const tagCategory = NTO_CATEGORY[infra.id] ?? "General";
+                    const tagColor = `var(${CATEGORY_COLOR_VAR[tagCategory]})`;
+                    return (
+                      <InfraCard
+                        infra={infra}
+                        logo={LOGOS[infra.id]}
+                        variant="intermediary"
+                        cardId={infra.id}
+                        borderColor={tagColor}
+                        badges={[{ label: tagCategory, color: tagColor, style: "solid" }]}
+                        showActiveFor={showsActiveFor(infra)}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+    </div>
+
+    <div class="infra-coara-tree">
+      <section class="section infra-tier-section">
+        <div class="container">
+          <p class="eyebrow infra-eyebrow-coara">External cross-walk</p>
+          <h2 class="section-heading-left">By CoARA OI4RRA tier</h2>
+          <p class="section-intro-left">
+            The same 17 platforms grouped by the four-tier reference architecture from the CoARA
+            working group on <a href={COARA_WG_URL} target="_blank" rel="noopener">Open Infrastructures for Responsible Research Assessment</a>.
+            This is a supplementary lens, not a replacement: each card keeps an outlined badge naming
+            the Essential or Intermediary group it belongs to here, and each tier below names the
+            groups its members came from. The two models deliberately disagree — CoARA's Tier 3
+            gathers services this registry files under three separate headings — and that divergence
+            is the point of showing both.
+          </p>
+
+          {COARA_TIERS.map((t) => {
+            const items = byCoaraTier.get(t.tier) ?? [];
+            const color = COARA_TIER_COLOR[t.tier];
+            return (
+              <div class="infra-subsection infra-coara-panel" id={t.anchor} style={`--panel-accent:${color}`}>
+                <h3 class="infra-subsection-title">{t.title}</h3>
+                <p class="infra-subsection-blurb">{t.definition}</p>
+                <p class="infra-coara-native">Our grouping: {nativeGroupsFor(items)}</p>
+                <div class="grid grid-3">
+                  {items.map((infra) => (
+                    <InfraCard
+                      infra={infra}
+                      logo={LOGOS[infra.id]}
+                      variant="essential"
+                      borderColor={color}
+                      badges={[{ label: t.tier, color, style: "solid" }, nativeTierBadge(infra)]}
+                      showActiveFor={showsActiveFor(infra)}
+                    />
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+
+          {unmappedToCoara.length > 0 && (
+            <div class="infra-subsection infra-coara-panel" style="--panel-accent:var(--color-gray-600)">
+              <h3 class="infra-subsection-title">Not yet mapped to a CoARA tier</h3>
+              <p class="infra-subsection-blurb">
+                These platforms have no <code>coara-tiers</code> value in the catalogue yet, so they
+                appear here rather than silently dropping out of this view.
+              </p>
+              <div class="grid grid-3">
+                {unmappedToCoara.map((infra) => (
+                  <InfraCard
+                    infra={infra}
+                    logo={LOGOS[infra.id]}
+                    variant="essential"
+                    borderColor="var(--color-gray-600)"
+                    badges={[nativeTierBadge(infra)]}
+                    showActiveFor={showsActiveFor(infra)}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-        );
-      })}
+          )}
+        </div>
+      </section>
     </div>
-  </section>
+  </div>
 
   <section class="section cta-section">
     <div class="container cta-inner">
@@ -769,95 +933,42 @@ function cardDescription(fn: string): string {
       grid-template-columns: repeat(auto-fit, minmax(260px, 340px));
     }
 
-    .infra-card {
-      border-width: 2px;
-      position: relative;
-      scroll-margin-top: 6.5rem;
-    }
+    /* ---- CoARA tier lens ---- */
 
-    /* The intermediary panel fill is white (to contrast with its own
-       Intermediary-tier section background), so cards inside it need the
-       subtle-tint fill instead of the default white .card background —
-       otherwise they'd blend into the panel with only their border
-       showing. Essential-tier panels are already the subtle tint, so
-       their cards keep the default white fill and don't need this. */
-    .infra-subsection-intermediary .infra-card {
-      background: var(--color-bg-subtle);
-    }
-
-    .infra-category-tag {
-      align-self: flex-start;
-      margin-bottom: var(--space-3);
-    }
-
-    .infra-logo-wrap {
-      width: 72px;
-      height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      align-self: center;
-      margin-bottom: var(--space-3);
-    }
-
-    .infra-logo {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      border-radius: var(--radius-sm);
-    }
-
-    .infra-logo-icon {
-      display: inline-flex;
-    }
-
-    .infra-logo-icon :global(svg) {
-      width: 52px;
-      height: 52px;
-    }
-
-    .infra-card h4 {
-      margin-bottom: var(--space-2);
-    }
-
-    /* Whole-card click target: the title link grows an invisible overlay
-       covering the entire card (the "stretched link" pattern), so clicking
-       anywhere on the card opens the platform's site — not just the title
-       text. The "Show details" toggle sits on its own stacking layer above
-       that overlay so it keeps working as a separate, non-navigating click. */
-    .infra-card-link::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-    }
-
-    .infra-card:hover {
-      cursor: pointer;
-    }
-
-    .infra-details {
-      position: relative;
-      z-index: 1;
-      margin-top: auto;
-      padding-top: var(--space-3);
-    }
-
-    .infra-details summary {
-      list-style: none;
-      cursor: pointer;
-    }
-
-    .infra-details summary::-webkit-details-marker {
+    /* Both groupings are server-rendered; the toggle only swaps which is
+       shown. That keeps this page free of framework JS, keeps the card CSS
+       scoped, and means the native view still renders correctly with
+       JavaScript disabled — the attribute default below is the native view,
+       and the bar that switches it is hidden until the script un-hides it. */
+    [data-view="native"] .infra-coara-tree,
+    [data-view="coara"] .infra-native-tree {
       display: none;
     }
 
-    .infra-details summary::marker {
-      content: "";
+    .infra-view-bar {
+      padding-top: var(--space-6);
     }
 
-    .infra-details[open] summary {
-      margin-bottom: var(--space-3);
+    .infra-eyebrow-coara {
+      color: var(--coara-tier-3);
+    }
+
+    .infra-coara-panel {
+      background: var(--color-bg-subtle);
+    }
+
+    /* The 4px accent bar can't be set inline (it's a pseudo-element), so the
+       tier colour arrives as a custom property on the panel instead. */
+    .infra-coara-panel::before {
+      background: var(--panel-accent);
+    }
+
+    /* Names the Essential/Intermediary groups this tier's members came from,
+       so switching lens demotes our own structure rather than hiding it. */
+    .infra-coara-native {
+      margin-bottom: var(--space-5);
+      font-size: var(--fs-small);
+      color: var(--color-text-muted);
     }
 
     .cta-section {
@@ -871,4 +982,62 @@ function cardDescription(fn: string): string {
       margin: 0 auto;
     }
   </style>
+
+  <script>
+    const views = document.getElementById("infra-views");
+    const bar = document.querySelector(".infra-view-bar");
+    const toggle = document.getElementById("coara-view-toggle") as HTMLInputElement | null;
+    const info = document.getElementById("coara-view-info");
+    const infoBtn = info?.querySelector(".view-info-btn") as HTMLButtonElement | null;
+    const infoPanel = document.getElementById("infra-view-info-panel");
+
+    if (views && bar && toggle) {
+      // Only revealed once the script runs, so a no-JS visitor is never shown
+      // a switch that can't do anything.
+      bar.removeAttribute("hidden");
+
+      const setView = (coara: boolean) => {
+        views.dataset.view = coara ? "coara" : "native";
+        toggle.checked = coara;
+      };
+
+      toggle.addEventListener("change", () => setView(toggle.checked));
+
+      // The CoARA panels are the only anchors that exist solely in that view,
+      // so a link straight to one opens in it. Every other anchor — the
+      // platform ids and the six function-group anchors — lives in the native
+      // tree, which is the default, so those deep links need no special case.
+      if (location.hash.startsWith("#coara-tier-")) {
+        setView(true);
+        document.querySelector(location.hash)?.scrollIntoView();
+      }
+
+      // The pipeline diagram stays visible in both views, but its chips point
+      // at native-tree anchors — switch back before letting the jump happen.
+      document.querySelector(".infra-pipeline")?.addEventListener("click", () => {
+        if (views.dataset.view === "coara") setView(false);
+      });
+    }
+
+    if (info && infoBtn && infoPanel) {
+      const setOpen = (open: boolean) => {
+        infoBtn.setAttribute("aria-expanded", String(open));
+        infoPanel.classList.toggle("is-open", open);
+      };
+
+      infoBtn.addEventListener("click", () => {
+        setOpen(infoBtn.getAttribute("aria-expanded") !== "true");
+      });
+
+      // Dismiss like a standard disclosure popover. mousedown, not click, so
+      // it fires before the button's own handler can re-open it. The CSS
+      // :hover preview is untouched by any of this.
+      document.addEventListener("mousedown", (e) => {
+        if (!info.contains(e.target as Node)) setOpen(false);
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") setOpen(false);
+      });
+    }
+  </script>
 </BaseLayout>

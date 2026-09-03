@@ -24,6 +24,7 @@ REFORMS_PATH = REPO_ROOT / "data" / "reform_initiatives.yml"
 
 KNOWN_CATEGORIES = {"Data", "Training", "Software", "Research support", "Peer review"}
 KNOWN_OPUS_DOMAINS = {"Research", "Education", "Leadership", "Valorisation"}
+KNOWN_COARA_TIERS = {"Tier 0", "Tier 1", "Tier 2", "Tier 3"}
 KEBAB_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 SEMVER_RE = re.compile(r"^\d+\.\d+\.\d+$")
 YEAR_RE = re.compile(r"^\d{4}$")
@@ -89,6 +90,26 @@ def validate_infrastructure(errors):
         url = entry.get("url", "")
         if url and not url.startswith("http"):
             errors.append(f"{where} ({entry_id}): url '{url}' does not start with http")
+        # Optional, and a *list* (a platform can occupy two CoARA tiers), so
+        # unlike the scalar opus-raf-domain check this tests `is not None`
+        # rather than truthiness — an empty list is a mistake worth reporting,
+        # not an absent field to skip over.
+        coara_tiers = entry.get("coara-tiers")
+        if coara_tiers is not None:
+            if not isinstance(coara_tiers, list) or not coara_tiers:
+                errors.append(
+                    f"{where} ({entry_id}): coara-tiers must be a non-empty list of "
+                    f"{sorted(KNOWN_COARA_TIERS)}, or omitted"
+                )
+            else:
+                for tier in coara_tiers:
+                    if tier not in KNOWN_COARA_TIERS:
+                        errors.append(
+                            f"{where} ({entry_id}): unknown coara-tier '{tier}', "
+                            f"expected one of {sorted(KNOWN_COARA_TIERS)} or omitted"
+                        )
+                if len(set(coara_tiers)) != len(coara_tiers):
+                    errors.append(f"{where} ({entry_id}): duplicate value in coara-tiers")
         for v_field in ("added-in-version", "last-modified-version"):
             if entry.get(v_field):
                 check_semver(entry[v_field], f"{where} ({entry_id}).{v_field}", errors)

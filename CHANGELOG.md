@@ -7,6 +7,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/) — see
 CONTRIBUTING.md for the exact MAJOR/MINOR/PATCH bump policy applied to
 `catalogue-version`.
 
+## [2.4.0] - 2026-09-03
+
+### Added
+- **`coara-tiers`**: a new optional field on every platform in
+  `data/infrastructure_catalogue.yml` (17/17 entries), cross-walking each onto
+  the four-tier reference architecture from the CoARA working group on Open
+  Infrastructures for Responsible Research Assessment (OI4RRA —
+  https://doi.org/10.5281/zenodo.15297695): Tier 0 Foundation, Tier 1 Research
+  Publishing Venues, Tier 2 Scholarly Metadata Aggregators, Tier 3 Research
+  Assessment Services. Unlike `opus-raf-domain` this is a **list** — ORCID is
+  both the researcher PID (Tier 0) and the record an assessment panel reads
+  (Tier 3), and FAIRsharing is both the standards registry (Tier 0) and a
+  PID-assigning registry in its own right (Tier 1).
+- Infrastructure page: an off-by-default "View by CoARA tier" toggle. Turning
+  it on regroups the same platforms into the four CoARA tiers, with the same
+  switch and info popover the Registry page uses for OPUS RAF. Our own
+  Essential/Intermediary structure is demoted rather than hidden — each card
+  keeps an outlined badge naming its native group, and each tier panel states
+  which of our groups its members came from.
+- Infrastructure page: a "credit-capture pipeline" diagram in the page header
+  — the two Essential groups as blocks at either end, the three sequential
+  Intermediary steps between them, and Ontologies & Controlled Vocabularies
+  as a substrate strip beneath. Replaces the old jump-nav, which linked the
+  same six anchors with less information.
+- `scripts/validate_yaml.py` now checks `coara-tiers` against its closed set
+  of 4 values when present, rejecting empty lists and duplicates. The check
+  tests `is not None` rather than truthiness, since the field is a list.
+
+### Changed
+- The OPUS toggle's CSS is now shared: `.opus-toggle*` / `.opus-info*` were
+  renamed to `.view-toggle*` / `.view-info*` so both the Registry page's OPUS
+  RAF lens and the Infrastructure page's CoARA lens use one implementation.
+  No visual change. The `--opus-*` colour tokens keep their names; CoARA has
+  its own `--coara-tier-*` set.
+- Infrastructure card markup is now a single `site/src/components/InfraCard.astro`
+  instead of two near-duplicate copies in the page.
+
 ## [2.3.0] - 2026-09-03
 
 ### Added

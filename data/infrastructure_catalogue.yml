@@ -23,6 +23,26 @@
 #     (Publishing & PID provision | Aggregation | Metadata enrichment |
 #     Contribution tracking & incentives | Academic profiles |
 #     Ontologies & controlled vocabularies)
+#   coara-tiers: optional. A list of one or more tiers from the CoARA OI4RRA
+#     four-tier reference architecture (Tier 0 | Tier 1 | Tier 2 | Tier 3),
+#     an external cross-walk that powers the Infrastructure page's optional
+#     "View by CoARA tier" lens. Source: CoARA WG "Towards Open Infrastructures
+#     for Responsible Research Assessment" (OI4RRA), "Conceptual Architecture
+#     for the Implementation of a Responsible Research Assessment Framework
+#     Built on Open Infrastructures", Manola N, Vergoulis T, Tzouganatou A et
+#     al. (2025), https://doi.org/10.5281/zenodo.15297695
+#       Tier 0 — foundation: essential metadata, PIDs, standardised protocols
+#       Tier 1 — research publishing venues: repositories, journals, publishers
+#       Tier 2 — scholarly metadata aggregators / knowledge graphs
+#       Tier 3 — research assessment services: metrics, analytics, indicators
+#     A list, not a single value, because a platform can genuinely occupy two
+#     tiers (ORCID is both the researcher PID and the record an assessment
+#     panel reads). Assign a second tier only where the platform performs that
+#     tier's function as a first-class capability. In particular: assigning a
+#     DOI does NOT make a repository Tier 0. Tier 0 is the standards and
+#     identifier layer a repository consumes; Tier 1 is the venue consuming
+#     it. Without that rule every publishing platform collapses into Tier 0
+#     and the cross-walk stops saying anything.
 #   usability: optional. 1-2 sentences on practical applicability — cost,
 #     who it's for, what's required to get value from it (registration,
 #     upstream integration, etc). NOT which NTO/artefact types it applies
@@ -44,13 +64,15 @@
     timeline, with badges/leaderboards for visibility. Resources can also
     register new curation activities directly on the platform, giving it a
     registration role alongside its tracking function.
+  coara-tiers:
+    - Tier 3
   usability: >-
     Free and open source, but not self-service for end users: a database
     has to implement APICURON's reporting API to log its curation events
     before any of its individual curators can be credited, so it requires
     integration work on the data provider's side first.
   added-in-version: 1.0.0
-  last-modified-version: 1.3.0
+  last-modified-version: 2.4.0
 
 - id: orcid
   name: ORCID
@@ -58,12 +80,15 @@
   function: >-
     Academic profiles. Persistent researcher identifier used to link
     contributions of any kind back to an individual across systems.
+  coara-tiers:
+    - Tier 0
+    - Tier 3
   usability: >-
     Free for researchers to register and keep for life; once linked, it
     works passively — connected publishers, funders, and repositories push
     updates to the profile automatically without further manual entry.
   added-in-version: 1.0.0
-  last-modified-version: 1.0.0
+  last-modified-version: 2.4.0
 
 - id: bio-tools
   name: bio.tools
@@ -71,8 +96,10 @@
   function: >-
     Publishing & PID provision. Specialised registry assigning persistent
     identifiers to research software and services for discovery and reuse.
+  coara-tiers:
+    - Tier 1
   added-in-version: 1.0.0
-  last-modified-version: 1.0.0
+  last-modified-version: 2.4.0
 
 - id: workflowhub
   name: WorkflowHub
@@ -80,8 +107,10 @@
   function: >-
     Publishing & PID provision. Registry for computational workflows,
     providing citable, versioned identifiers.
+  coara-tiers:
+    - Tier 1
   added-in-version: 1.0.0
-  last-modified-version: 1.0.0
+  last-modified-version: 2.4.0
 
 - id: elixir-tess
   name: ELIXIR TeSS
@@ -89,8 +118,10 @@
   function: >-
     Publishing & PID provision. Platform for discovering and registering
     life-science training materials and events.
+  coara-tiers:
+    - Tier 1
   added-in-version: 1.0.0
-  last-modified-version: 1.0.0
+  last-modified-version: 2.4.0
 
 - id: zenodo
   name: Zenodo
@@ -98,8 +129,10 @@
   function: >-
     Publishing & PID provision. General-purpose repository issuing DOIs for
     datasets, software releases, training materials, and reports.
+  coara-tiers:
+    - Tier 1
   added-in-version: 1.0.0
-  last-modified-version: 1.0.0
+  last-modified-version: 2.4.0
 
 - id: github
   name: GitHub
@@ -107,8 +140,10 @@
   function: >-
     Publishing & PID provision. Version-controlled code hosting; the primary
     home for research software repositories prior to archival/PID assignment.
+  coara-tiers:
+    - Tier 1
   added-in-version: 1.0.0
-  last-modified-version: 1.0.0
+  last-modified-version: 2.4.0
 
 - id: openaire-graph
   name: OpenAIRE Graph
@@ -116,13 +151,15 @@
   function: >-
     Aggregation. Merges PID-assigned research output information from
     diverse sources into a single, searchable knowledge graph.
+  coara-tiers:
+    - Tier 2
   usability: >-
     Free and openly queryable via API or bulk dataset download; nothing to
     register. Coverage depends entirely on upstream infrastructure, though —
     a record only appears once its source repository already exposes a
     compatible PID and metadata.
   added-in-version: 1.0.0
-  last-modified-version: 1.0.0
+  last-modified-version: 2.4.0
 
 - id: bip-finder
   name: BIP!
@@ -130,12 +167,14 @@
   function: >-
     Metadata enrichment. Adds impact-related annotations (e.g. topics,
     influence indicators) to research outputs.
+  coara-tiers:
+    - Tier 3
   usability: >-
     Free API and bulk downloads keyed by DOI, usable by any service that
     can look up a DOI — no account needed. Indicators are only computed for
     outputs that already have a DOI and an established citation trail.
   added-in-version: 1.0.0
-  last-modified-version: 1.0.0
+  last-modified-version: 2.4.0
 
 - id: openebench
   name: OpenEBench
@@ -143,12 +182,14 @@
   function: >-
     Metadata enrichment. Adds software quality and benchmarking performance
     indicators to research software entries.
+  coara-tiers:
+    - Tier 3
   usability: >-
     Free to use, but enrichment isn't automatic on sign-up: a tool needs to
     be registered in bio.tools and its maintainers need to opt it into a
     benchmarking community/challenge before performance indicators appear.
   added-in-version: 1.0.0
-  last-modified-version: 1.0.0
+  last-modified-version: 2.4.0
 
 - id: bip-scholar
   name: BIP! Scholar
@@ -156,13 +197,15 @@
   function: >-
     Academic profiles. Aggregates credit-relevant data into metadata-rich,
     human-readable researcher profiles tailored to discipline/contribution type.
+  coara-tiers:
+    - Tier 3
   usability: >-
     Profiles are generated automatically from OpenAIRE Graph data for any
     researcher with a discoverable output record — no registration or
     manual curation required, but coverage is limited to what's already
     indexed upstream.
   added-in-version: 1.0.0
-  last-modified-version: 1.2.2
+  last-modified-version: 2.4.0
 
 - id: fairsharing
   name: FAIRsharing
@@ -171,8 +214,11 @@
     Publishing & PID provision. Curated registry of data and metadata
     standards, databases, and repositories, giving each a discoverable,
     citable record independent of where the underlying data is hosted.
+  coara-tiers:
+    - Tier 0
+    - Tier 1
   added-in-version: 1.2.0
-  last-modified-version: 1.2.0
+  last-modified-version: 2.4.0
 
 - id: elixir-edd
   name: "ELIXIR EDD (ELIXIR Deposition Databases)"
@@ -181,8 +227,10 @@
     Publishing & PID provision. ELIXIR-recommended portfolio of trustworthy
     public deposition databases for biomolecular data, giving submitted
     datasets a discoverable, FAIR-compliant home with standardised metadata.
+  coara-tiers:
+    - Tier 1
   added-in-version: 1.4.0
-  last-modified-version: 1.4.0
+  last-modified-version: 2.4.0
 
 - id: dmponline
   name: DMPonline
@@ -191,8 +239,10 @@
     Publishing & PID provision. Web-based tool for authoring, sharing, and
     publishing Data Management Plans against funder-specific templates,
     giving the DMP itself a hosted, citable record.
+  coara-tiers:
+    - Tier 1
   added-in-version: 1.4.0
-  last-modified-version: 1.4.0
+  last-modified-version: 2.4.0
 
 - id: software-heritage
   name: Software Heritage
@@ -202,8 +252,10 @@
     assigns permanent SWHIDs (an ISO/IEC-standardised identifier scheme),
     preserving research software even after its original hosting location
     disappears.
+  coara-tiers:
+    - Tier 1
   added-in-version: 1.4.0
-  last-modified-version: 1.4.0
+  last-modified-version: 2.4.0
 
 - id: credit-taxonomy
   name: "CRediT (Contributor Roles Taxonomy)"
@@ -212,13 +264,15 @@
     Ontologies & controlled vocabularies. NISO-standardised taxonomy of
     contributor roles providing the shared, machine-readable vocabulary that
     lets credit-capture platforms describe contributions consistently.
+  coara-tiers:
+    - Tier 0
   usability: >-
     Free, open taxonomy — not a platform to register with. It only takes
     effect where a journal or submission system has integrated it into its
     workflow, so applicability depends on adoption upstream, not on the
     individual contributor.
   added-in-version: 1.4.0
-  last-modified-version: 1.4.0
+  last-modified-version: 2.4.0
 
 - id: prereview
   name: PREreview
@@ -227,5 +281,7 @@
     Publishing & PID provision. Open-source, journal-independent platform
     for publishing community reviews of preprints, giving each review a
     citable, publicly discoverable record tied to the reviewer's ORCID.
+  coara-tiers:
+    - Tier 1
   added-in-version: 1.4.0
-  last-modified-version: 1.4.0
+  last-modified-version: 2.4.0

@@ -63,6 +63,17 @@
   --opus-leadership: #8a5a2b;
   --opus-valorisation: #6b4098;
 
+  /* One colour per CoARA OI4RRA tier (see the Infrastructure page's CoARA
+     tier lens). Ordinal rather than categorical — Tier 0 foundation through
+     Tier 3 assessment services — so they read as a progression. Used the same
+     two ways as --opus-*: the card's primary colour (border + solid
+     .badge-category fill) when the CoARA view is on, and .badge-secondary
+     (border + text only) for the demoted native tier. */
+  --coara-tier-0: #4a4e8c;
+  --coara-tier-1: #1f7a6b;
+  --coara-tier-2: #9a6b1f;
+  --coara-tier-3: #9b3f6b;
+
   /* Type scale */
   --font-body: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --fs-h1: clamp(2rem, 1.6rem + 1.6vw, 3.25rem);
@@ -117,6 +128,14 @@
     --opus-education: #a8c46a;
     --opus-leadership: #d19a6a;
     --opus-valorisation: #b28fd9;
+
+    /* Brighter counterparts of --coara-tier-*, for the same reason as the
+       --opus-* set directly above: they're used as text/border colour against
+       --color-surface, which darkens here. */
+    --coara-tier-0: #9aa0e0;
+    --coara-tier-1: #5fd0ba;
+    --coara-tier-2: #e0b063;
+    --coara-tier-3: #e089b0;
   }
 }
 

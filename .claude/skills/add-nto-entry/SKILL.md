@@ -93,19 +93,32 @@ artefact type).
    incentives, Academic profiles, Ontologies & controlled vocabularies — or a
    short new phrase if none fit — see the Infrastructure page's Essential vs.
    Intermediary tiers, which are derived directly from this field).
-3. Optionally fill in `usability` — 1-2 sentences on practical applicability
+3. Fill in `coara-tiers` — a list of one or more of `Tier 0`, `Tier 1`,
+   `Tier 2`, `Tier 3` from the CoARA OI4RRA reference architecture
+   (https://doi.org/10.5281/zenodo.15297695), which powers the Infrastructure
+   page's optional CoARA tier view. Tier 0 is the standards/PID/protocol
+   layer, Tier 1 the publishing venues, Tier 2 the aggregators and knowledge
+   graphs, Tier 3 the services generating metrics, analytics and indicators.
+   Give a platform a second tier only where it performs that tier's function
+   as a first-class capability (ORCID is Tier 0 + Tier 3; FAIRsharing is
+   Tier 0 + Tier 1). **Assigning a DOI does not make a repository Tier 0** —
+   Tier 0 is the layer a repository consumes, Tier 1 is the venue consuming
+   it; without that rule every publishing platform collapses into Tier 0.
+   Schema-optional, but every current entry has one — don't skip it. See
+   ARTEFACT_TAXONOMY.md's "CoARA OI4RRA cross-mapping" for the full table.
+4. Optionally fill in `usability` — 1-2 sentences on practical applicability
    (cost, who it's for, what's required to get value from it), NOT which
    artefact types it applies to. Shown on the Infrastructure page's "Show
    details" panel for every platform outside "Publishing & PID provision".
-4. Append to `data/infrastructure_catalogue.yml`.
-5. Then add `{infrastructure-id, capture-function, status}` references to it
+5. Append to `data/infrastructure_catalogue.yml`.
+6. Then add `{infrastructure-id, capture-function, status}` references to it
    from the relevant artefact entries in `data/nto_catalogue.yml` — write a
    `capture-function` specific to *that* artefact, not a generic copy of
    `function`. `status` must be `active` and you need real evidence the
    pathway is live today — we no longer record aspirational/"planned"
    entries. If you don't have evidence of a live pathway, don't add the
    reference at all (a real gap is better than a fabricated one).
-6. **Required, not optional — the site build crashes without this:** add an
+7. **Required, not optional — the site build crashes without this:** add an
    entry for the new `id` to the `LOGOS` map in
    `site/src/pages/infrastructure.astro`. Source a *real* logo (fetch it from
    the platform's own site; the file's own top-of-file comment documents the
@@ -123,7 +136,7 @@ artefact type).
    (not one of the existing six — check `FUNCTION_META` in that file), you
    must also add a matching `FUNCTION_META` entry, or it won't be grouped
    into either the Essential or Intermediary tier section at all.
-7. Verify with an actual site build, not just the YAML validator:
+8. Verify with an actual site build, not just the YAML validator:
    ```bash
    cd site && npm run build
    ```
@@ -179,7 +192,7 @@ Fix any reported errors before considering the change complete.
 
 **If this change touched `data/infrastructure_catalogue.yml`** (procedure C),
 the YAML validator alone is not enough — it has no awareness of the site.
-Also do procedure C's step 7 (an actual `site` build) before considering the
+Also do procedure C's step 8 (an actual `site` build) before considering the
 change complete; a missing `LOGOS` entry passes YAML validation cleanly but
 crashes the site build.
 
@@ -200,7 +213,8 @@ change under SemVer and propagate the version bump across
   `artefact`, `explanation`, `activities`, `examples`,
   `supporting-infrastructure`, `added-in-version`, `last-modified-version`.
 - Field order for infrastructure entries: `id`, `name`, `url`, `function`,
-  `usability` (optional), `added-in-version`, `last-modified-version`.
+  `coara-tiers`, `usability` (optional), `added-in-version`,
+  `last-modified-version`.
 - `examples[].url` and infrastructure `url` are `''` (not omitted) when no
   confident URL exists.
 

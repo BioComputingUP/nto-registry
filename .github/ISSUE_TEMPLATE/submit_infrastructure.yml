@@ -68,6 +68,22 @@ body:
     validations:
       required: false
 
+  - type: checkboxes
+    id: coara-tiers
+    attributes:
+      label: CoARA OI4RRA tier (optional)
+      description: >-
+        Where the platform sits in the CoARA four-tier reference architecture
+        (https://doi.org/10.5281/zenodo.15297695). Tick more than one only if it
+        performs both tiers' functions as a first-class capability — note that
+        assigning a DOI does not by itself make a repository Tier 0. Leave all
+        unticked if you're not sure; a maintainer will assign it.
+      options:
+        - label: "Tier 0 — Foundation: metadata, PIDs, standardised protocols"
+        - label: "Tier 1 — Research Publishing Venues: repositories, journals, publishers"
+        - label: "Tier 2 — Scholarly Metadata Aggregators: knowledge graphs over tiers 0 and 1"
+        - label: "Tier 3 — Research Assessment Services: metrics, analytics, indicators"
+
   - type: textarea
     id: explanation
     attributes:

@@ -2,7 +2,7 @@
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
-[![Catalogue Version](https://img.shields.io/badge/catalogue--version-2.3.0-blue.svg)](CHANGELOG.md)
+[![Catalogue Version](https://img.shields.io/badge/catalogue--version-2.4.0-blue.svg)](CHANGELOG.md)
 
 ### 🌐 [Browse the live registry](https://nto-registry.org/)
 
@@ -44,7 +44,8 @@ The catalogue data is maintained in human-readable YAML files within the
 * `data/nto_catalogue.yml` — the 24 artefact types, their explanations,
   corresponding activities, examples, and supporting infrastructure.
 * `data/infrastructure_catalogue.yml` — the normalized registry of platforms
-  (APICURON, ORCID, bio.tools, Zenodo, etc.) referenced by the entries above.
+  (APICURON, ORCID, bio.tools, Zenodo, etc.) referenced by the entries above,
+  each cross-walked onto the CoARA OI4RRA four-tier architecture.
 * `data/reform_initiatives.yml` — key international research assessment reform
   initiatives (DORA, Leiden Manifesto, Hong Kong Principles, Hidden REF, CoARA,
   UN Open Source Principles, OPUS RAF)

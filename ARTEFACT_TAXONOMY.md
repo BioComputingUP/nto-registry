@@ -48,6 +48,57 @@ metadata (the Registry page's OPUS RAF view is off by default), stored as
 Education. `Research support` entries are mapped **individually**, not as a
 block — see the "OPUS RAF Domain" column below.
 
+## CoARA OI4RRA cross-mapping (infrastructure)
+
+The cross-mapping above applies to artefact *types*. Separately, every
+**supporting-infrastructure platform** in `data/infrastructure_catalogue.yml`
+is mapped onto the four-tier reference architecture from the CoARA working
+group on *Towards Open Infrastructures for Responsible Research Assessment*
+(OI4RRA) — see "Conceptual Architecture for the Implementation of a
+Responsible Research Assessment Framework Built on Open Infrastructures",
+Manola N, Vergoulis T, Tzouganatou A et al. (2025),
+https://doi.org/10.5281/zenodo.15297695. As with OPUS RAF this is optional,
+supplementary metadata (the Infrastructure page's CoARA tier view is off by
+default), stored as `coara-tiers`.
+
+- **Tier 0 — Foundation** — "Essential metadata, ensuring consistent tracking
+  with Persistent Identifiers (PIDs), and adopting standardised protocols".
+- **Tier 1 — Research Publishing Venues** — "Repositories, open access
+  journals and publishers where the public is accessing the research products
+  like articles, data, software, and many others".
+- **Tier 2 — Scholarly Metadata Aggregators** — "Database aggregators or
+  Scientific Knowledge Graph that contains the metadata in tiers 0 and 1".
+- **Tier 3 — Research Assessment Services** — "Services and platforms that are
+  leveraging the previous tiers in order to generate metrics, analytics and
+  indicators tailored for RRA".
+
+Unlike `opus-raf-domain`, this is a **list**: a platform can genuinely occupy
+two tiers. Assign a second only where the platform performs that tier's
+function as a first-class capability. The rule that keeps the mapping
+reproducible is that **assigning a DOI does not make a repository Tier 0** —
+Tier 0 is the standards and identifier layer a repository consumes, Tier 1 is
+the venue consuming it. Without it, every publishing platform collapses into
+Tier 0 and the cross-walk stops saying anything.
+
+| CoARA tier | Platforms | Our grouping |
+|---|---|---|
+| Tier 0 | CRediT, FAIRsharing, ORCID | Ontologies & Controlled Vocabularies (Intermediary); Publishing & PID Provision, Academic Profiles (Essential) |
+| Tier 1 | bio.tools, DMPonline, ELIXIR EDD, ELIXIR TeSS, FAIRsharing, GitHub, PREreview, Software Heritage, WorkflowHub, Zenodo | Publishing & PID Provision (Essential) |
+| Tier 2 | OpenAIRE Graph | Aggregation & Deduplication (Intermediary) |
+| Tier 3 | APICURON, BIP!, BIP! Scholar, OpenEBench, ORCID | Metadata Enrichment, Active Contribution Tracking (Intermediary); Academic Profiles (Essential) |
+
+Two platforms are deliberately dual-tier. **ORCID** is Tier 0 and Tier 3: the
+ORCID iD is the researcher PID everything else keys off, and the ORCID record
+is also what an assessment panel reads. **FAIRsharing** is Tier 0 and Tier 1:
+its content *is* the standards, databases and policies that constitute Tier 0,
+and it is itself a registry assigning PIDs to those records.
+
+Note that the two models disagree by design, and that is the reason for
+offering both. CoARA's Tier 3 gathers APICURON, BIP!, BIP! Scholar and
+OpenEBench, which this registry files under three separate headings across
+both of its own tiers; conversely our Essential tier splits across CoARA
+Tiers 0, 1 and 3.
+
 ## Artefact types by category
 
 | Category | Artefact | One-line definition | OPUS RAF Domain |

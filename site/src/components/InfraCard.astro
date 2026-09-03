@@ -1,0 +1,198 @@
+---
+// One infrastructure platform card. Extracted from infrastructure.astro so the
+// native (Essential/Intermediary) and CoARA-tier groupings render identical
+// cards from one source — the page previously carried two ~90% duplicated
+// copies of this markup, and the CoARA lens would have made it four.
+//
+// Card-scoped CSS lives here rather than in the page: Astro's scoped styles
+// compile to a data-astro-cid-* attribute stamped on elements in the template
+// that declares them, so the page's selectors stop matching once the elements
+// are rendered by this component.
+import { ICONS } from "../lib/icons";
+import type { InfrastructureEntry, LogoEntry } from "../lib/types";
+
+export interface CardBadge {
+  label: string;
+  color: string;
+  /** solid = the grouping currently driving the card; outline = a demoted lens. */
+  style: "solid" | "outline";
+}
+
+interface Props {
+  infra: InfrastructureEntry;
+  logo: LogoEntry;
+  /** Drives the card fill, which has to contrast with the panel behind it. */
+  variant: "essential" | "intermediary";
+  /** Deep-link anchor. Omitted in the CoARA tree so no id is emitted twice. */
+  cardId?: string;
+  borderColor: string;
+  badges: CardBadge[];
+  /**
+   * Publishing & PID platforms show what they actively capture credit for;
+   * everything else shows its usability note. Computed per card, not per
+   * section — in the CoARA grouping a single tier holds both kinds.
+   */
+  showActiveFor: boolean;
+}
+
+const { infra, logo, variant, cardId, borderColor, badges, showActiveFor } = Astro.props;
+
+const logoHeight = logo.type === "img" && logo.scale ? Math.round(72 * logo.scale) : 72;
+const logoWidth = logo.type === "img" && logo.width ? logo.width : logoHeight;
+
+// The leading category phrase is already the section heading above, so it's
+// trimmed from the per-card copy rather than repeated on every card.
+const description = infra.function.split(".").slice(1).join(".").trim();
+---
+
+<article
+  class:list={["card", "infra-card", `infra-card-${variant}`]}
+  id={cardId}
+  style={`border-color:${borderColor}`}
+>
+  <div class="infra-card-badges">
+    {badges.map((badge) => (
+      <span
+        class:list={["badge", badge.style === "solid" ? "badge-category" : "badge-secondary"]}
+        style={
+          badge.style === "solid"
+            ? `background:${badge.color}`
+            : `border-color:${badge.color};color:${badge.color}`
+        }
+      >
+        {badge.label}
+      </span>
+    ))}
+  </div>
+  <div class="infra-logo-wrap" style={`width:${logoWidth}px;height:${logoHeight}px`}>
+    {logo.type === "img" && <img class="infra-logo" src={logo.src} alt="" loading="lazy" />}
+    {logo.type === "svg" && <span class="infra-logo-icon" set:html={logo.markup} />}
+    {logo.type === "icon" && (
+      <span class="infra-logo-icon" style={`color:${logo.color}`} set:html={ICONS[logo.key]} />
+    )}
+  </div>
+  <h4><a class="infra-card-link" href={infra.url} target="_blank" rel="noopener">{infra.name}</a></h4>
+  <p>{description}</p>
+  <details class="infra-details">
+    <summary class="btn btn-outline registry-toggle">Show details</summary>
+    <div class="registry-card-details">
+      {showActiveFor ? (
+        <>
+          <h4>Currently captures credit for</h4>
+          {infra.activeFor.length > 0 ? (
+            <ul class="infra-focus-list">
+              {infra.activeFor.map((ref) => (
+                <li><strong>{ref.artefact}</strong> ({ref.category})</li>
+              ))}
+              {infra.id === "zenodo" && (
+                <li><strong>Host for digital NTOs</strong> (General)</li>
+              )}
+            </ul>
+          ) : (
+            <p class="infra-focus-empty">No active mappings yet.</p>
+          )}
+        </>
+      ) : (
+        <>
+          <h4>Applicability &amp; usability</h4>
+          <p class="infra-usability">{infra.usability}</p>
+        </>
+      )}
+    </div>
+  </details>
+</article>
+
+<style>
+  .infra-card {
+    border-width: 2px;
+    position: relative;
+    scroll-margin-top: 6.5rem;
+  }
+
+  /* The intermediary panel fill is white (to contrast with its own
+     Intermediary-tier section background), so cards inside it need the
+     subtle-tint fill instead of the default white .card background —
+     otherwise they'd blend into the panel with only their border showing.
+     Essential-tier panels are already the subtle tint, so their cards keep
+     the default white fill and don't need this. */
+  .infra-card-intermediary {
+    background: var(--color-bg-subtle);
+  }
+
+  .infra-card-badges {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    align-self: flex-start;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+  }
+
+  .infra-logo-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    margin-bottom: var(--space-3);
+  }
+
+  .infra-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: var(--radius-sm);
+  }
+
+  .infra-logo-icon {
+    display: inline-flex;
+  }
+
+  .infra-logo-icon :global(svg) {
+    width: 52px;
+    height: 52px;
+  }
+
+  .infra-card h4 {
+    margin-bottom: var(--space-2);
+  }
+
+  /* Whole-card click target: the title link grows an invisible overlay
+     covering the entire card (the "stretched link" pattern), so clicking
+     anywhere on the card opens the platform's site — not just the title
+     text. The "Show details" toggle sits on its own stacking layer above
+     that overlay so it keeps working as a separate, non-navigating click. */
+  .infra-card-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .infra-card:hover {
+    cursor: pointer;
+  }
+
+  .infra-details {
+    position: relative;
+    z-index: 1;
+    margin-top: auto;
+    padding-top: var(--space-3);
+  }
+
+  .infra-details summary {
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .infra-details summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .infra-details summary::marker {
+    content: "";
+  }
+
+  .infra-details[open] summary {
+    margin-bottom: var(--space-3);
+  }
+</style>
