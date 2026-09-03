@@ -1,7 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { ICONS, GITHUB_ICON, WHITE_ICONS } from "../lib/icons";
-import stats from "../generated/stats.json";
 
 const base = import.meta.env.BASE_URL;
 
@@ -111,39 +110,29 @@ const authors: Author[] = [
   },
 ];
 
-// --- Citation data -------------------------------------------------------
-// The preprint block below is transcribed from the registered Crossref record
-// for DOI 10.31222/osf.io/praxg_v1 (api.crossref.org/works/10.31222/osf.io/
-// praxg_v1) — title, author order, posted date, server and licence are the
-// *as-posted v1* record, not the working versions used elsewhere on this
-// page. Two known divergences, both expected and both reconciled when a new
-// preprint version is posted (see CITATION.cff's `notes`):
-//   - the posted title says "artefacts" where this page's section heading and
-//     CITATION.cff say "outputs";
-//   - the posted byline has 12 authors; the Authors grid above (and
-//     CITATION.cff) carries 13, adding Maria Makaronidou.
-// A citation must match the record it points at, so this section stays with
-// the posted record until a v2 is minted. Never hand-edit the DOI, date or
-// byline here without re-checking Crossref.
+// --- Citation ------------------------------------------------------------
+// Transcribed from the registered Crossref record for the DOI
+// (api.crossref.org/works/10.31222/osf.io/praxg_v1): title, author order,
+// posted date, server and licence are the record as posted in v1. It reads
+// "artefacts" where this page's heading says "outputs", and its byline is 12
+// authors to the Authors grid's 13 — both reconcile when a v2 is posted (see
+// CITATION.cff's `notes`). A citation must match what the DOI resolves to,
+// so this block stays with the posted record. Don't hand-edit the DOI, date
+// or byline without re-checking Crossref.
 const preprint = {
-  authors:
-    "Farrell, G., Alloza, E., Bouhraoua, A., Capella-Gutierrez, S., Goble, C., " +
-    "Hermjakob, H., Smith, A., Sufi, S., Vergoulis, T., Zoubiri, M., Quaglia, F., " +
-    "& Tosatto, S. C. E.",
-  year: "2026",
-  title:
-    "Credit, recognition, and reward for non-traditional research artefacts in the Life Sciences",
   doi: "10.31222/osf.io/praxg_v1",
   doiUrl: "https://doi.org/10.31222/osf.io/praxg_v1",
-  osfUrl: "https://osf.io/preprints/metaarxiv/praxg_v1",
-  server: "MetaArXiv",
-  publisher: "Center for Open Science",
   posted: "10 March 2026",
-  version: "Version 1",
+  server: "MetaArXiv",
   license: "CC BY-ND 4.0",
 };
 
-const preprintReference = `${preprint.authors} (${preprint.year}). ${preprint.title} [Preprint]. ${preprint.server}. ${preprint.doiUrl}`;
+const preprintReference =
+  "Farrell, G., Alloza, E., Bouhraoua, A., Capella-Gutierrez, S., Goble, C., " +
+  "Hermjakob, H., Smith, A., Sufi, S., Vergoulis, T., Zoubiri, M., Quaglia, F., " +
+  "& Tosatto, S. C. E. (2026). Credit, recognition, and reward for " +
+  "non-traditional research artefacts in the Life Sciences [Preprint]. " +
+  `MetaArXiv. ${preprint.doiUrl}`;
 
 const preprintBibtex = `@misc{farrell2026credit,
   author = {Farrell, Gavin and Alloza, Eva and
@@ -161,31 +150,6 @@ const preprintBibtex = `@misc{farrell2026credit,
   howpublished = {MetaArXiv preprint},
   doi = {10.31222/osf.io/praxg_v1},
   url = {https://doi.org/10.31222/osf.io/praxg_v1}
-}`;
-
-// The registry citation tracks CITATION.cff. `version` is read from the
-// generated stats so a `semver-maintenance` bump flows through here
-// automatically; the release year mirrors CITATION.cff's `date-released`.
-const registry = {
-  author: "Farrell, G.",
-  year: "2026",
-  title: "NTO Registry: A Catalogue of Non-Traditional Outputs in the Life Sciences",
-  version: stats.catalogueVersion,
-  url: "https://nto-registry.org",
-  repo: "https://github.com/BioComputingUP/nto-registry",
-  license: "CC BY 4.0",
-};
-
-const registryReference = `${registry.author} (${registry.year}). ${registry.title} (Version ${registry.version}) [Data set]. ${registry.url}`;
-
-const registryBibtex = `@misc{farrell2026ntoregistry,
-  author = {Farrell, Gavin},
-  title = {{NTO Registry: A Catalogue of
-    Non-Traditional Outputs in the Life Sciences}},
-  year = {2026},
-  version = {${registry.version}},
-  url = {https://nto-registry.org},
-  note = {Versioned catalogue, CC BY 4.0}
 }`;
 ---
 
@@ -275,120 +239,24 @@ const registryBibtex = `@misc{farrell2026ntoregistry,
   <section class="section cite-section" id="cite">
     <div class="container">
       <p class="eyebrow">Citation</p>
-      <h2>Cite the NTO Registry</h2>
-      <p class="cite-lede">
-        There are two citable things here, and they do different jobs. Cite the <strong>preprint</strong> for the landscaping, the argument, and the artefact taxonomy. Cite the <strong>registry</strong> when you use, quote, or build on the catalogue data itself — it is versioned, so pin the version you used. If you do both, cite both.
-      </p>
-
-      <div class="grid grid-2 cite-grid">
-        <div class="card cite-card">
-          <div class="cite-card-head">
-            <span class="cite-card-icon" set:html={ICONS.quote} />
-            <div>
-              <h3>The preprint</h3>
-              <p class="cite-card-sub">Preferred citation for the work</p>
-            </div>
-          </div>
-
-          <blockquote class="cite-reference" id="cite-ref-preprint">{preprintReference}</blockquote>
-          <button class="cite-copy" type="button" data-copy-target="cite-ref-preprint" data-copy-label="Copy reference">
-            <span class="cite-copy-icon" set:html={ICONS.document} />
-            <span class="cite-copy-text" aria-live="polite">Copy reference</span>
-          </button>
-
-          <dl class="cite-meta">
-            <div class="cite-meta-row">
-              <dt>DOI</dt>
-              <dd><a href={preprint.doiUrl} target="_blank" rel="noopener">{preprint.doi}</a></dd>
-            </div>
-            <div class="cite-meta-row">
-              <dt>Posted</dt>
-              <dd>{preprint.posted} ({preprint.version})</dd>
-            </div>
-            <div class="cite-meta-row">
-              <dt>Server</dt>
-              <dd>{preprint.server} — {preprint.publisher}</dd>
-            </div>
-            <div class="cite-meta-row">
-              <dt>Licence</dt>
-              <dd>{preprint.license}</dd>
-            </div>
-          </dl>
-
-          <details class="cite-bibtex">
-            <summary>BibTeX</summary>
-            <pre><code id="cite-bib-preprint">{preprintBibtex}</code></pre>
-            <button class="cite-copy" type="button" data-copy-target="cite-bib-preprint" data-copy-label="Copy BibTeX">
-              <span class="cite-copy-icon" set:html={ICONS.code} />
-              <span class="cite-copy-text" aria-live="polite">Copy BibTeX</span>
-            </button>
-          </details>
-
-          <p class="cite-note">
-            Title, byline, and date above are the record as posted in version 1. A revised version with an expanded author list is in preparation and will be cross-linked here once posted.
-          </p>
-
-          <a class="cite-link" href={preprint.osfUrl} target="_blank" rel="noopener">
-            <span class="cite-link-icon" set:html={ICONS["external-link"]} />Read the preprint on OSF
-          </a>
-        </div>
-
-        <div class="card cite-card">
-          <div class="cite-card-head">
-            <span class="cite-card-icon" set:html={ICONS.database} />
-            <div>
-              <h3>The registry</h3>
-              <p class="cite-card-sub">The versioned catalogue itself</p>
-            </div>
-          </div>
-
-          <blockquote class="cite-reference" id="cite-ref-registry">{registryReference}</blockquote>
-          <button class="cite-copy" type="button" data-copy-target="cite-ref-registry" data-copy-label="Copy reference">
-            <span class="cite-copy-icon" set:html={ICONS.document} />
-            <span class="cite-copy-text" aria-live="polite">Copy reference</span>
-          </button>
-
-          <dl class="cite-meta">
-            <div class="cite-meta-row">
-              <dt>Version</dt>
-              <dd>{registry.version} <span class="cite-meta-hint">— cite the version you used</span></dd>
-            </div>
-            <div class="cite-meta-row">
-              <dt>Site</dt>
-              <dd><a href={registry.url}>nto-registry.org</a></dd>
-            </div>
-            <div class="cite-meta-row">
-              <dt>Code &amp; data</dt>
-              <dd><a href={registry.repo} target="_blank" rel="noopener">BioComputingUP/nto-registry</a></dd>
-            </div>
-            <div class="cite-meta-row">
-              <dt>Licence</dt>
-              <dd>{registry.license}</dd>
-            </div>
-          </dl>
-
-          <details class="cite-bibtex">
-            <summary>BibTeX</summary>
-            <pre><code id="cite-bib-registry">{registryBibtex}</code></pre>
-            <button class="cite-copy" type="button" data-copy-target="cite-bib-registry" data-copy-label="Copy BibTeX">
-              <span class="cite-copy-icon" set:html={ICONS.code} />
-              <span class="cite-copy-text" aria-live="polite">Copy BibTeX</span>
-            </button>
-          </details>
-
-          <p class="cite-note">
-            Machine-readable metadata for this citation lives in <code>CITATION.cff</code> in the repository, which GitHub and most reference managers can import directly.
-          </p>
-
-          <a class="cite-link" href={`${registry.repo}/blob/main/CITATION.cff`} target="_blank" rel="noopener">
-            <span class="cite-link-icon" set:html={ICONS["external-link"]} />View CITATION.cff
-          </a>
-        </div>
+      <h2 class="cite-heading">Cite this preprint</h2>
+      <blockquote class="cite-reference" id="cite-reference">{preprintReference}</blockquote>
+      <div class="cite-actions">
+        <button class="cite-copy" type="button" data-copy-target="cite-reference" data-copy-label="Copy reference">
+          <span class="cite-copy-text" aria-live="polite">Copy reference</span>
+        </button>
+        <button class="cite-copy" type="button" data-copy-target="cite-bibtex" data-copy-label="Copy BibTeX">
+          <span class="cite-copy-text" aria-live="polite">Copy BibTeX</span>
+        </button>
+        <p class="cite-facts">
+          <a href={preprint.doiUrl} target="_blank" rel="noopener">{preprint.doi}</a> · {preprint.posted} · {preprint.server} · {preprint.license}
+        </p>
       </div>
+      <pre id="cite-bibtex" hidden>{preprintBibtex}</pre>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section section-subtle">
     <div class="container">
       <div class="grid grid-2">
         <div class="card contact-card">
@@ -578,50 +446,19 @@ const registryBibtex = `@misc{farrell2026ntoregistry,
     .orcid-link:hover img {
       opacity: 1;
     }
-    .cite-lede {
-      max-width: 780px;
-      color: var(--color-text-muted);
-      margin-bottom: var(--space-6);
+    /* Its own band between the subtle Authors and closing sections, so the
+       citation reads as a separate step rather than a trailing note. */
+    .cite-section {
+      padding: var(--space-7) 0;
     }
 
-    .cite-card {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .cite-card-head {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
+    .cite-heading {
       margin-bottom: var(--space-4);
     }
 
-    .cite-card-head h3 {
-      margin: 0;
-    }
-
-    .cite-card-icon {
-      display: inline-flex;
-      flex-shrink: 0;
-      color: var(--color-accent);
-    }
-
-    .cite-card-icon :global(svg) {
-      width: 28px;
-      height: 28px;
-    }
-
-    .cite-card-sub {
-      margin: 0;
-      font-size: var(--fs-small);
-      color: var(--color-text-muted);
-    }
-
-    /* The reference itself is the thing most visitors came for, so it gets
-       the accent rule and a tighter, quotable block rather than sitting as
-       ordinary body copy. */
     .cite-reference {
-      margin: 0 0 var(--space-3);
+      max-width: 780px;
+      margin: 0 0 var(--space-4);
       padding: var(--space-4);
       border-left: 3px solid var(--color-accent);
       border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
@@ -630,11 +467,14 @@ const registryBibtex = `@misc{farrell2026ntoregistry,
       line-height: 1.65;
     }
 
-    .cite-copy {
-      align-self: flex-start;
-      display: inline-flex;
+    .cite-actions {
+      display: flex;
       align-items: center;
-      gap: var(--space-2);
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+
+    .cite-copy {
       padding: 0.4rem 0.85rem;
       border: 1px solid var(--color-border);
       border-radius: var(--radius-sm);
@@ -657,113 +497,10 @@ const registryBibtex = `@misc{farrell2026ntoregistry,
       border-color: var(--color-badge-active-text);
     }
 
-    .cite-copy-icon {
-      display: inline-flex;
-    }
-
-    .cite-copy-icon :global(svg) {
-      width: 16px;
-      height: 16px;
-    }
-
-    .cite-meta {
-      margin: var(--space-5) 0 0;
-      display: grid;
-      gap: var(--space-2);
-      font-size: var(--fs-small);
-    }
-
-    .cite-meta-row {
-      display: grid;
-      grid-template-columns: 7.5rem minmax(0, 1fr);
-      gap: var(--space-3);
-    }
-
-    .cite-meta dt {
-      color: var(--color-text-muted);
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      font-size: 0.78rem;
-      padding-top: 0.1rem;
-    }
-
-    .cite-meta dd {
+    .cite-facts {
       margin: 0;
-      overflow-wrap: anywhere;
-    }
-
-    .cite-meta-hint {
-      color: var(--color-text-muted);
-    }
-
-    .cite-bibtex {
-      margin-top: var(--space-5);
-      border-top: 1px solid var(--color-border);
-      padding-top: var(--space-4);
-    }
-
-    .cite-bibtex summary {
-      cursor: pointer;
-      font-weight: 700;
-      font-size: var(--fs-small);
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--color-text-muted);
-    }
-
-    .cite-bibtex summary:hover {
-      color: var(--color-accent);
-    }
-
-    .cite-bibtex pre {
-      margin: var(--space-3) 0;
-      padding: var(--space-4);
-      background: var(--color-bg-subtle);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-sm);
-      overflow-x: auto;
-    }
-
-    .cite-bibtex code,
-    .cite-note code {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 0.82rem;
-      line-height: 1.55;
-    }
-
-    .cite-note {
-      margin: var(--space-5) 0 var(--space-4);
       font-size: var(--fs-small);
       color: var(--color-text-muted);
-    }
-
-    /* Pins the "read it / view it" link to the bottom of both cards so the
-       two line up even when the metadata lists differ in height. */
-    .cite-link {
-      margin-top: auto;
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-2);
-      font-weight: 600;
-      font-size: var(--fs-small);
-      color: var(--color-accent);
-    }
-
-    .cite-link-icon {
-      display: inline-flex;
-    }
-
-    .cite-link-icon :global(svg) {
-      width: 16px;
-      height: 16px;
-    }
-
-    @media (max-width: 520px) {
-      .cite-meta-row {
-        grid-template-columns: 1fr;
-        gap: 0;
-      }
     }
 
   </style>
