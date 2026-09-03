@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/) — see
 CONTRIBUTING.md for the exact MAJOR/MINOR/PATCH bump policy applied to
 `catalogue-version`.
 
+## [2.4.1] - 2026-09-03
+
+### Fixed
+- `fairsharing` is now CoARA **Tier 1 only**, not Tier 0 + Tier 1. It is a
+  registry *of* standards rather than a standard itself, which makes it a
+  publishing venue for those records rather than part of the foundation layer
+  they constitute. ORCID is now the only dual-tier platform.
+
 ## [2.4.0] - 2026-09-03
 
 ### Added

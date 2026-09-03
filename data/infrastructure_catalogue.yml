@@ -215,10 +215,9 @@
     standards, databases, and repositories, giving each a discoverable,
     citable record independent of where the underlying data is hosted.
   coara-tiers:
-    - Tier 0
     - Tier 1
   added-in-version: 1.2.0
-  last-modified-version: 2.4.0
+  last-modified-version: 2.4.1
 
 - id: elixir-edd
   name: "ELIXIR EDD (ELIXIR Deposition Databases)"

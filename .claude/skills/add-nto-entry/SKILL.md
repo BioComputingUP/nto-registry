@@ -100,8 +100,8 @@ artefact type).
    layer, Tier 1 the publishing venues, Tier 2 the aggregators and knowledge
    graphs, Tier 3 the services generating metrics, analytics and indicators.
    Give a platform a second tier only where it performs that tier's function
-   as a first-class capability (ORCID is Tier 0 + Tier 3; FAIRsharing is
-   Tier 0 + Tier 1). **Assigning a DOI does not make a repository Tier 0** —
+   as a first-class capability — ORCID is Tier 0 + Tier 3, and it is the only
+   platform that is. **Assigning a DOI does not make a repository Tier 0** —
    Tier 0 is the layer a repository consumes, Tier 1 is the venue consuming
    it; without that rule every publishing platform collapses into Tier 0.
    Schema-optional, but every current entry has one — don't skip it. See

@@ -82,16 +82,16 @@ Tier 0 and the cross-walk stops saying anything.
 
 | CoARA tier | Platforms | Our grouping |
 |---|---|---|
-| Tier 0 | CRediT, FAIRsharing, ORCID | Ontologies & Controlled Vocabularies (Intermediary); Publishing & PID Provision, Academic Profiles (Essential) |
+| Tier 0 | CRediT, ORCID | Ontologies & Controlled Vocabularies (Intermediary); Academic Profiles (Essential) |
 | Tier 1 | bio.tools, DMPonline, ELIXIR EDD, ELIXIR TeSS, FAIRsharing, GitHub, PREreview, Software Heritage, WorkflowHub, Zenodo | Publishing & PID Provision (Essential) |
 | Tier 2 | OpenAIRE Graph | Aggregation & Deduplication (Intermediary) |
 | Tier 3 | APICURON, BIP!, BIP! Scholar, OpenEBench, ORCID | Metadata Enrichment, Active Contribution Tracking (Intermediary); Academic Profiles (Essential) |
 
-Two platforms are deliberately dual-tier. **ORCID** is Tier 0 and Tier 3: the
+One platform is deliberately dual-tier: **ORCID** is Tier 0 and Tier 3 — the
 ORCID iD is the researcher PID everything else keys off, and the ORCID record
-is also what an assessment panel reads. **FAIRsharing** is Tier 0 and Tier 1:
-its content *is* the standards, databases and policies that constitute Tier 0,
-and it is itself a registry assigning PIDs to those records.
+is also what an assessment panel reads. FAIRsharing is Tier 1 only: it is a
+registry of standards rather than a standard, so it is a publishing venue for
+those records, not the foundation layer they constitute.
 
 Note that the two models disagree by design, and that is the reason for
 offering both. CoARA's Tier 3 gathers APICURON, BIP!, BIP! Scholar and
