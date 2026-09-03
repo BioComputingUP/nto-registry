@@ -7,6 +7,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/) — see
 CONTRIBUTING.md for the exact MAJOR/MINOR/PATCH bump policy applied to
 `catalogue-version`.
 
+## [2.5.0] - 2026-09-03
+
+### Added
+- **ELIXIR Research Software Ecosystem (RSEc)** added to
+  `data/infrastructure_catalogue.yml` under Metadata enrichment — a metadata
+  commons that unifies tool identifiers across eight software registries
+  (bio.tools, Bioconda, Bioconductor, BioContainers, Debian Med, Galaxy
+  Codex, OpenEBench, WorkflowHub) and cross-checks their records against each
+  other. Three of those sources are already in this catalogue, so RSEc sits
+  directly on infrastructure the registry already tracks. Mapped to CoARA
+  OI4RRA Tier 2 (Scholarly Metadata Aggregators), which makes our Metadata
+  Enrichment heading span CoARA Tiers 2 and 3 — a second concrete example of
+  the two models cutting across each other.
+
+### Fixed
+- The CoARA view's intro hardcoded "the same 17 platforms", which went stale
+  the moment a platform was added. It now reads the count from the catalogue.
+
+### Changed
+- Rewrote the Ontologies & Controlled Vocabularies section blurb. It now
+  states what the vocabularies in production actually describe — CRediT is
+  activity-centric, standardising the contributor roles behind an output
+  rather than the output itself — and identifies the gap as output-centric:
+  no widely adopted or established ontology for non-traditional outputs
+  currently exists. Replaces the previous informal "dedicated NTO ontologies
+  barely exist yet".
+
 ## [2.4.2] - 2026-09-03
 
 ### Changed

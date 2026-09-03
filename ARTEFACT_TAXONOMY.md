@@ -84,7 +84,7 @@ Tier 0 and the cross-walk stops saying anything.
 |---|---|---|
 | Tier 0 | CRediT, ORCID | Ontologies & Controlled Vocabularies (Intermediary); Academic Profiles (Essential) |
 | Tier 1 | bio.tools, DMPonline, ELIXIR EDD, ELIXIR TeSS, FAIRsharing, GitHub, PREreview, Software Heritage, WorkflowHub, Zenodo | Publishing & PID Provision (Essential) |
-| Tier 2 | OpenAIRE Graph | Aggregation & Deduplication (Intermediary) |
+| Tier 2 | OpenAIRE Graph, RSEc | Aggregation & Deduplication, Metadata Enrichment (Intermediary) |
 | Tier 3 | APICURON, BIP!, BIP! Scholar, OpenEBench, ORCID | Metadata Enrichment, Active Contribution Tracking (Intermediary); Academic Profiles (Essential) |
 
 One platform is deliberately dual-tier: **ORCID** is Tier 0 and Tier 3 — the
@@ -97,7 +97,10 @@ Note that the two models disagree by design, and that is the reason for
 offering both. CoARA's Tier 3 gathers APICURON, BIP!, BIP! Scholar and
 OpenEBench, which this registry files under three separate headings across
 both of its own tiers; conversely our Essential tier splits across CoARA
-Tiers 0, 1 and 3.
+Tiers 0, 1 and 3. The disagreement also runs the other way within a single
+heading: our Metadata Enrichment group spans CoARA Tier 2 (RSEc, which
+cross-links registry metadata) and Tier 3 (BIP! and OpenEBench, which
+generate indicators from it).
 
 ## Artefact types by category
 

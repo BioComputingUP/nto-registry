@@ -284,3 +284,22 @@
     - Tier 1
   added-in-version: 1.4.0
   last-modified-version: 2.4.0
+
+- id: elixir-rsec
+  name: "ELIXIR Research Software Ecosystem (RSEc)"
+  url: https://research-software-ecosystem.org
+  function: >-
+    Metadata enrichment. Metadata commons that unifies tool identifiers across
+    eight software registries and cross-checks their records against each
+    other, surfacing gaps and conflicts so a tool's description stays
+    consistent and citable wherever it is found.
+  coara-tiers:
+    - Tier 2
+  usability: >-
+    Free and open, with all metadata version-controlled and reusable; no
+    registration is needed to consume it. A tool only benefits if it is
+    already described in one of the upstream registries RSEc imports from, so
+    the practical step is getting it into bio.tools, Bioconda, Bioconductor,
+    BioContainers, Debian Med, Galaxy Codex, OpenEBench or WorkflowHub first.
+  added-in-version: 2.5.0
+  last-modified-version: 2.5.0

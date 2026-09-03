@@ -42,6 +42,13 @@ const base = import.meta.env.BASE_URL;
 // (prereview.org), which cleanly separates the icon from the wordmark in
 // its own <g id="mark"> group — a real, small, already-optimised asset,
 // unlike the wordmark logos elsewhere on this page that needed rasterising.
+// RSEc's is its own icon-only mark from its own site
+// (research-software-ecosystem.org/assets/img/logo-rsec.svg) — small,
+// near-square and already optimised, so it needs no crop or rasterising.
+// Its `logo-rsec-full.svg` sibling is the wordmark lockup, which would
+// render as a sliver in a square box, so the icon variant is used instead.
+// The checked-in copy has the Inkscape/sodipodi editor state stripped; the
+// internal <style> block is load-bearing and kept.
 const LOGOS: Record<string, LogoEntry> = {
   apicuron: { type: "img", src: `${base}img/logos/apicuron.png` },
   orcid: { type: "img", src: "https://orcid.org/assets/vectors/orcid.logo.icon.svg" },
@@ -60,6 +67,7 @@ const LOGOS: Record<string, LogoEntry> = {
   "software-heritage": { type: "img", src: `${base}img/logos/software-heritage.png` },
   "credit-taxonomy": { type: "img", src: `${base}img/logos/credit.png` },
   prereview: { type: "img", src: `${base}img/logos/prereview.svg` },
+  "elixir-rsec": { type: "img", src: `${base}img/logos/rsec.svg` },
 };
 
 // Which NTO category each platform is most associated with (shown as a
@@ -79,6 +87,7 @@ const NTO_CATEGORY: Record<string, string> = {
   openebench: "Software",
   "elixir-tess": "Training",
   prereview: "Peer review",
+  "elixir-rsec": "Software",
   orcid: "General",
   "bip-scholar": "General",
   "bip-finder": "General",
@@ -151,7 +160,7 @@ const FUNCTION_META: Record<FunctionKey, { tier: "essential" | "intermediary"; a
     anchor: "ontologies",
     title: "Ontologies & Controlled Vocabularies",
     blurb:
-      "Structured ontologies and fixed vocabularies provide the essential semantic foundation for system interoperability, enabling highly granular, machine-readable specifications so data flows cohesively between credit-capture platforms. A major gap remains, however: dedicated NTO ontologies barely exist yet.",
+      "Structured ontologies and controlled vocabularies are the semantic layer everything else here depends on: they fix what a research activity or output is called, so a contribution recorded on one platform means the same thing on another. The vocabularies in production today are activity-centric — CRediT standardises the contributor roles behind an output rather than the output itself. The gap is output-centric: no widely adopted or established ontology for non-traditional outputs currently exists, leaving NTO types described inconsistently from platform to platform.",
   },
 };
 
@@ -206,8 +215,9 @@ const intermediarySections = sectionOrder.filter((k) => FUNCTION_META[k].tier ==
 // sits underneath those three as a substrate rather than as a fourth — it's
 // what the other three stand on, not one of them. The three are deliberately
 // not arrowed to each other: they act on the record in parallel, in no fixed
-// order, so only the gating arrows in and out of the middle are drawn. Only the *arrangement* lives here; every label, anchor and
-// tier colour is read from FUNCTION_META.
+// order, so only the gating arrows in and out of the middle are drawn.
+// Only the *arrangement* lives here; every label, anchor and tier colour is
+// read from FUNCTION_META.
 const PIPELINE = {
   left: "Publishing & PID provision",
   chain: ["Aggregation", "Metadata enrichment", "Contribution tracking & incentives"],
@@ -547,7 +557,7 @@ function cardDescription(fn: string): string {
           <p class="eyebrow infra-eyebrow-coara">External cross-walk</p>
           <h2 class="section-heading-left">By CoARA OI4RRA tier</h2>
           <p class="section-intro-left">
-            The same 17 platforms grouped by the four-tier reference architecture from the CoARA
+            The same {infrastructure.length} platforms grouped by the four-tier reference architecture from the CoARA
             working group on <a href={COARA_WG_URL} target="_blank" rel="noopener">Open Infrastructures for Responsible Research Assessment</a>.
             This is a supplementary lens, not a replacement: each card keeps an outlined badge naming
             the Essential or Intermediary group it belongs to here, and each tier below names the
