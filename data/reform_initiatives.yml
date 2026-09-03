@@ -91,3 +91,34 @@
   url: https://coara.eu
   added-in-version: 1.1.0
   last-modified-version: 1.1.0
+
+- id: un-open-source-principles
+  initiative: United Nations Open Source Principles
+  year: 2025
+  core-philosophy: >-
+    A set of eight guidelines from the United Nations forming global principles to
+    support and promote Open Source across and beyond the UN system.
+  relevance-to-ntos: >-
+    Provides an international policy mandate for open software NTO production, with
+    Principle 7 — "RISE (recognize, incentivize, support, empower)" — dedicated to
+    empowering individuals and communities to actively participate, and so to
+    crediting the people behind those outputs.
+  url: https://opensource.un.org/en/news/united-nations-open-source-principles
+  added-in-version: 2.3.0
+  last-modified-version: 2.3.0
+
+- id: opus-raf
+  initiative: OPUS RAF (Researcher Assessment Framework)
+  year: 2026
+  core-philosophy: >-
+    Moves researcher evaluation away from traditional metrics by defining,
+    incentivizing, and rewarding the implementation of Open Science practices
+    across institutions.
+  relevance-to-ntos: >-
+    Integrates processes, outputs, and outcomes within a single framework, recognizing
+    diverse outputs — including data, software, educational materials, and open peer
+    review reports — as formal evaluation criteria, ensuring researchers are rewarded
+    for generating transparent and reproducible NTOs.
+  url: https://zenodo.org/records/14672476
+  added-in-version: 2.3.0
+  last-modified-version: 2.3.0

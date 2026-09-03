@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/) — see
 CONTRIBUTING.md for the exact MAJOR/MINOR/PATCH bump policy applied to
 `catalogue-version`.
 
+## [2.3.0] - 2026-09-03
+
+### Added
+- **United Nations Open Source Principles (2025)** and **OPUS RAF
+  (Researcher Assessment Framework, 2026)** added to
+  `data/reform_initiatives.yml`, bringing the assessment reform landscape on
+  the Reforms page to 7 initiatives. The UN principles supply an
+  international mandate for open software NTO production — Principle 7,
+  "RISE (recognize, incentivize, support, empower)" — while the OPUS RAF
+  recognises data, software, educational materials, and open peer review
+  reports as formal evaluation criteria.
+
+### Changed
+- README: the `data/reform_initiatives.yml` description now lists both new
+  initiatives alongside the original five.
+
 ## [2.2.0] - 2026-08-28
 
 ### Added
