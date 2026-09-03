@@ -419,9 +419,14 @@ img {
   white-space: nowrap;
 }
 
-/* ---- OPUS RAF view toggle + info popover ---- */
+/* ---- View-mode toggle + info popover ---- */
+/* Shared by both alternative-lens toggles: OPUS RAF domains on the
+   Registry page and CoARA OI4RRA tiers on the Infrastructure page.
+   Nothing here is specific to either taxonomy — it's a switch and a
+   disclosure popover — so the two stay in visual lockstep and a fix
+   like the hover-vs-pinned affordance below only has to be made once. */
 
-.opus-toggle-row {
+.view-toggle-row {
   flex-basis: 100%;
   display: flex;
   align-items: center;
@@ -432,7 +437,7 @@ img {
   border-bottom: 1px dashed var(--color-border);
 }
 
-.opus-toggle {
+.view-toggle {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
@@ -442,14 +447,14 @@ img {
   color: var(--color-text);
 }
 
-.opus-toggle input {
+.view-toggle input {
   position: absolute;
   opacity: 0;
   width: 1px;
   height: 1px;
 }
 
-.opus-toggle-track {
+.view-toggle-track {
   width: 34px;
   height: 20px;
   border-radius: var(--radius-full);
@@ -459,7 +464,7 @@ img {
   transition: background 0.2s ease;
 }
 
-.opus-toggle-thumb {
+.view-toggle-thumb {
   position: absolute;
   top: 2px;
   left: 2px;
@@ -471,25 +476,25 @@ img {
   transition: transform 0.2s ease;
 }
 
-.opus-toggle input:checked + .opus-toggle-track {
+.view-toggle input:checked + .view-toggle-track {
   background: var(--color-accent);
 }
 
-.opus-toggle input:checked + .opus-toggle-track .opus-toggle-thumb {
+.view-toggle input:checked + .view-toggle-track .view-toggle-thumb {
   transform: translateX(14px);
 }
 
-.opus-toggle input:focus-visible + .opus-toggle-track {
+.view-toggle input:focus-visible + .view-toggle-track {
   outline: 3px solid var(--color-orange-500);
   outline-offset: 2px;
 }
 
-.opus-info {
+.view-info {
   position: relative;
   display: inline-flex;
 }
 
-.opus-info-btn {
+.view-info-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -503,7 +508,7 @@ img {
   cursor: pointer;
 }
 
-.opus-info-btn svg {
+.view-info-btn svg {
   width: 16px;
   height: 16px;
 }
@@ -512,11 +517,11 @@ img {
    :hover — so it's unambiguous that clicking is what keeps the popover
    open, distinct from the transient hover preview. Hover gets its own
    neutral affordance instead of borrowing the "pinned" colour. */
-.opus-info-btn:hover {
+.view-info-btn:hover {
   background: var(--color-bg-subtle);
 }
 
-.opus-info-btn[aria-expanded="true"] {
+.view-info-btn[aria-expanded="true"] {
   color: var(--color-accent);
   background: var(--color-badge-planned-bg);
 }
@@ -528,7 +533,7 @@ img {
    opened, since a mouse click is always preceded by a hover. Visibility
    (not just opacity) is toggled so the link inside is unfocusable/unreachable
    by assistive tech while hidden. */
-.opus-info-panel {
+.view-info-panel {
   position: absolute;
   z-index: 20;
   top: calc(100% + 8px);
@@ -546,24 +551,24 @@ img {
   transition: opacity 0.15s ease;
 }
 
-.opus-info:hover .opus-info-panel,
-.opus-info-panel.is-open {
+.view-info:hover .view-info-panel,
+.view-info-panel.is-open {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
 }
 
-.opus-info-intro {
+.view-info-intro {
   margin: 0 0 var(--space-3);
   color: var(--color-text-muted);
 }
 
-.opus-info-domains {
+.view-info-list {
   margin: 0 0 var(--space-3);
   padding-left: 1.1rem;
 }
 
-.opus-info-domains li {
+.view-info-list li {
   margin-bottom: var(--space-1);
 }
 

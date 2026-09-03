@@ -158,35 +158,35 @@ export default function RegistryExplorer({ artefacts, categories, infrastructure
   return (
     <div className="registry-explorer">
       <div className="registry-filters card">
-        <div className="opus-toggle-row">
-          <label className="opus-toggle">
+        <div className="view-toggle-row">
+          <label className="view-toggle">
             <input type="checkbox" role="switch" checked={opusView} onChange={toggleOpusView} />
-            <span className="opus-toggle-track" aria-hidden="true">
-              <span className="opus-toggle-thumb" />
+            <span className="view-toggle-track" aria-hidden="true">
+              <span className="view-toggle-thumb" />
             </span>
-            <span className="opus-toggle-label">View by OPUS RAF domain</span>
+            <span className="view-toggle-label">View by OPUS RAF domain</span>
           </label>
 
-          <div className="opus-info" ref={opusInfoRef}>
+          <div className="view-info" ref={opusInfoRef}>
             <button
               type="button"
-              className="opus-info-btn"
+              className="view-info-btn"
               aria-expanded={opusInfoOpen}
-              aria-controls="opus-info-panel"
+              aria-controls="registry-view-info-panel"
               aria-label="What is the OPUS RAF?"
               onClick={() => setOpusInfoOpen((v) => !v)}
             >
               <span aria-hidden="true" dangerouslySetInnerHTML={{ __html: ICONS.info }} />
             </button>
             <div
-              className={`opus-info-panel${opusInfoOpen ? " is-open" : ""}`}
-              id="opus-info-panel"
+              className={`view-info-panel${opusInfoOpen ? " is-open" : ""}`}
+              id="registry-view-info-panel"
               role="tooltip"
             >
-              <p className="opus-info-intro">
+              <p className="view-info-intro">
                 An alternative view of these outputs, grouped by OPUS RAF's four assessment domains.
               </p>
-              <ul className="opus-info-domains">
+              <ul className="view-info-list">
                 <li><strong>Research</strong> — proposals, methods, data, software, publications, peer review.</li>
                 <li><strong>Education</strong> — courses, resources, teaching, supervision, skills development.</li>
                 <li><strong>Leadership</strong> — leading people/projects, management roles, recognised expertise.</li>
