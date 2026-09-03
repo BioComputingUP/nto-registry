@@ -58,7 +58,7 @@ group on *Towards Open Infrastructures for Responsible Research Assessment*
 Responsible Research Assessment Framework Built on Open Infrastructures",
 Manola N, Vergoulis T, Tzouganatou A et al. (2025),
 https://doi.org/10.5281/zenodo.15297695. As with OPUS RAF this is optional,
-supplementary metadata (the Infrastructure page's CoARA tier view is off by
+supplementary metadata (the Infrastructure page's CoARA OI4RRA tier view is off by
 default), stored as `coara-tiers`.
 
 - **Tier 0 — Foundation** — "Essential metadata, ensuring consistent tracking
@@ -80,7 +80,7 @@ Tier 0 is the standards and identifier layer a repository consumes, Tier 1 is
 the venue consuming it. Without it, every publishing platform collapses into
 Tier 0 and the cross-walk stops saying anything.
 
-| CoARA tier | Platforms | Our grouping |
+| CoARA OI4RRA tier | Platforms | Our grouping |
 |---|---|---|
 | Tier 0 | CRediT, ORCID | Ontologies & Controlled Vocabularies (Intermediary); Academic Profiles (Essential) |
 | Tier 1 | bio.tools, DMPonline, ELIXIR EDD, ELIXIR TeSS, FAIRsharing, GitHub, PREreview, Software Heritage, WorkflowHub, Zenodo | Publishing & PID Provision (Essential) |

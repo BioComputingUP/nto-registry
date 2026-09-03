@@ -96,7 +96,7 @@ artefact type).
 3. Fill in `coara-tiers` — a list of one or more of `Tier 0`, `Tier 1`,
    `Tier 2`, `Tier 3` from the CoARA OI4RRA reference architecture
    (https://doi.org/10.5281/zenodo.15297695), which powers the Infrastructure
-   page's optional CoARA tier view. Tier 0 is the standards/PID/protocol
+   page's optional CoARA OI4RRA tier view. Tier 0 is the standards/PID/protocol
    layer, Tier 1 the publishing venues, Tier 2 the aggregators and knowledge
    graphs, Tier 3 the services generating metrics, analytics and indicators.
    Give a platform a second tier only where it performs that tier's function

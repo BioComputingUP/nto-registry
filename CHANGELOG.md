@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/) — see
 CONTRIBUTING.md for the exact MAJOR/MINOR/PATCH bump policy applied to
 `catalogue-version`.
 
+## [2.4.2] - 2026-09-03
+
+### Changed
+- The Infrastructure page's lens is now labelled "View by CoARA OI4RRA tier"
+  rather than "View by CoARA tier", naming the working group in full wherever
+  the tiers are referred to.
+- Pipeline diagram: dropped the small arrows between Aggregation, Metadata
+  Enrichment and Contribution Tracking. Those three act on the record in
+  parallel rather than in a fixed order, so the arrows were asserting a
+  sequence that doesn't exist. The two arrows gating the middle — in from
+  Publishing & PID, out to Academic Profiles — are unchanged.
+
 ## [2.4.1] - 2026-09-03
 
 ### Fixed

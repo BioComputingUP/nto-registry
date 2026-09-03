@@ -26,7 +26,7 @@
 #   coara-tiers: optional. A list of one or more tiers from the CoARA OI4RRA
 #     four-tier reference architecture (Tier 0 | Tier 1 | Tier 2 | Tier 3),
 #     an external cross-walk that powers the Infrastructure page's optional
-#     "View by CoARA tier" lens. Source: CoARA WG "Towards Open Infrastructures
+#     "View by CoARA OI4RRA tier" lens. Source: CoARA WG "Towards Open Infrastructures
 #     for Responsible Research Assessment" (OI4RRA), "Conceptual Architecture
 #     for the Implementation of a Responsible Research Assessment Framework
 #     Built on Open Infrastructures", Manola N, Vergoulis T, Tzouganatou A et

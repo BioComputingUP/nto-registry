@@ -202,10 +202,11 @@ const essentialSections = sectionOrder.filter((k) => FUNCTION_META[k].tier === "
 const intermediarySections = sectionOrder.filter((k) => FUNCTION_META[k].tier === "intermediary");
 
 // The pipeline diagram's arrangement: the two essential components bookend
-// the flow, three intermediary components form the sequential chain between
-// them, and Ontologies sits underneath that chain as a substrate rather than
-// as a fourth step — it's what the other three stand on, not a stage they
-// pass through. Only the *arrangement* lives here; every label, anchor and
+// the flow, three intermediary components sit between them, and Ontologies
+// sits underneath those three as a substrate rather than as a fourth — it's
+// what the other three stand on, not one of them. The three are deliberately
+// not arrowed to each other: they act on the record in parallel, in no fixed
+// order, so only the gating arrows in and out of the middle are drawn. Only the *arrangement* lives here; every label, anchor and
 // tier colour is read from FUNCTION_META.
 const PIPELINE = {
   left: "Publishing & PID provision",
@@ -299,7 +300,7 @@ for (const list of byCoaraTier.values()) {
   list.sort((a, b) => a.name.localeCompare(b.name));
 }
 
-// Which of our own groups a CoARA tier's members actually came from. Derived
+// Which of our own groups a CoARA OI4RRA tier's members actually came from. Derived
 // from the members themselves, so the CoARA view states what it's standing in
 // for rather than hiding it, and can't drift from the assignment.
 function nativeGroupsFor(items: typeof infrastructure): string {
@@ -322,7 +323,7 @@ function nativeTierBadge(infra: (typeof infrastructure)[number]) {
 }
 
 // Publishing & PID platforms list what they actively capture credit for;
-// everything else shows its usability note. Per card, because a CoARA tier
+// everything else shows its usability note. Per card, because a CoARA OI4RRA tier
 // can hold both kinds.
 function showsActiveFor(infra: (typeof infrastructure)[number]): boolean {
   return functionKeyOf(infra.function) === "Publishing & PID provision";
@@ -395,14 +396,11 @@ function cardDescription(fn: string): string {
         <div class="infra-pipeline-middle">
           <span class="infra-pipeline-tier infra-pipeline-tier-intermediary">Intermediary</span>
           <div class="infra-pipeline-chain">
-            {PIPELINE.chain.map((key, i) => (
-              <Fragment>
-                {i > 0 && <span class="infra-pipeline-arrow infra-pipeline-arrow-sm" aria-hidden="true" set:html={ICONS["arrow-right"]} />}
-                <a class="infra-pipeline-chip" href={`#${FUNCTION_META[key].anchor}`}>
-                  <span class="infra-pipeline-icon" aria-hidden="true" set:html={ICONS[PIPELINE_META[key].icon]} />
-                  <span class="infra-pipeline-name">{PIPELINE_META[key].short ?? FUNCTION_META[key].title}</span>
-                </a>
-              </Fragment>
+            {PIPELINE.chain.map((key) => (
+              <a class="infra-pipeline-chip" href={`#${FUNCTION_META[key].anchor}`}>
+                <span class="infra-pipeline-icon" aria-hidden="true" set:html={ICONS[PIPELINE_META[key].icon]} />
+                <span class="infra-pipeline-name">{PIPELINE_META[key].short ?? FUNCTION_META[key].title}</span>
+              </a>
             ))}
           </div>
           <a class="infra-pipeline-substrate" href={`#${FUNCTION_META[PIPELINE.substrate].anchor}`}>
@@ -430,7 +428,7 @@ function cardDescription(fn: string): string {
           <label class="view-toggle">
             <input type="checkbox" role="switch" id="coara-view-toggle" />
             <span class="view-toggle-track" aria-hidden="true"><span class="view-toggle-thumb"></span></span>
-            <span class="view-toggle-label">View by CoARA tier</span>
+            <span class="view-toggle-label">View by CoARA OI4RRA tier</span>
           </label>
 
           <div class="view-info" id="coara-view-info">
@@ -439,7 +437,7 @@ function cardDescription(fn: string): string {
               class="view-info-btn"
               aria-expanded="false"
               aria-controls="infra-view-info-panel"
-              aria-label="What is the CoARA four-tier model?"
+              aria-label="What is the CoARA OI4RRA four-tier model?"
             >
               <span aria-hidden="true" set:html={ICONS.info} />
             </button>
@@ -584,7 +582,7 @@ function cardDescription(fn: string): string {
 
           {unmappedToCoara.length > 0 && (
             <div class="infra-subsection infra-coara-panel" style="--panel-accent:var(--color-gray-600)">
-              <h3 class="infra-subsection-title">Not yet mapped to a CoARA tier</h3>
+              <h3 class="infra-subsection-title">Not yet mapped to a CoARA OI4RRA tier</h3>
               <p class="infra-subsection-blurb">
                 These platforms have no <code>coara-tiers</code> value in the catalogue yet, so they
                 appear here rather than silently dropping out of this view.
@@ -657,8 +655,10 @@ function cardDescription(fn: string): string {
     /* The credit-capture pipeline. Reads left to right: an essential block at
        each end (an output's first PID, and the profile that finally represents
        it), with the intermediary services that carry the record between them in
-       the middle. Ontologies sits *under* the three sequential steps rather than
-       among them — it's the semantic substrate they all depend on, not a stage
+       the middle. Those three carry no arrows between them — they act on the
+       record in parallel, not in a fixed order — so the only arrows are the
+       two gating the middle. Ontologies sits *under* the three rather than
+       among them: it's the semantic substrate they all depend on, not a stage
        in the flow, so it gets a dashed border and no top accent bar. Replaces
        the old .infra-jumpnav, which linked the same six anchors with less
        information. */
@@ -817,11 +817,6 @@ function cardDescription(fn: string): string {
       height: 22px;
     }
 
-    .infra-pipeline-arrow-sm :global(svg) {
-      width: 16px;
-      height: 16px;
-    }
-
     /* The flow turns vertical before the blocks get too narrow to read; the
        inner chain holds out longer since its chips are shorter. */
     @media (max-width: 980px) {
@@ -852,10 +847,6 @@ function cardDescription(fn: string): string {
          collapse to zero-height strips once the chain turns vertical. */
       .infra-pipeline-chip {
         flex: 0 0 auto;
-      }
-
-      .infra-pipeline-arrow-sm {
-        transform: rotate(90deg);
       }
     }
 
@@ -933,7 +924,7 @@ function cardDescription(fn: string): string {
       grid-template-columns: repeat(auto-fit, minmax(260px, 340px));
     }
 
-    /* ---- CoARA tier lens ---- */
+    /* ---- CoARA OI4RRA tier lens ---- */
 
     /* Both groupings are server-rendered; the toggle only swaps which is
        shown. That keeps this page free of framework JS, keeps the card CSS
