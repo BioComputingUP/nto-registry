@@ -157,6 +157,21 @@ const FUNCTION_META: Record<FunctionKey, { tier: "essential" | "intermediary"; a
   },
 };
 
+// Presentation metadata for the pipeline diagram in the page header: which
+// ICONS glyph stands for each of the six components, and a shortened label
+// for the diagram's chips (FUNCTION_META's full titles are section headings
+// and are too long to sit in a chip). Keyed by FunctionKey, so it can't
+// address a component that doesn't exist, and `short` falls back to the real
+// title — there is still exactly one source of truth for the names.
+const PIPELINE_META: Record<FunctionKey, { icon: string; short?: string }> = {
+  "Publishing & PID provision": { icon: "link", short: "Publishing & PID Provision" },
+  "Academic profiles": { icon: "users", short: "Academic Profiles" },
+  Aggregation: { icon: "database", short: "Aggregation" },
+  "Metadata enrichment": { icon: "star", short: "Metadata Enrichment" },
+  "Contribution tracking & incentives": { icon: "trending-up", short: "Contribution Tracking" },
+  "Ontologies & controlled vocabularies": { icon: "book", short: "Ontologies & Vocabularies" },
+};
+
 const LOGO_BASE_SIZE = 72;
 
 // Every logo box is the same height, so card titles/text line up across a
@@ -187,6 +202,29 @@ for (const list of bySection.values()) {
 const sectionOrder = Object.keys(FUNCTION_META) as FunctionKey[];
 const essentialSections = sectionOrder.filter((k) => FUNCTION_META[k].tier === "essential");
 const intermediarySections = sectionOrder.filter((k) => FUNCTION_META[k].tier === "intermediary");
+
+// The pipeline diagram's arrangement: the two essential components bookend
+// the flow, three intermediary components form the sequential chain between
+// them, and Ontologies sits underneath that chain as a substrate rather than
+// as a fourth step — it's what the other three stand on, not a stage they
+// pass through. Only the *arrangement* lives here; every label, anchor and
+// tier colour is read from FUNCTION_META.
+const PIPELINE = {
+  left: "Publishing & PID provision",
+  chain: ["Aggregation", "Metadata enrichment", "Contribution tracking & incentives"],
+  substrate: "Ontologies & controlled vocabularies",
+  right: "Academic profiles",
+} as const satisfies { left: FunctionKey; chain: readonly FunctionKey[]; substrate: FunctionKey; right: FunctionKey };
+
+// Adding a seventh function phrase to FUNCTION_META is explicitly allowed (see
+// the add-nto-entry skill), and it would otherwise appear as a section below
+// while silently missing from the diagram above. Fail the build instead, the
+// same way a missing LOGOS entry already does.
+const placedInPipeline: readonly FunctionKey[] = [PIPELINE.left, ...PIPELINE.chain, PIPELINE.substrate, PIPELINE.right];
+const unplaced = sectionOrder.filter((key) => !placedInPipeline.includes(key));
+if (unplaced.length) {
+  throw new Error(`infrastructure.astro: pipeline diagram has no place for FUNCTION_META group(s): ${unplaced.join(", ")}`);
+}
 
 // The description text after the leading category phrase — that phrase is
 // now conveyed by the section heading itself, so it's trimmed from the
@@ -229,19 +267,56 @@ function cardDescription(fn: string): string {
         </div>
       </div>
 
-      <nav class="infra-jumpnav" aria-label="Jump to infrastructure section">
-        <div class="infra-jumpnav-group">
-          <span class="infra-jumpnav-tier infra-jumpnav-tier-essential">Essential</span>
-          {essentialSections.map((key) => (
-            <a href={`#${FUNCTION_META[key].anchor}`}>{FUNCTION_META[key].title}</a>
-          ))}
+    </div>
+  </section>
+
+  <section class="section infra-pipeline-section">
+    <div class="container">
+      <p class="eyebrow">How the layers fit together</p>
+      <h2 class="section-heading-left">The credit-capture pipeline</h2>
+      <p class="section-intro-left">
+        Essential infrastructure sits at both ends: one platform gives an output its first
+        persistent, citable identity, another surfaces that identity as part of a researcher's
+        formal academic profile. Everything between them is intermediary — the services that
+        merge, enrich, track and standardise the record on its way across.
+      </p>
+
+      <nav class="infra-pipeline" aria-label="Jump to an infrastructure layer">
+        <a class="infra-pipeline-block" href={`#${FUNCTION_META[PIPELINE.left].anchor}`}>
+          <span class="infra-pipeline-tier">Essential</span>
+          <span class="infra-pipeline-icon" aria-hidden="true" set:html={ICONS[PIPELINE_META[PIPELINE.left].icon]} />
+          <span class="infra-pipeline-name">{PIPELINE_META[PIPELINE.left].short ?? FUNCTION_META[PIPELINE.left].title}</span>
+        </a>
+
+        <span class="infra-pipeline-arrow" aria-hidden="true" set:html={ICONS["arrow-right"]} />
+
+        <div class="infra-pipeline-middle">
+          <span class="infra-pipeline-tier infra-pipeline-tier-intermediary">Intermediary</span>
+          <div class="infra-pipeline-chain">
+            {PIPELINE.chain.map((key, i) => (
+              <Fragment>
+                {i > 0 && <span class="infra-pipeline-arrow infra-pipeline-arrow-sm" aria-hidden="true" set:html={ICONS["arrow-right"]} />}
+                <a class="infra-pipeline-chip" href={`#${FUNCTION_META[key].anchor}`}>
+                  <span class="infra-pipeline-icon" aria-hidden="true" set:html={ICONS[PIPELINE_META[key].icon]} />
+                  <span class="infra-pipeline-name">{PIPELINE_META[key].short ?? FUNCTION_META[key].title}</span>
+                </a>
+              </Fragment>
+            ))}
+          </div>
+          <a class="infra-pipeline-substrate" href={`#${FUNCTION_META[PIPELINE.substrate].anchor}`}>
+            <span class="infra-pipeline-icon" aria-hidden="true" set:html={ICONS[PIPELINE_META[PIPELINE.substrate].icon]} />
+            <span class="infra-pipeline-name">{PIPELINE_META[PIPELINE.substrate].short ?? FUNCTION_META[PIPELINE.substrate].title}</span>
+            <span class="infra-pipeline-substrate-note">Semantic substrate — underpins all three</span>
+          </a>
         </div>
-        <div class="infra-jumpnav-group">
-          <span class="infra-jumpnav-tier infra-jumpnav-tier-intermediary">Intermediary</span>
-          {intermediarySections.map((key) => (
-            <a href={`#${FUNCTION_META[key].anchor}`}>{FUNCTION_META[key].title}</a>
-          ))}
-        </div>
+
+        <span class="infra-pipeline-arrow" aria-hidden="true" set:html={ICONS["arrow-right"]} />
+
+        <a class="infra-pipeline-block" href={`#${FUNCTION_META[PIPELINE.right].anchor}`}>
+          <span class="infra-pipeline-tier">Essential</span>
+          <span class="infra-pipeline-icon" aria-hidden="true" set:html={ICONS[PIPELINE_META[PIPELINE.right].icon]} />
+          <span class="infra-pipeline-name">{PIPELINE_META[PIPELINE.right].short ?? FUNCTION_META[PIPELINE.right].title}</span>
+        </a>
       </nav>
     </div>
   </section>
@@ -407,41 +482,6 @@ function cardDescription(fn: string): string {
       }
     }
 
-    .infra-jumpnav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-5);
-      margin-top: var(--space-6);
-      padding-top: var(--space-5);
-      border-top: 1px solid var(--color-border);
-    }
-
-    .infra-jumpnav-group {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: var(--space-2);
-    }
-
-    .infra-jumpnav-tier {
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      padding: 0.2rem 0.6rem;
-      border-radius: var(--radius-full);
-      color: #fff;
-      margin-right: var(--space-1);
-    }
-
-    .infra-jumpnav-tier-essential {
-      background: var(--color-accent);
-    }
-
-    .infra-jumpnav-tier-intermediary {
-      background: var(--color-teal-500);
-    }
-
     /* Matches the teal top-accent bar on the Intermediary subsection
        panels below, so the section eyebrow visually ties to them —
        Essential's eyebrow keeps the site-wide default accent colour,
@@ -450,19 +490,209 @@ function cardDescription(fn: string): string {
       color: var(--color-teal-500);
     }
 
-    .infra-jumpnav a {
-      font-size: 0.9rem;
-      padding: 0.3rem 0.7rem;
-      border-radius: var(--radius-full);
-      border: 1px solid var(--color-border);
-      color: var(--color-text);
-      text-decoration: none;
-      white-space: nowrap;
+    /* The credit-capture pipeline. Reads left to right: an essential block at
+       each end (an output's first PID, and the profile that finally represents
+       it), with the intermediary services that carry the record between them in
+       the middle. Ontologies sits *under* the three sequential steps rather than
+       among them — it's the semantic substrate they all depend on, not a stage
+       in the flow, so it gets a dashed border and no top accent bar. Replaces
+       the old .infra-jumpnav, which linked the same six anchors with less
+       information. */
+    .infra-pipeline-section {
+      padding-top: var(--space-6);
     }
 
-    .infra-jumpnav a:hover {
+    .infra-pipeline {
+      display: flex;
+      align-items: stretch;
+      gap: var(--space-3);
+      margin-top: var(--space-5);
+    }
+
+    .infra-pipeline-block,
+    .infra-pipeline-chip,
+    .infra-pipeline-substrate {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      padding: var(--space-4) var(--space-3);
+      text-align: center;
+      text-decoration: none;
+      color: var(--color-text);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: border-color 0.15s ease, transform 0.15s ease;
+    }
+
+    .infra-pipeline-block:hover,
+    .infra-pipeline-chip:hover,
+    .infra-pipeline-substrate:hover {
       border-color: var(--color-accent);
+      transform: translateY(-2px);
+    }
+
+    /* Same 4px top accent bar idiom as the .infra-subsection panels below, so
+       the diagram and the sections it points at share one colour language. */
+    .infra-pipeline-block::before,
+    .infra-pipeline-chip::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 4px;
+    }
+
+    .infra-pipeline-block::before {
+      background: var(--color-accent);
+    }
+
+    .infra-pipeline-chip::before {
+      background: var(--color-teal-500);
+    }
+
+    .infra-pipeline-block {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+
+    .infra-pipeline-middle {
+      display: flex;
+      flex: 2.6 1 0;
+      min-width: 0;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .infra-pipeline-chain {
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      gap: var(--space-2);
+      width: 100%;
+    }
+
+    .infra-pipeline-chip {
+      flex: 1 1 0;
+      min-width: 0;
+      padding: var(--space-3) var(--space-2);
+    }
+
+    .infra-pipeline-substrate {
+      width: 100%;
+      flex-direction: row;
+      flex-wrap: wrap;
+      padding: var(--space-3);
+      background: var(--color-bg-subtle);
+      border-style: dashed;
+      border-color: var(--color-teal-500);
+    }
+
+    .infra-pipeline-substrate-note {
+      flex-basis: 100%;
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+    }
+
+    /* Tier membership is spelled out, not conveyed by colour alone. */
+    .infra-pipeline-tier {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.15rem 0.55rem;
+      border-radius: var(--radius-full);
+      color: #fff;
+      background: var(--color-accent);
+    }
+
+    .infra-pipeline-tier-intermediary {
+      background: var(--color-teal-500);
+    }
+
+    /* The essential blocks carry their tier pill inside the block, because each
+       is a single component. The intermediary pill instead labels the whole
+       middle group, so it's left-aligned rather than centred over one chip. */
+    .infra-pipeline-middle > .infra-pipeline-tier {
+      align-self: flex-start;
+    }
+
+    .infra-pipeline-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      line-height: 1.3;
+      text-wrap: balance;
+    }
+
+    .infra-pipeline-block .infra-pipeline-icon {
       color: var(--color-accent);
+    }
+
+    .infra-pipeline-chip .infra-pipeline-icon,
+    .infra-pipeline-substrate .infra-pipeline-icon {
+      color: var(--color-teal-500);
+    }
+
+    .infra-pipeline-icon :global(svg) {
+      width: 26px;
+      height: 26px;
+    }
+
+    .infra-pipeline-arrow {
+      align-self: center;
+      flex-shrink: 0;
+      color: var(--color-text-muted);
+    }
+
+    .infra-pipeline-arrow :global(svg) {
+      width: 22px;
+      height: 22px;
+    }
+
+    .infra-pipeline-arrow-sm :global(svg) {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* The flow turns vertical before the blocks get too narrow to read; the
+       inner chain holds out longer since its chips are shorter. */
+    @media (max-width: 980px) {
+      .infra-pipeline {
+        flex-direction: column;
+      }
+
+      /* The flex ratios above size along the main axis, which is now the
+         height — leaving them in place collapses each block to a zero-height
+         strip and `overflow: hidden` clips its label away. */
+      .infra-pipeline-block,
+      .infra-pipeline-middle {
+        flex: 0 0 auto;
+        width: 100%;
+      }
+
+      .infra-pipeline-arrow {
+        transform: rotate(90deg);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .infra-pipeline-chain {
+        flex-direction: column;
+      }
+
+      /* Same main-axis reset as the blocks above — without it the chips
+         collapse to zero-height strips once the chain turns vertical. */
+      .infra-pipeline-chip {
+        flex: 0 0 auto;
+      }
+
+      .infra-pipeline-arrow-sm {
+        transform: rotate(90deg);
+      }
     }
 
     .infra-tier-section {
