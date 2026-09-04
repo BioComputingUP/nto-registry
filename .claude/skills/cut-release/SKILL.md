@@ -42,6 +42,24 @@ Two facts drive every hard rule below:
    **concept DOI** that never changes and always resolves to the newest
    version. The website and README cite the concept DOI only.
 
+## Security: the webhook carries a token
+
+Zenodo authenticates the webhook with an access token embedded in the hook's
+URL as `?access_token=...`. Facts that matter when working on a release:
+
+- **It is not in the repository and must never be put there.** It lives in
+  GitHub's webhook configuration. It cannot be moved into GitHub Actions
+  secrets — secrets are only interpolated into workflow runs, and webhook URLs
+  are stored verbatim with no templating.
+- **A public repo does not expose it.** Reading webhook config requires *admin*
+  on the repository; unauthenticated requests get `401`.
+- **`gh api repos/.../hooks` prints it in plaintext.** Never paste raw output
+  of that command into an issue, PR, commit message, CI log, or bug report.
+  Use the redacted forms in Step 6.
+- **To rotate it**, toggle the repository off and back on in Zenodo's GitHub
+  settings — that deletes the hook and recreates it with a fresh token.
+  Existing DOIs and records are unaffected.
+
 ## Hard rules
 
 - **Never tag before `.zenodo.json` and the `CHANGELOG.md` entry are committed
@@ -56,6 +74,8 @@ Two facts drive every hard rule below:
   tag; a hardcoded one silently contradicts every future release.
 - **Batch the pre-release commits.** Every push to `main` touching `site/**`
   or `data/**` redeploys GitHub Pages — see the caching note in `AGENTS.md`.
+- **Never paste raw `gh api .../hooks` output anywhere** — it contains the
+  Zenodo access token in the URL. Use the redacted forms in Step 6.
 
 ---
 
@@ -198,7 +218,26 @@ and confirm on the new record:
 
 If the record is missing entirely, the webhook did not fire. Check that the
 repository toggle is still on in Zenodo, and that the release was *published*
-rather than left as a draft.
+rather than left as a draft. Then inspect the webhook and its delivery log —
+**using these redacted forms, never a bare `gh api .../hooks`** (see "Security"
+above for why):
+
+```bash
+# Webhook state, with the token stripped from the URL
+gh api repos/BioComputingUP/nto-registry/hooks \
+  --jq '.[] | {id, active, events, receiver: (.config.url | split("?")[0])}'
+
+# Delivery log — safe as-is, no token in the summary fields
+gh api repos/BioComputingUP/nto-registry/hooks/<HOOK_ID>/deliveries \
+  --jq '.[] | "\(.delivered_at)  \(.event)/\(.action)  \(.status_code)"'
+```
+
+Reading the delivery log: GitHub sends several events per release. Zenodo
+answers `202` on the ones it acts on. A `403` carrying "unusual traffic from
+your network" on a *duplicate* event is Zenodo's bot protection, not a
+failure — if another delivery for the same release returned `202` and the
+record exists, nothing is wrong. Only treat it as a real failure if no
+delivery succeeded and no record was created.
 
 ## Step 7 — Post-release sync
 

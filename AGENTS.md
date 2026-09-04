@@ -108,6 +108,13 @@ procedure. The parts worth knowing before you touch anything release-related:
 - The site's Archive section (`/about#archive`) reads its version and all
   three asset counts from `stats.json`, so a new release needs **no site
   edit**. Don't hand-update numbers there.
+- **The Zenodo webhook's URL contains an access token.** It lives in GitHub's
+  webhook config, never in this repository, and it cannot be moved into
+  Actions secrets. Reading it requires repo *admin* — a public repo does not
+  expose it. But `gh api repos/.../hooks` prints it in plaintext, so never
+  paste that command's raw output into an issue, PR, commit or log; the
+  `cut-release` skill has redacted forms for debugging. Rotate it by toggling
+  the repository off and on in Zenodo's GitHub settings.
 
 ## Website (`site/`)
 
