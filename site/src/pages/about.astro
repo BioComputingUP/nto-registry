@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { ICONS, GITHUB_ICON, WHITE_ICONS } from "../lib/icons";
+import stats from "../generated/stats.json";
 
 const base = import.meta.env.BASE_URL;
 
@@ -151,6 +152,52 @@ const preprintBibtex = `@misc{farrell2026credit,
   doi = {10.31222/osf.io/praxg_v1},
   url = {https://doi.org/10.31222/osf.io/praxg_v1}
 }`;
+
+// --- Archive -------------------------------------------------------------
+// Zenodo mints two DOIs for an archived repository: a *version* DOI unique to
+// each release, and a *concept* DOI that is stable forever and always
+// resolves to the newest version. Only the concept DOI is hardcoded here —
+// the displayed version and every count below are read from stats.json (i.e.
+// from data/*.yml), so cutting a new release needs no edit to this page.
+// Never paste a version DOI here; it goes stale one release later. The
+// `cut-release` skill states this as a hard rule.
+const ZENODO_CONCEPT_DOI = "10.5281/zenodo.22306726";
+const ZENODO_DOI_URL = `https://doi.org/${ZENODO_CONCEPT_DOI}`;
+const ZENODO_ALL_VERSIONS_URL = ZENODO_DOI_URL;
+const GITHUB_RELEASES_URL = "https://github.com/BioComputingUP/nto-registry/releases";
+
+// The registry's primary assets are three curated YAML files — the catalogue
+// itself, not a by-product of the website. Counts come from stats.json so
+// this grid can't drift from data/*.yml.
+const archivedData = [
+  {
+    file: "nto_catalogue.yml",
+    icon: "database",
+    colorVar: "--cat-data",
+    count: stats.artefactCount,
+    unit: "artefact types",
+    blurb:
+      "Every artefact type with its explanation, the activities that produce it, real Life Science examples, and the infrastructure that can capture credit for it.",
+  },
+  {
+    file: "infrastructure_catalogue.yml",
+    icon: "server",
+    colorVar: "--cat-software",
+    count: stats.infrastructureCount,
+    unit: "platforms",
+    blurb:
+      "The normalized registry of credit-capturing platforms referenced by the catalogue, each cross-walked onto the CoARA OI4RRA four-tier architecture.",
+  },
+  {
+    file: "reform_initiatives.yml",
+    icon: "flag",
+    colorVar: "--cat-research-support",
+    count: stats.reformInitiativeCount,
+    unit: "initiatives",
+    blurb:
+      "The international research assessment reform initiatives — DORA, CoARA, Hidden REF and others — and what each means for non-traditional outputs.",
+  },
+];
 ---
 
 <BaseLayout title="About" description="The paper, authors, and ELIXIR Europe community behind the NTO Registry.">
@@ -253,6 +300,66 @@ const preprintBibtex = `@misc{farrell2026credit,
         </p>
       </div>
       <pre id="cite-bibtex" hidden>{preprintBibtex}</pre>
+    </div>
+  </section>
+
+  <section class="section archive-section" id="archive">
+    <div class="container">
+      <p class="eyebrow">Archive</p>
+      <h2 class="archive-heading">Cite a fixed version of the registry</h2>
+      <p class="archive-lede">
+        Every release is deposited in <a href="https://zenodo.org/" target="_blank" rel="noopener">Zenodo</a> with a
+        permanent DOI, so the catalogue can be cited at an exact version and reused from a snapshot that will never
+        change underneath you. The DOI below is the <strong>concept DOI</strong> — it is stable across all releases and
+        always resolves to the most recent one.
+      </p>
+
+      <div class="archive-doi-card">
+        <a class="archive-doi-logo" href={ZENODO_DOI_URL} target="_blank" rel="noopener" aria-label="This registry on Zenodo">
+          <img src={`${base}img/logos/zenodo.svg`} alt="Zenodo" width="110" height="40" loading="lazy" />
+        </a>
+        <div class="archive-doi-body">
+          <p class="archive-doi-label">All versions · concept DOI</p>
+          <a class="archive-doi-value" id="archive-doi" href={ZENODO_DOI_URL} target="_blank" rel="noopener">{ZENODO_CONCEPT_DOI}</a>
+          <p class="archive-doi-meta">Latest release v{stats.catalogueVersion} · Dataset · CC BY 4.0</p>
+        </div>
+        <button class="cite-copy archive-doi-copy" type="button" data-copy-target="archive-doi" data-copy-label="Copy DOI">
+          <span class="cite-copy-text" aria-live="polite">Copy DOI</span>
+        </button>
+      </div>
+
+      <h3 class="archive-subhead">What's archived</h3>
+      <p class="archive-subnote">
+        The registry's primary assets are three curated YAML files. They are the catalogue itself — designed for direct
+        reuse, adaptation to other research domains, and machine consumption — not a by-product of this website.
+      </p>
+
+      <div class="grid grid-3 archive-assets">
+        {archivedData.map((asset) => (
+          <div class="card archive-asset" style={`--asset-color: var(${asset.colorVar});`}>
+            <span class="archive-asset-icon" set:html={ICONS[asset.icon]} />
+            <p class="archive-asset-count">
+              {asset.count}<span class="archive-asset-unit">{asset.unit}</span>
+            </p>
+            <code class="archive-asset-file">data/{asset.file}</code>
+            <p class="archive-asset-blurb">{asset.blurb}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="archive-software">
+        <span class="archive-software-icon" set:html={ICONS.code} />
+        <p>
+          <strong>Supporting software is archived alongside the data, not in place of it.</strong> The same snapshot
+          carries <code>site/</code>, the Astro and React application that publishes this catalogue, and{" "}
+          <code>scripts/validate_yaml.py</code>, the schema and reference-integrity validator run against every change.
+        </p>
+      </div>
+
+      <div class="archive-actions">
+        <a class="btn btn-outline" href={ZENODO_ALL_VERSIONS_URL} target="_blank" rel="noopener">View all versions on Zenodo</a>
+        <a class="btn btn-outline" href={GITHUB_RELEASES_URL} target="_blank" rel="noopener">Release history on GitHub</a>
+      </div>
     </div>
   </section>
 
@@ -501,6 +608,202 @@ const preprintBibtex = `@misc{farrell2026credit,
       margin: 0;
       font-size: var(--fs-small);
       color: var(--color-text-muted);
+    }
+
+    /* The Citation band above sits on the default background and the contact
+       cards below are .section-subtle, so a second tinted band here would
+       merge into that one. A hairline rule separates this step instead, and
+       the DOI card carries the fill. */
+    .archive-section {
+      padding: var(--space-7) 0;
+      border-top: 1px solid var(--color-border);
+      /* Clear the sticky header when arriving via /about#archive. */
+      scroll-margin-top: 90px;
+    }
+
+    .archive-heading {
+      margin-bottom: var(--space-3);
+    }
+
+    .archive-lede {
+      max-width: 780px;
+      margin-bottom: var(--space-5);
+    }
+
+    .archive-doi-card {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-5);
+      max-width: 780px;
+      padding: var(--space-4) var(--space-5);
+      border: 1px solid var(--color-border);
+      border-left: 3px solid var(--color-accent);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      background: var(--color-bg-subtle);
+    }
+
+    /* The Zenodo mark is a blue gradient tile with a white wordmark, so it
+       reads on both the light and dark surface without inversion. */
+    .archive-doi-logo {
+      display: block;
+      flex-shrink: 0;
+    }
+
+    .archive-doi-logo img {
+      display: block;
+      width: 110px;
+      height: auto;
+      border-radius: var(--radius-sm);
+    }
+
+    .archive-doi-body {
+      flex: 1 1 240px;
+      min-width: 0;
+    }
+
+    .archive-doi-label {
+      margin: 0 0 var(--space-1);
+      font-size: var(--fs-small);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+
+    .archive-doi-value {
+      display: inline-block;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 1.05rem;
+      font-weight: 600;
+      word-break: break-all;
+    }
+
+    .archive-doi-meta {
+      margin: var(--space-1) 0 0;
+      font-size: var(--fs-small);
+      color: var(--color-text-muted);
+    }
+
+    .archive-doi-copy {
+      flex-shrink: 0;
+    }
+
+    .archive-subhead {
+      margin-top: var(--space-7);
+      margin-bottom: var(--space-2);
+    }
+
+    .archive-subnote {
+      max-width: 780px;
+      margin-bottom: var(--space-5);
+      color: var(--color-text-muted);
+    }
+
+    .archive-assets {
+      margin-bottom: var(--space-5);
+    }
+
+    /* --asset-color is set per card from the --cat-* token matching the data
+       file's subject, tying each asset back to the colour that file's entries
+       already carry on the Registry and Infrastructure pages. */
+    .archive-asset {
+      border-top: 3px solid var(--asset-color);
+    }
+
+    .archive-asset-icon {
+      display: inline-flex;
+      color: var(--asset-color);
+    }
+
+    .archive-asset-icon :global(svg) {
+      width: 26px;
+      height: 26px;
+    }
+
+    .archive-asset-count {
+      margin: var(--space-2) 0 var(--space-2);
+      font-size: 1.9rem;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--color-heading);
+    }
+
+    .archive-asset-unit {
+      display: block;
+      margin-top: var(--space-1);
+      font-size: var(--fs-small);
+      font-weight: 600;
+      color: var(--color-text-muted);
+    }
+
+    .archive-asset-file {
+      display: inline-block;
+      margin-bottom: var(--space-3);
+      padding: 0.15rem 0.45rem;
+      border-radius: var(--radius-sm);
+      background: var(--color-bg-subtle);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.82rem;
+      color: var(--color-text);
+      word-break: break-all;
+    }
+
+    .archive-asset-blurb {
+      margin: 0;
+      font-size: var(--fs-small);
+      color: var(--color-text-muted);
+    }
+
+    /* Set apart from the asset grid on purpose: the software is archived in
+       the same snapshot but is not one of the primary assets. */
+    .archive-software {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      max-width: 780px;
+      margin-bottom: var(--space-5);
+      padding-top: var(--space-4);
+      border-top: 1px dashed var(--color-border);
+    }
+
+    .archive-software-icon {
+      display: inline-flex;
+      flex-shrink: 0;
+      margin-top: 0.15rem;
+      color: var(--color-text-muted);
+    }
+
+    .archive-software-icon :global(svg) {
+      width: 22px;
+      height: 22px;
+    }
+
+    .archive-software p {
+      margin: 0;
+      font-size: var(--fs-small);
+      color: var(--color-text-muted);
+    }
+
+    .archive-software code {
+      padding: 0.1rem 0.35rem;
+      border-radius: var(--radius-sm);
+      background: var(--color-bg-subtle);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.82rem;
+    }
+
+    .archive-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+
+    @media (max-width: 560px) {
+      .archive-doi-card {
+        align-items: flex-start;
+        gap: var(--space-4);
+      }
     }
 
   </style>

@@ -9,6 +9,10 @@ version: v2.5.0
 date-released: 2026-09-03
 url: "https://nto-registry.org"
 repository-code: "https://github.com/BioComputingUP/nto-registry"
+# Zenodo concept DOI — stable across all releases, always resolves to the
+# newest version. Do not replace this with a per-version DOI; it would go
+# stale on the next release. See .claude/skills/cut-release/SKILL.md.
+doi: 10.5281/zenodo.22306726
 preferred-citation:
   type: preprint
   title: "Credit, recognition, and reward for non-traditional research outputs in the Life Sciences"

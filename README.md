@@ -3,6 +3,7 @@
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 [![Catalogue Version](https://img.shields.io/badge/catalogue--version-2.5.0-blue.svg)](CHANGELOG.md)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22306726.svg)](https://doi.org/10.5281/zenodo.22306726)
 
 ### 🌐 [Browse the live registry](https://nto-registry.org/)
 
@@ -51,6 +52,12 @@ The catalogue data is maintained in human-readable YAML files within the
   UN Open Source Principles, OPUS RAF)
   and their relevance to non-traditional research outputs.
 * `data/CONTRIBUTORS.yml` — contributors to the registry's content.
+
+Every tagged release is archived on Zenodo as a citable dataset. The DOI badge
+above is the **concept DOI** — it is stable across all releases and always
+resolves to the most recent one; each individual release also has its own
+version DOI. See the [Archive section](https://nto-registry.org/about/#archive)
+or [the releases](https://github.com/BioComputingUP/nto-registry/releases).
 
 See [ARTEFACT_TAXONOMY.md](ARTEFACT_TAXONOMY.md) for the full taxonomy and
 selection criteria.
