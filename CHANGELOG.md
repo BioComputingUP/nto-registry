@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/) — see
 CONTRIBUTING.md for the exact MAJOR/MINOR/PATCH bump policy applied to
 `catalogue-version`.
 
+## [2.6.0] - 2026-09-04
+
+### Added
+- **ORCID** is now active supporting infrastructure for **Supervised Student
+  Project Output** in `data/nto_catalogue.yml`, closing one of the catalogue's
+  three remaining empty `supporting-infrastructure` lists. ORCID's *Teaching
+  and Supervision* work-type group contains `Supervised student publication`
+  ("articles on research findings published jointly with or supervised by the
+  thesis adviser") and `Other teaching or supervision output`, which together
+  let a supervisor claim a student-authored output as a discretely-identified
+  work on their own record — the exact bar 1.2.2 set for keeping an ORCID
+  mapping, and the credit direction this artefact is about (the supervisor's
+  contribution, not the student's authorship). This artefact carried an ORCID
+  mapping at `status: planned` until 2.0.0 removed the `planned` value
+  wholesale; it returns as `active` now that the live pathway is confirmed
+  rather than aspirational. Resolves #3, reported by @EvaAlloza.
+
 ## [2.5.0] - 2026-09-03
 
 ### Added

@@ -57,7 +57,7 @@
 #   added-in-version:
 #   last-modified-version:
 
-catalogue-version: 2.5.0
+catalogue-version: 2.6.0
 
 entries:
 
@@ -347,9 +347,15 @@ entries:
     examples:
       - name: Bachelors, Masters, or PhD thesis
         url: ''
-    supporting-infrastructure: []
+    supporting-infrastructure:
+      - infrastructure-id: orcid
+        capture-function: >-
+          Lets the supervisor claim the student-authored output on their own
+          profile under the Teaching and Supervision work types, as either a
+          supervised student publication or other supervision output.
+        status: active
     added-in-version: 1.0.0
-    last-modified-version: 2.2.0
+    last-modified-version: 2.6.0
 
   # ---------------------------------------------------------------------------
   # Category: Software

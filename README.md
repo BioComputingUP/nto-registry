@@ -2,7 +2,7 @@
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
-[![Catalogue Version](https://img.shields.io/badge/catalogue--version-2.5.0-blue.svg)](CHANGELOG.md)
+[![Catalogue Version](https://img.shields.io/badge/catalogue--version-2.6.0-blue.svg)](CHANGELOG.md)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22306726.svg)](https://doi.org/10.5281/zenodo.22306726)
 
 ### 🌐 [Browse the live registry](https://nto-registry.org/)

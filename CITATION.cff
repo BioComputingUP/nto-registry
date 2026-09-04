@@ -5,8 +5,8 @@ authors:
   given-names: Gavin
   orcid: https://orcid.org/0000-0001-5166-8551
 title: "NTO Registry: A Catalogue of Non-Traditional Outputs in the Life Sciences"
-version: v2.5.0
-date-released: 2026-09-03
+version: v2.6.0
+date-released: 2026-09-04
 url: "https://nto-registry.org"
 repository-code: "https://github.com/BioComputingUP/nto-registry"
 # Zenodo concept DOI — stable across all releases, always resolves to the
