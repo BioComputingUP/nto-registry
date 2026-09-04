@@ -22,11 +22,12 @@ ARTEFACT_TAXONOMY.md               # categories, artefact types, and inclusion c
 CONTRIBUTING.md                    # full contribution workflow + SemVer policy
 CHANGELOG.md                       # Keep a Changelog history
 CITATION.cff                       # citation metadata, version kept in sync with the catalogue
+.zenodo.json                       # Zenodo deposit metadata — read at tag time, see "Releases" below
 .github/ISSUE_TEMPLATE/            # structured intake forms for submissions/corrections
 site/                              # the public website — see "Website" section below
 ```
 
-## The two things you'll usually be asked to do
+## The three things you'll usually be asked to do
 
 1. **Add or correct a catalogue entry** — use the
    [`add-nto-entry`](.claude/skills/add-nto-entry/SKILL.md) skill. It covers
@@ -37,11 +38,16 @@ site/                              # the public website — see "Website" sectio
    any time `data/**` changes. Do not hand-edit `catalogue-version` in
    isolation; the skill keeps `CITATION.cff`, the README badge, and
    `CHANGELOG.md` in sync with it.
+3. **Publish and archive that version** — use the
+   [`cut-release`](.claude/skills/cut-release/SKILL.md) skill to tag, create
+   the GitHub release, and mint a Zenodo DOI. It runs *after*
+   `semver-maintenance`, never instead of it.
 
 These are separate skills on purpose: `add-nto-entry` decides *what* content
 changed and appends it; `semver-maintenance` decides *how the version number
-should move* in response and propagates it. Adding an entry should always be
-followed by invoking the SemVer skill before a PR is opened.
+should move* in response and propagates it; `cut-release` publishes the
+version that results. Adding an entry should always be followed by invoking
+the SemVer skill before a PR is opened.
 
 ## Hard rules
 
@@ -76,6 +82,32 @@ followed by invoking the SemVer skill before a PR is opened.
   with schema changes — if you add a field to the entry schema, update the
   header comment in the YAML file, ARTEFACT_TAXONOMY.md if relevant, and the
   `add-nto-entry` skill's field table.
+
+## Releases and archiving (Zenodo)
+
+Every tagged GitHub release is archived to Zenodo and gets a DOI, via a
+webhook on the repository. Use the
+[`cut-release`](.claude/skills/cut-release/SKILL.md) skill — it has the full
+procedure. The parts worth knowing before you touch anything release-related:
+
+- **`.zenodo.json` is read at tag time**, and it is what makes the deposit a
+  *Dataset* with all 13 creators and their ORCIDs rather than a thin
+  auto-guessed record. It takes precedence over `CITATION.cff`, which Zenodo
+  would otherwise fall back to. Its creator list must stay in sync with
+  `data/CONTRIBUTORS.yml`.
+- **Commit before you tag.** Anything not committed when the tag is pushed is
+  absent from the DOI's metadata and cannot be corrected afterwards through
+  this route. This is the one release mistake that is not undoable.
+- **Two DOIs exist.** A *version* DOI unique to each release, and a *concept*
+  DOI that never changes and always resolves to the newest version. Only the
+  concept DOI is ever written into the site, README or `CITATION.cff` — a
+  version DOI hardcoded anywhere goes stale one release later.
+- **Never re-point a tag that has minted a DOI.** Cut a new PATCH instead.
+- `.zenodo.json` deliberately has **no `version` field** — Zenodo takes the
+  version from the git tag.
+- The site's Archive section (`/about#archive`) reads its version and all
+  three asset counts from `stats.json`, so a new release needs **no site
+  edit**. Don't hand-update numbers there.
 
 ## Website (`site/`)
 

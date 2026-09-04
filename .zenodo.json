@@ -1,0 +1,108 @@
+{
+  "upload_type": "dataset",
+  "access_right": "open",
+  "language": "eng",
+  "license": "cc-by-4.0",
+  "title": "NTO Registry: A Catalogue of Non-Traditional Outputs in the Life Sciences",
+  "description": "<p>A versioned, community-extensible catalogue of <strong>Non-Traditional Outputs (NTOs)</strong> in the Life Sciences &mdash; the data curation, research software, training, research support, and peer review work that sustains modern science but is systematically under-represented in publication-centric research assessment.</p><p><strong>The primary assets in this deposit are three curated YAML data files:</strong></p><ul><li><code>data/nto_catalogue.yml</code> &mdash; the artefact types, their explanations, the activities that produce them, real Life Science examples, and the infrastructure capable of capturing credit for each.</li><li><code>data/infrastructure_catalogue.yml</code> &mdash; the normalized registry of credit-capturing platforms (APICURON, ORCID, bio.tools, Zenodo, WorkflowHub and others), each cross-walked onto the CoARA OI4RRA four-tier architecture.</li><li><code>data/reform_initiatives.yml</code> &mdash; international research assessment reform initiatives (DORA, Leiden Manifesto, Hong Kong Principles, Hidden REF, CoARA, UN Open Source Principles, OPUS RAF) and their relevance to non-traditional outputs.</li></ul><p>These files are the catalogue itself and are intended for direct reuse, adaptation to other research domains, and machine consumption. Every entry carries <code>added-in-version</code> and <code>last-modified-version</code> provenance, and the catalogue as a whole is versioned under Semantic Versioning so downstream consumers can pin to a known state.</p><p><strong>Supporting software is archived alongside the data</strong>, not in place of it: <code>site/</code> is the Astro + React website that publishes the catalogue at <a href=\"https://nto-registry.org\">https://nto-registry.org</a>, and <code>scripts/validate_yaml.py</code> is the schema and reference-integrity validator run against every change.</p><p>The registry operationalises the landscaping presented in the accompanying preprint, and is maintained in collaboration with the ELIXIR Europe Credit, Recognition &amp; Usage Focus Group.</p>",
+  "creators": [
+    {
+      "name": "Farrell, Gavin",
+      "affiliation": "Department of Biomedical Sciences, University of Padova, Italy",
+      "orcid": "0000-0001-5166-8551"
+    },
+    {
+      "name": "Alloza, Eva",
+      "affiliation": "Barcelona Supercomputing Center (BSC), Spain",
+      "orcid": "0000-0001-8385-9336"
+    },
+    {
+      "name": "Bouhraoua, Adel",
+      "affiliation": "Department of Biomedical Sciences, University of Padova, Italy",
+      "orcid": "0000-0001-9531-6339"
+    },
+    {
+      "name": "Capella-Gutierrez, Salvador",
+      "affiliation": "Barcelona Supercomputing Center (BSC), Spain",
+      "orcid": "0000-0002-0309-604X"
+    },
+    {
+      "name": "Goble, Carole",
+      "affiliation": "Department of Computer Science, University of Manchester, United Kingdom",
+      "orcid": "0000-0003-1219-2137"
+    },
+    {
+      "name": "Hermjakob, Henning",
+      "affiliation": "EMBL-EBI, Wellcome Genome Campus, United Kingdom",
+      "orcid": "0000-0001-8479-0262"
+    },
+    {
+      "name": "Makaronidou, Maria",
+      "affiliation": "Athena Research & Innovation Center, Greece",
+      "orcid": "0009-0006-4575-3526"
+    },
+    {
+      "name": "Smith, Andrew",
+      "affiliation": "ELIXIR Europe Hub, EMBL-EBI South Building, United Kingdom",
+      "orcid": "0000-0002-6025-9271"
+    },
+    {
+      "name": "Sufi, Shoaib",
+      "affiliation": "Department of Computer Science, University of Manchester, United Kingdom",
+      "orcid": "0000-0001-6390-2616"
+    },
+    {
+      "name": "Vergoulis, Thanasis",
+      "affiliation": "Athena Research & Innovation Center, Greece",
+      "orcid": "0000-0003-0555-4128"
+    },
+    {
+      "name": "Zoubiri, Mehdi",
+      "affiliation": "Department of Biomedical Sciences, University of Padova, Italy",
+      "orcid": "0009-0009-3602-3558"
+    },
+    {
+      "name": "Quaglia, Federica",
+      "affiliation": "Department of Biomedical Sciences, University of Padova, Italy",
+      "orcid": "0000-0002-0341-4888"
+    },
+    {
+      "name": "Tosatto, Silvio C.E.",
+      "affiliation": "Department of Biomedical Sciences, University of Padova, Italy / CNR-IBIOM, Italy",
+      "orcid": "0000-0003-4525-7793"
+    }
+  ],
+  "keywords": [
+    "non-traditional outputs",
+    "non-traditional research outputs",
+    "research assessment",
+    "responsible research assessment",
+    "credit and recognition",
+    "CoARA",
+    "DORA",
+    "OPUS RAF",
+    "research software",
+    "data curation",
+    "training materials",
+    "peer review",
+    "FAIR",
+    "ELIXIR",
+    "life sciences",
+    "controlled vocabulary",
+    "research infrastructure"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "10.31222/osf.io/praxg_v1",
+      "relation": "isSupplementTo",
+      "resource_type": "publication-preprint",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "https://nto-registry.org",
+      "relation": "isDocumentedBy",
+      "resource_type": "other",
+      "scheme": "url"
+    }
+  ]
+}

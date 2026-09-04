@@ -95,6 +95,11 @@ add a `CHANGELOG.md` entry. If you're using an AI coding agent to prepare the
 change, point it at the `semver-maintenance` skill (`.claude/skills/semver-maintenance/SKILL.md`)
 to apply the bump consistently across all dependent files.
 
+Maintainers then publish that version as a tagged GitHub release, which is
+archived to [Zenodo](https://zenodo.org/) with a citable DOI — see the
+`cut-release` skill (`.claude/skills/cut-release/SKILL.md`) for the procedure.
+Contributors don't need to do anything for this; it happens after merge.
+
 ## Contribution Licensing
 By contributing, you agree that your contributions will be licensed under the
 project's license, CC BY 4.0. All contributed content must respect the
