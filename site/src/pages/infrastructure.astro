@@ -416,7 +416,7 @@ function cardDescription(fn: string): string {
           <a class="infra-pipeline-substrate" href={`#${FUNCTION_META[PIPELINE.substrate].anchor}`}>
             <span class="infra-pipeline-icon" aria-hidden="true" set:html={ICONS[PIPELINE_META[PIPELINE.substrate].icon]} />
             <span class="infra-pipeline-name">{PIPELINE_META[PIPELINE.substrate].short ?? FUNCTION_META[PIPELINE.substrate].title}</span>
-            <span class="infra-pipeline-substrate-note">Semantic substrate underpinning all three</span>
+            <span class="infra-pipeline-substrate-note">Semantic layer underpinning all three</span>
           </a>
         </div>
 
@@ -559,7 +559,7 @@ function cardDescription(fn: string): string {
           <p class="section-intro-left">
             The same {infrastructure.length} platforms grouped by the four-tier reference architecture from the CoARA
             working group on <a href={COARA_WG_URL} target="_blank" rel="noopener">Open Infrastructures for Responsible Research Assessment</a>.
-            This is a supplementary lens, not a replacement: each card keeps an outlined badge naming
+            This is a supplementary lens alongside the registry's own grouping: each card keeps an outlined badge naming
             the Essential or Intermediary group it belongs to here, and each tier below names the
             groups its members came from. The two models deliberately disagree: CoARA's Tier 3
             gathers services that this registry files under three separate headings. That divergence

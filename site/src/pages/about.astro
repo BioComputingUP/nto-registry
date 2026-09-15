@@ -423,7 +423,10 @@ const archivedData = [
       max-width: none;
     }
 
-    @media (min-width: 700px) {
+    /* One line only where it actually fits beside the hero badge (~1150px).
+       Forcing nowrap any narrower pushed the header row past the screen edge,
+       leaving a dead horizontal scroll on tablets and landscape phones. */
+    @media (min-width: 1200px) {
       .about-lede {
         white-space: nowrap;
       }

@@ -583,6 +583,26 @@ img {
   pointer-events: auto;
 }
 
+/* On phones the info button sits ~270px in from the left, so a panel
+   anchored to it runs far past the right edge — and even while hidden it
+   still widens the page into a dead horizontal scroll. Anchor it to the
+   full-width toggle row instead so it always fits the screen. */
+@media (max-width: 640px) {
+  .view-toggle-row {
+    position: relative;
+  }
+
+  .view-info {
+    position: static;
+  }
+
+  .view-info-panel {
+    left: 0;
+    right: 0;
+    width: auto;
+  }
+}
+
 .view-info-intro {
   margin: 0 0 var(--space-3);
   color: var(--color-text-muted);
