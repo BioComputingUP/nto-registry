@@ -132,35 +132,35 @@ const FUNCTION_META: Record<FunctionKey, { tier: "essential" | "intermediary"; a
     anchor: "academic-profiles",
     title: "Academic Profiles & Representation",
     blurb:
-      "These systems aggregate data from primary NTO repositories, enriched metadata services, and active tracking platforms to comprehensively host and represent PID-associated NTOs — translating granular research activity into meaningful, human-readable profiles suitable for formal academic assessment.",
+      "These systems aggregate data from primary NTO repositories, enriched metadata services, and active tracking platforms to comprehensively host and represent PID-associated NTOs, translating granular research activity into meaningful, human-readable profiles suitable for formal academic assessment.",
   },
   Aggregation: {
     tier: "intermediary",
     anchor: "aggregation",
     title: "Aggregation & Deduplication",
     blurb:
-      "Aggregation services merge PID-assigned NTO metadata from diverse repositories into a unified, searchable knowledge graph — essential for deduplicating records to prevent double-counting across platforms, so that clean, verified data feeds into academic profiling systems.",
+      "Aggregation services merge PID-assigned NTO metadata from diverse repositories into a unified, searchable knowledge graph. This is essential for deduplicating records to prevent double-counting across platforms, so that clean, verified data feeds into academic profiling systems.",
   },
   "Metadata enrichment": {
     tier: "intermediary",
     anchor: "metadata-enrichment",
     title: "Metadata Enrichment & Quality Context",
     blurb:
-      "These services enrich basic NTO metadata by appending missing annotations, such as specific topics or technical performance indicators — contextual enrichment that is crucial for establishing the qualitative value of NTOs and helping to prevent a quantity-over-quality assessment model.",
+      "These services enrich basic NTO metadata by appending missing annotations, such as specific topics or technical performance indicators. This contextual enrichment is crucial for establishing the qualitative value of NTOs and helping to prevent a quantity-over-quality assessment model.",
   },
   "Contribution tracking & incentives": {
     tier: "intermediary",
     anchor: "contribution-tracking",
     title: "Active Contribution Tracking",
     blurb:
-      "Active tracking platforms capture granular NTO contributions at scale through dynamic recognition models — essential for recording vital, ongoing research labour (e.g. curation) that holds significant aggregate value but remains entirely invisible within publications.",
+      "Active tracking platforms capture granular NTO contributions at scale through dynamic recognition models. They are essential for recording vital, ongoing research labour (e.g. curation) that holds significant aggregate value but remains entirely invisible within publications.",
   },
   "Ontologies & controlled vocabularies": {
     tier: "intermediary",
     anchor: "ontologies",
     title: "Ontologies & Controlled Vocabularies",
     blurb:
-      "Structured ontologies and controlled vocabularies are the semantic layer everything else here depends on: they fix what a research activity or output is called, so a contribution recorded on one platform means the same thing on another. The vocabularies in production today are activity-centric — CRediT standardises the contributor roles behind an output rather than the output itself. The gap is output-centric: no widely adopted or established ontology for non-traditional outputs currently exists, leaving NTO types described inconsistently from platform to platform.",
+      "Structured ontologies and controlled vocabularies are the semantic layer everything else here depends on: they fix what a research activity or output is called, so a contribution recorded on one platform means the same thing on another. The vocabularies in production today are activity-centric. CRediT, for instance, standardises the contributor roles behind an output rather than the output itself. The gap is output-centric: no widely adopted or established ontology for non-traditional outputs currently exists, leaving NTO types described inconsistently from platform to platform.",
   },
 };
 
@@ -248,7 +248,7 @@ const COARA_TIERS: { tier: CoaraTier; anchor: string; title: string; definition:
   {
     tier: "Tier 0",
     anchor: "coara-tier-0",
-    title: "Tier 0 — Foundation",
+    title: "Tier 0: Foundation",
     definition:
       "Essential metadata, ensuring consistent tracking with Persistent Identifiers (PIDs), and adopting standardised protocols.",
     gist: "metadata, PIDs and standardised protocols",
@@ -256,7 +256,7 @@ const COARA_TIERS: { tier: CoaraTier; anchor: string; title: string; definition:
   {
     tier: "Tier 1",
     anchor: "coara-tier-1",
-    title: "Tier 1 — Research Publishing Venues",
+    title: "Tier 1: Research Publishing Venues",
     definition:
       "Repositories, open access journals and publishers where the public is accessing the research products like articles, data, software, and many others.",
     gist: "the repositories and venues outputs are published in",
@@ -264,7 +264,7 @@ const COARA_TIERS: { tier: CoaraTier; anchor: string; title: string; definition:
   {
     tier: "Tier 2",
     anchor: "coara-tier-2",
-    title: "Tier 2 — Scholarly Metadata Aggregators",
+    title: "Tier 2: Scholarly Metadata Aggregators",
     definition:
       "Database aggregators or Scientific Knowledge Graph that contains the metadata in tiers 0 and 1.",
     gist: "aggregators and knowledge graphs over tiers 0 and 1",
@@ -272,7 +272,7 @@ const COARA_TIERS: { tier: CoaraTier; anchor: string; title: string; definition:
   {
     tier: "Tier 3",
     anchor: "coara-tier-3",
-    title: "Tier 3 — Research Assessment Services",
+    title: "Tier 3: Research Assessment Services",
     definition:
       "Services and platforms that are leveraging the previous tiers in order to generate metrics, analytics and indicators tailored for RRA.",
     gist: "metrics, analytics and indicators built on the tiers below",
@@ -356,8 +356,8 @@ function cardDescription(fn: string): string {
           <p class="eyebrow">Credit-capture infrastructure</p>
           <h1>Non-Traditional Output Infrastructure</h1>
           <p class="section-intro" style="margin-left:0;">
-            The platforms that turn output-level effort into machine-readable, citable credit —
-            from persistent identifiers to granular contribution tracking to aggregated researcher
+            These platforms turn output-level effort into machine-readable, citable credit, from
+            persistent identifiers through granular contribution tracking to aggregated researcher
             profiles.
           </p>
         </div>
@@ -390,7 +390,7 @@ function cardDescription(fn: string): string {
       <p class="section-intro-left">
         Essential infrastructure sits at both ends: one platform gives an output its first
         persistent, citable identity, another surfaces that identity as part of a researcher's
-        formal academic profile. Everything between them is intermediary — the services that
+        formal academic profile. Everything between them is intermediary: the services that
         merge, enrich, track and standardise the record on its way across.
       </p>
 
@@ -416,7 +416,7 @@ function cardDescription(fn: string): string {
           <a class="infra-pipeline-substrate" href={`#${FUNCTION_META[PIPELINE.substrate].anchor}`}>
             <span class="infra-pipeline-icon" aria-hidden="true" set:html={ICONS[PIPELINE_META[PIPELINE.substrate].icon]} />
             <span class="infra-pipeline-name">{PIPELINE_META[PIPELINE.substrate].short ?? FUNCTION_META[PIPELINE.substrate].title}</span>
-            <span class="infra-pipeline-substrate-note">Semantic substrate — underpins all three</span>
+            <span class="infra-pipeline-substrate-note">Semantic substrate underpinning all three</span>
           </a>
         </div>
 
@@ -454,12 +454,12 @@ function cardDescription(fn: string): string {
             <div class="view-info-panel" id="infra-view-info-panel" role="tooltip">
               <p class="view-info-intro">
                 The same platforms, cross-walked onto CoARA OI4RRA's four-tier reference
-                architecture. Essential and Intermediary stay this registry's own structure —
+                architecture. Essential and Intermediary stay this registry's own structure;
                 CoARA's tiers cut across them rather than nesting inside them.
               </p>
               <ul class="view-info-list">
                 {COARA_TIERS.map((t) => (
-                  <li><strong>{t.tier}</strong> — {t.gist}.</li>
+                  <li><strong>{t.tier}</strong>: {t.gist}.</li>
                 ))}
               </ul>
               <a href={COARA_REPORT_URL} target="_blank" rel="noopener">Full definitions in the OI4RRA report</a>
@@ -561,8 +561,8 @@ function cardDescription(fn: string): string {
             working group on <a href={COARA_WG_URL} target="_blank" rel="noopener">Open Infrastructures for Responsible Research Assessment</a>.
             This is a supplementary lens, not a replacement: each card keeps an outlined badge naming
             the Essential or Intermediary group it belongs to here, and each tier below names the
-            groups its members came from. The two models deliberately disagree — CoARA's Tier 3
-            gathers services this registry files under three separate headings — and that divergence
+            groups its members came from. The two models deliberately disagree: CoARA's Tier 3
+            gathers services that this registry files under three separate headings. That divergence
             is the point of showing both.
           </p>
 

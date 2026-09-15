@@ -62,7 +62,7 @@ export const ICONS: Record<string, string> = {
 };
 
 // Same stroke set as ICONS but rendered white, for use inside solid-color
-// buttons (e.g. the OSF preprint CTA) where currentColor would be the
+// buttons (e.g. the preprint CTA) where currentColor would be the
 // button's own text color rather than a deliberate white icon.
 export const WHITE_ICONS: Record<string, string> = {
   book: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6c-2-1.3-5-1.7-8-1v13c3-.7 6-.3 8 1 2-1.3 5-1.7 8-1V5c-3-.7-6-.3-8 1Zm0 0v13"/></svg>',

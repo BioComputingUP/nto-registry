@@ -146,6 +146,19 @@ export default function RegistryExplorer({ artefacts, categories, infrastructure
     setCategory("all");
   }
 
+  // A platform's name as shown in either infrastructure list on a card:
+  // linked when the catalogue has a URL for it, plain text otherwise.
+  function infraName(id: string) {
+    const info = infrastructureInfo[id];
+    return info?.url ? (
+      <a className="infra-name infra-name-link" href={info.url} target="_blank" rel="noopener">
+        {info.name}
+      </a>
+    ) : (
+      <span className="infra-name">{info?.name ?? id}</span>
+    );
+  }
+
   function toggle(id: string) {
     setExpanded((prev) => {
       const next = new Set(prev);
@@ -187,10 +200,10 @@ export default function RegistryExplorer({ artefacts, categories, infrastructure
                 An alternative view of these outputs, grouped by OPUS RAF's four assessment domains.
               </p>
               <ul className="view-info-list">
-                <li><strong>Research</strong> — proposals, methods, data, software, publications, peer review.</li>
-                <li><strong>Education</strong> — courses, resources, teaching, supervision, skills development.</li>
-                <li><strong>Leadership</strong> — leading people/projects, management roles, recognised expertise.</li>
-                <li><strong>Valorisation</strong> — science communication, collaboration, exploitation &amp; entrepreneurship.</li>
+                <li><strong>Research</strong>: proposals, methods, data, software, publications, peer review.</li>
+                <li><strong>Education</strong>: courses, resources, teaching, supervision, skills development.</li>
+                <li><strong>Leadership</strong>: leading people/projects, management roles, recognised expertise.</li>
+                <li><strong>Valorisation</strong>: science communication, collaboration, exploitation &amp; entrepreneurship.</li>
               </ul>
               <a href={OPUS_RAF_URL} target="_blank" rel="noopener">
                 Full definitions on Zenodo
@@ -321,30 +334,39 @@ export default function RegistryExplorer({ artefacts, categories, infrastructure
                   <div className="details-block details-block-infra">
                     <h4><span className="details-icon" dangerouslySetInnerHTML={{ __html: ICONS.server }} />Supporting infrastructure</h4>
                     {(() => {
-                      const visible = a["supporting-infrastructure"].filter(
-                        (ref) => ref.status === "active" && pidInfraIdSet.has(ref["infrastructure-id"])
-                      );
-                      if (visible.length === 0) {
-                        return <p className="infra-empty">No active Publishing &amp; PID Provision infrastructure yet.</p>;
-                      }
-                      return (
-                        <ul className="infra-list">
-                          {visible.map((ref, i) => {
-                            const info = infrastructureInfo[ref["infrastructure-id"]];
-                            return (
+                      const activeRefs = a["supporting-infrastructure"].filter((ref) => ref.status === "active");
+                      const pidRefs = activeRefs.filter((ref) => pidInfraIdSet.has(ref["infrastructure-id"]));
+                      if (pidRefs.length > 0) {
+                        return (
+                          <ul className="infra-list">
+                            {pidRefs.map((ref, i) => (
                               <li key={i}>
-                                {info?.url ? (
-                                  <a className="infra-name infra-name-link" href={info.url} target="_blank" rel="noopener">
-                                    {info.name}
-                                  </a>
-                                ) : (
-                                  <span className="infra-name">{info?.name ?? ref["infrastructure-id"]}</span>
-                                )}
+                                {infraName(ref["infrastructure-id"])}
                                 <span className="infra-capture">{ref["capture-function"]}</span>
                               </li>
-                            );
-                          })}
-                        </ul>
+                            ))}
+                          </ul>
+                        );
+                      }
+                      // No PID platform: any other active platform (ORCID, APICURON)
+                      // is still worth pointing to, but labelled so it can't be read
+                      // as publishing or PID provision.
+                      const crossLinkRefs = activeRefs.filter((ref) => !pidInfraIdSet.has(ref["infrastructure-id"]));
+                      return (
+                        <>
+                          <p className="infra-empty">No active Publishing &amp; PID Provision infrastructure yet.</p>
+                          {crossLinkRefs.length > 0 && (
+                            <ul className="infra-list infra-list-crosslink">
+                              {crossLinkRefs.map((ref, i) => (
+                                <li key={i}>
+                                  {infraName(ref["infrastructure-id"])}
+                                  <span className="infra-crosslink-note">Cross-link only · not a publishing or PID provider</span>
+                                  <span className="infra-capture">{ref["capture-function"]}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </>
                       );
                     })()}
                   </div>

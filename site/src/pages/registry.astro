@@ -9,11 +9,12 @@ const infrastructureInfo: Record<string, { name: string; url: string }> = Object
   infrastructure.map((i) => [i.id, { name: i.name, url: i.url }])
 );
 
-// Registry cards must ingest supporting infrastructure 1:1 from the
-// Infrastructure page's Publishing & Persistent Identifier Provision
-// cards ONLY — the same tier-derivation logic as infrastructure.astro's
-// functionKeyOf(), so both pages always agree by construction rather than
-// via a hand-maintained id list.
+// Registry cards list supporting infrastructure 1:1 from the Infrastructure
+// page's Publishing & Persistent Identifier Provision cards, using the same
+// tier-derivation logic as infrastructure.astro's functionKeyOf(), so both
+// pages agree by construction rather than via a hand-maintained id list.
+// A card with no PID platform shows its other active platforms instead, as
+// labelled cross-links (see RegistryExplorer.tsx).
 const pidInfraIds: string[] = infrastructure
   .filter((i) => i.function.split(".")[0].trim() === "Publishing & PID provision")
   .map((i) => i.id);

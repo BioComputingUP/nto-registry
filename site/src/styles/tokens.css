@@ -21,6 +21,7 @@
   --color-orange-500: #f66729;
   --color-orange-600: #dd5015;
   --color-teal-500: #23d5ab;
+  --color-teal-700: #0f7f64;
   --color-cream-100: #fff9e3;
   --color-gray-600: #606c71;
   --color-gray-700: #505050;
@@ -35,6 +36,10 @@
   --color-heading: var(--color-navy-900);
   --color-accent: var(--color-orange-500);
   --color-accent-contrast: #ffffff;
+  /* Teal as a secondary accent on light surfaces. The brand teal is too pale
+     on white (1.9:1), so light mode takes a deeper shade of the same hue and
+     dark mode switches back to the brand teal itself. */
+  --color-accent-teal: var(--color-teal-700);
   --color-link: var(--color-navy-800);
   --color-nav-bg: var(--color-navy-800);
   --color-nav-text: #ffffff;
@@ -114,6 +119,7 @@
     --color-text-muted: #a9c0c8;
     --color-heading: #ffffff;
     --color-link: #7fd6ff;
+    --color-accent-teal: var(--color-teal-500);
     --color-badge-active-bg: #0f3327;
     --color-badge-active-text: #4fe3ae;
     --color-badge-planned-bg: #3a2a0c;
@@ -765,6 +771,23 @@ img {
   color: var(--color-text-muted);
   font-style: italic;
   margin: 0;
+}
+
+/* Non-PID platforms shown on a card that has no PID platform. A dashed,
+   muted rule instead of the solid accent keeps them visibly secondary to
+   the Publishing & PID entries they stand in for. */
+.infra-empty + .infra-list {
+  margin-top: var(--space-3);
+}
+
+.infra-list-crosslink li {
+  border-left: 3px dashed var(--color-text-muted);
+}
+
+.infra-crosslink-note {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
 }
 
 .empty-state {

@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { ICONS, GITHUB_ICON, WHITE_ICONS } from "../lib/icons";
 import stats from "../generated/stats.json";
+import { PAPER_DOI, PAPER_URL } from "../lib/links";
 
 const base = import.meta.env.BASE_URL;
 
@@ -112,45 +113,44 @@ const authors: Author[] = [
 ];
 
 // --- Citation ------------------------------------------------------------
-// Transcribed from the registered Crossref record for the DOI
-// (api.crossref.org/works/10.31222/osf.io/praxg_v1): title, author order,
-// posted date, server and licence are the record as posted in v1. It reads
-// "artefacts" where this page's heading says "outputs", and its byline is 12
-// authors to the Authors grid's 13 — both reconcile when a v2 is posted (see
-// CITATION.cff's `notes`). A citation must match what the DOI resolves to,
-// so this block stays with the posted record. Don't hand-edit the DOI, date
-// or byline without re-checking Crossref.
+// Author names, order and title follow the manuscript PDF's byline, not the
+// Zenodo record's metadata, which formats some names differently. The DOI,
+// posted date, repository and licence come from the Zenodo record (PAPER_DOI
+// in lib/links.ts); the record's "(Preprint - V2)" title suffix stays on
+// Zenodo only. Re-check against the manuscript whenever a new version is
+// posted.
 const preprint = {
-  doi: "10.31222/osf.io/praxg_v1",
-  doiUrl: "https://doi.org/10.31222/osf.io/praxg_v1",
-  posted: "10 March 2026",
-  server: "MetaArXiv",
-  license: "CC BY-ND 4.0",
+  doi: PAPER_DOI,
+  doiUrl: PAPER_URL,
+  posted: "15 September 2026",
+  server: "Zenodo",
+  license: "CC BY 4.0",
 };
 
 const preprintReference =
   "Farrell, G., Alloza, E., Bouhraoua, A., Capella-Gutierrez, S., Goble, C., " +
-  "Hermjakob, H., Smith, A., Sufi, S., Vergoulis, T., Zoubiri, M., Quaglia, F., " +
-  "& Tosatto, S. C. E. (2026). Credit, recognition, and reward for " +
-  "non-traditional research artefacts in the Life Sciences [Preprint]. " +
-  `MetaArXiv. ${preprint.doiUrl}`;
+  "Hermjakob, H., Makaronidou, M., Smith, A., Sufi, S., Vergoulis, T., Zoubiri, M., " +
+  "Quaglia, F., & Tosatto, S. C. E. (2026). Credit, recognition, and reward for " +
+  "non-traditional research outputs in the life sciences [Preprint]. " +
+  `Zenodo. ${preprint.doiUrl}`;
 
 const preprintBibtex = `@misc{farrell2026credit,
   author = {Farrell, Gavin and Alloza, Eva and
     Bouhraoua, Adel and Capella-Gutierrez, Salvador and
     Goble, Carole and Hermjakob, Henning and
-    Smith, Andrew and Sufi, Shoaib and
-    Vergoulis, Thanasis and Zoubiri, Mehdi and
-    Quaglia, Federica and Tosatto, Silvio C. E.},
+    Makaronidou, Maria and Smith, Andrew and
+    Sufi, Shoaib and Vergoulis, Thanasis and
+    Zoubiri, Mehdi and Quaglia, Federica and
+    Tosatto, Silvio C. E.},
   title = {{Credit, recognition, and reward for
-    non-traditional research artefacts in the
-    Life Sciences}},
+    non-traditional research outputs in the
+    life sciences}},
   year = {2026},
-  month = mar,
-  publisher = {Center for Open Science},
-  howpublished = {MetaArXiv preprint},
-  doi = {10.31222/osf.io/praxg_v1},
-  url = {https://doi.org/10.31222/osf.io/praxg_v1}
+  month = sep,
+  publisher = {Zenodo},
+  howpublished = {Preprint},
+  doi = {${preprint.doi}},
+  url = {${preprint.doiUrl}}
 }`;
 
 // --- Archive -------------------------------------------------------------
@@ -195,7 +195,7 @@ const archivedData = [
     count: stats.reformInitiativeCount,
     unit: "initiatives",
     blurb:
-      "The international research assessment reform initiatives — DORA, CoARA, Hidden REF and others — and what each means for non-traditional outputs.",
+      "The international research assessment reform initiatives, such as DORA, CoARA and Hidden REF, and what each means for non-traditional outputs.",
   },
 ];
 ---
@@ -234,7 +234,7 @@ const archivedData = [
   <section class="section preprint-section">
     <div class="container">
       <p class="eyebrow">Preprint</p>
-      <h2>Credit, recognition, and reward for non-traditional research outputs<br />in the Life Sciences</h2>
+      <h2>Credit, recognition, and reward for non-traditional research outputs<br />in the life sciences</h2>
       <div class="preprint-layout">
         <p>
           Publication metrics remain the primary academic performance assessment in modern
@@ -242,16 +242,19 @@ const archivedData = [
           outputs such as curated datasets, research software, and training materials.
           Through a mapping of valuable non-traditional outputs illustrated by Life Science
           examples from ELIXIR Europe, this paper examines the technical solutions and
-          sociological barriers to credit, recognition, and reward — the landscaping this
-          registry hosts as versioned, machine-readable data.
+          sociological barriers to credit, recognition, and reward. This registry hosts that
+          landscaping as versioned, machine-readable data.
         </p>
         <div class="preprint-cta-col">
           <div class="preprint-cta-badge" aria-hidden="true">
-            <img src={`${base}img/logos/metaarxiv.png`} alt="" width="120" height="117" loading="lazy" />
+            <picture>
+              <source srcset={`${base}img/logos/zenodo-wordmark-white.svg`} media="(prefers-color-scheme: dark)" />
+              <img src={`${base}img/logos/zenodo-wordmark.svg`} alt="" width="150" height="49" loading="lazy" />
+            </picture>
           </div>
-          <a class="btn btn-primary preprint-cta" href="https://osf.io/preprints/metaarxiv/praxg_v1" target="_blank" rel="noopener">
+          <a class="btn btn-primary preprint-cta" href={PAPER_URL} target="_blank" rel="noopener">
             <span class="btn-icon" set:html={WHITE_ICONS.book} />
-            Read the Preprint on OSF (MetaArXiv)
+            Read the preprint on Zenodo
           </a>
         </div>
       </div>
@@ -306,32 +309,31 @@ const archivedData = [
   <section class="section archive-section" id="archive">
     <div class="container">
       <p class="eyebrow">Archive</p>
-      <h2 class="archive-heading">Cite a fixed version of the registry</h2>
+      <h2 class="archive-heading">Archived releases</h2>
       <p class="archive-lede">
-        Every release is deposited in <a href="https://zenodo.org/" target="_blank" rel="noopener">Zenodo</a> with a
-        permanent DOI, so the catalogue can be cited at an exact version and reused from a snapshot that will never
-        change underneath you. The DOI below is the <strong>concept DOI</strong> — it is stable across all releases and
-        always resolves to the most recent one.
+        Every release of the registry is deposited in <a href="https://zenodo.org/" target="_blank" rel="noopener">Zenodo</a> as a
+        fixed, versioned snapshot, so the catalogue can be reused from a state that will not change. To cite this work,
+        please cite the preprint above; an archived release can be cited alongside it where the exact version matters.
       </p>
 
       <div class="archive-doi-card">
         <a class="archive-doi-logo" href={ZENODO_DOI_URL} target="_blank" rel="noopener" aria-label="This registry on Zenodo">
-          <img src={`${base}img/logos/zenodo.svg`} alt="Zenodo" width="110" height="40" loading="lazy" />
+          <picture>
+            <source srcset={`${base}img/logos/zenodo-wordmark-white.svg`} media="(prefers-color-scheme: dark)" />
+            <img src={`${base}img/logos/zenodo-wordmark.svg`} alt="Zenodo" width="110" height="36" loading="lazy" />
+          </picture>
         </a>
         <div class="archive-doi-body">
-          <p class="archive-doi-label">All versions · concept DOI</p>
-          <a class="archive-doi-value" id="archive-doi" href={ZENODO_DOI_URL} target="_blank" rel="noopener">{ZENODO_CONCEPT_DOI}</a>
+          <p class="archive-doi-label">Zenodo archive</p>
+          <a class="archive-doi-value" href={ZENODO_DOI_URL} target="_blank" rel="noopener">{ZENODO_CONCEPT_DOI}</a>
           <p class="archive-doi-meta">Latest release v{stats.catalogueVersion} · Dataset · CC BY 4.0</p>
         </div>
-        <button class="cite-copy archive-doi-copy" type="button" data-copy-target="archive-doi" data-copy-label="Copy DOI">
-          <span class="cite-copy-text" aria-live="polite">Copy DOI</span>
-        </button>
       </div>
 
       <h3 class="archive-subhead">What's archived</h3>
       <p class="archive-subnote">
-        The registry's primary assets are three curated YAML files. They are the catalogue itself — designed for direct
-        reuse, adaptation to other research domains, and machine consumption — not a by-product of this website.
+        The registry's primary assets are three curated YAML files. They are the catalogue itself, not a by-product of
+        this website, and are designed for direct reuse, adaptation to other research domains, and machine consumption.
       </p>
 
       <div class="grid grid-3 archive-assets">
@@ -357,7 +359,7 @@ const archivedData = [
       </div>
 
       <div class="archive-actions">
-        <a class="btn btn-outline" href={ZENODO_ALL_VERSIONS_URL} target="_blank" rel="noopener">View all versions on Zenodo</a>
+        <a class="btn btn-outline" href={ZENODO_ALL_VERSIONS_URL} target="_blank" rel="noopener">Browse archived releases on Zenodo</a>
         <a class="btn btn-outline" href={GITHUB_RELEASES_URL} target="_blank" rel="noopener">Release history on GitHub</a>
       </div>
     </div>
@@ -386,8 +388,8 @@ const archivedData = [
             <h3>The Registry on GitHub</h3>
           </div>
           <p>
-            The data behind this site — the output catalogue, infrastructure catalogue,
-            and reform initiatives — is versioned and openly maintained on GitHub.
+            The data behind this site (the output catalogue, infrastructure catalogue,
+            and reform initiatives) is versioned and openly maintained on GitHub.
             Contributions are welcome.
           </p>
           <a class="btn btn-outline" href="https://github.com/BioComputingUP/nto-registry" target="_blank" rel="noopener">
@@ -458,15 +460,13 @@ const archivedData = [
     }
 
     .preprint-cta-badge {
-      width: 108px;
+      width: 150px;
     }
 
     .preprint-cta-badge img {
       display: block;
       width: 100%;
       height: auto;
-      border-radius: 50%;
-      box-shadow: var(--shadow-sm);
     }
 
     .preprint-cta {
@@ -643,8 +643,9 @@ const archivedData = [
       background: var(--color-bg-subtle);
     }
 
-    /* The Zenodo mark is a blue gradient tile with a white wordmark, so it
-       reads on both the light and dark surface without inversion. */
+    /* The Zenodo wordmark swaps to its white variant under a dark colour
+       scheme (the <picture> source), since the gradient's dark blue end would
+       sink into the dark surface. */
     .archive-doi-logo {
       display: block;
       flex-shrink: 0;
@@ -654,7 +655,6 @@ const archivedData = [
       display: block;
       width: 110px;
       height: auto;
-      border-radius: var(--radius-sm);
     }
 
     .archive-doi-body {
@@ -683,10 +683,6 @@ const archivedData = [
       margin: var(--space-1) 0 0;
       font-size: var(--fs-small);
       color: var(--color-text-muted);
-    }
-
-    .archive-doi-copy {
-      flex-shrink: 0;
     }
 
     .archive-subhead {
@@ -830,7 +826,7 @@ const archivedData = [
         } catch {
           // Clipboard access can be refused (insecure context, or the user's
           // browser permissions) — say so rather than claiming success.
-          label.textContent = "Copy failed — select the text";
+          label.textContent = "Copy failed. Select the text instead";
         }
         window.setTimeout(reset, 2500);
       });

@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import stats from "../generated/stats.json";
 import { ICONS } from "../lib/icons";
+import { PAPER_URL } from "../lib/links";
 
 const base = import.meta.env.BASE_URL;
 
@@ -21,7 +22,7 @@ const features = [
   {
     href: "registry",
     title: "Registry",
-    body: "Filter all 24 output types across Data, Training, Software, Research support, and Peer review.",
+    body: `Filter all ${stats.artefactCount} output types across Data, Training, Software, Research support, and Peer review.`,
     icon: "layers",
   },
   {
@@ -33,10 +34,10 @@ const features = [
 ];
 
 const statTiles = [
-  { value: stats.artefactCount, label: "Output types", icon: "layers", href: "registry" },
-  { value: stats.categoryCount, label: "Categories", icon: "grid", href: "registry" },
-  { value: stats.infrastructureCount, label: "Infrastructure platforms", icon: "server", href: "infrastructure" },
-  { value: stats.reformInitiativeCount, label: "Reform initiatives", icon: "flag", href: "reforms" },
+  { value: stats.artefactCount, label: "NTO types", icon: "layers", href: "registry" },
+  { value: stats.categoryCount, label: "NTO categories", icon: "grid", href: "registry" },
+  { value: stats.infrastructureCount, label: "Credit-capture infrastructure platforms", icon: "server", href: "infrastructure" },
+  { value: stats.reformInitiativeCount, label: "Assessment reform initiatives", icon: "flag", href: "reforms" },
 ];
 
 const categoryIcons: Record<string, string> = {
@@ -55,20 +56,20 @@ const categoryIcons: Record<string, string> = {
         <p class="eyebrow">From the ELIXIR Europe community</p>
         <h1>Non-Traditional Output Registry</h1>
         <p class="hero-subtitle">
-          The <span class="hero-acronym">NTO Registry</span>: credit, recognition, and reward for
-          the datasets, software, training, and reviewing work that publication metrics leave out.
+          The Non-Traditional Output <span class="hero-acronym">(NTO)</span> Registry: credit,
+          recognition, and reward for the data, training, software, research support, and peer
+          review outputs that publication metrics leave out.
         </p>
         <p class="hero-lead">
           This registry operationalises a landscaping study from ELIXIR Europe researchers,
-          giving {stats.artefactCount} non-traditional output types — across data, software,
-          training, research support, and peer review — a shared definition, real examples, and
-          a path to credit capture. Versioned, machine-readable, and open for the community to
-          extend, it's built to support policymakers and institutions adopting alternative
-          research assessment.
+          giving each of its {stats.artefactCount} output types a shared definition, real examples,
+          and a path to credit capture. Versioned, machine-readable, and open for the community to
+          extend, it supports policymakers and institutions adopting alternative research
+          assessment.
         </p>
         <div class="hero-actions">
           <a class="btn btn-primary" href={`${base}registry/`}>Explore the Registry</a>
-          <a class="btn btn-outline hero-btn-outline" href={`${base}about/`}>Read the paper</a>
+          <a class="btn btn-outline hero-btn-outline" href={PAPER_URL} target="_blank" rel="noopener">Read the paper</a>
         </div>
       </div>
 
@@ -141,7 +142,7 @@ const categoryIcons: Record<string, string> = {
       <h2 class="nto-def-heading">What is a Non-Traditional Output (NTO)?</h2>
       <p class="section-intro nto-def-intro">
         A Non-Traditional Output is any output or activity that sustains modern
-        research but is systematically under-represented in publication-centric assessment —
+        research but is systematically under-represented in publication-centric assessment,
         from a curated database entry to a FAIR software release to a grant peer-review
         report. This registry gives each type a shared definition, real examples, and a path
         to credit capture.
@@ -280,7 +281,7 @@ const categoryIcons: Record<string, string> = {
     }
 
     .stat-icon {
-      color: var(--color-accent);
+      color: var(--color-accent-teal);
       margin-bottom: var(--space-3);
     }
 
@@ -406,7 +407,7 @@ const categoryIcons: Record<string, string> = {
     .feature-link {
       margin-top: auto;
       padding-top: var(--space-3);
-      color: var(--color-accent);
+      color: var(--color-accent-teal);
       font-weight: 600;
     }
 

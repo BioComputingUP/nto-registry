@@ -144,15 +144,17 @@ artefact type).
    Infrastructure page renders the new card with a real logo).
 
 **Note on the Registry page:** an artefact's "Supporting infrastructure" list
-there is *not* the same as its full `supporting-infrastructure` in the YAML —
-it's automatically filtered to only the platforms whose `function` in
+there is *not* the same as its full `supporting-infrastructure` in the YAML.
+It lists only the platforms whose `function` in
 `data/infrastructure_catalogue.yml` starts with "Publishing & PID provision"
 (computed in `site/src/pages/registry.astro`, not a hand-maintained list).
-An artefact whose only active infrastructure is e.g. APICURON or ORCID
-(Contribution tracking / Academic profiles, not PID provision) will
-correctly show "No active Publishing & PID Provision infrastructure yet." on
-its Registry card even though the Infrastructure page shows it as active
-elsewhere — that's by design, not a bug to fix.
+The exception is an artefact with no such platform: its card shows "No
+active Publishing & PID Provision infrastructure yet." and then lists its
+other active platforms (e.g. ORCID, APICURON) as cross-links, labelled
+"Cross-link only · not a publishing or PID provider". An artefact that does
+have a PID platform shows only that, so its ORCID or APICURON mapping appears
+on the Infrastructure page but not on its card. Both behaviours are by
+design, not bugs to fix.
 
 ### D. Correction (from `submit_nto.yml` / `submit_reform.yml` /
     `submit_infrastructure.yml`'s "Correction to an existing entry" path, or ad hoc)
