@@ -200,7 +200,8 @@ const categoryIcons: Record<string, string> = {
 
     .hero-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      /* Wide enough for the title to sit on one line at desktop widths. */
+      grid-template-columns: minmax(0, 1.45fr) minmax(0, 0.55fr);
       gap: var(--space-7);
       align-items: center;
     }
@@ -212,6 +213,7 @@ const categoryIcons: Record<string, string> = {
     .hero h1 {
       color: #fff;
       margin-bottom: var(--space-3);
+      text-wrap: balance;
     }
 
     .hero-acronym {

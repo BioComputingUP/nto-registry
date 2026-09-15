@@ -175,27 +175,27 @@ const archivedData = [
     icon: "database",
     colorVar: "--cat-data",
     count: stats.artefactCount,
-    unit: "artefact types",
+    unit: "Non-Traditional Output (NTO) types",
     blurb:
-      "Every artefact type with its explanation, the activities that produce it, real Life Science examples, and the infrastructure that can capture credit for it.",
+      "Every NTO type with its explanation, the activities that produce it, real Life Science examples, and the infrastructure that can capture credit for it.",
   },
   {
     file: "infrastructure_catalogue.yml",
     icon: "server",
     colorVar: "--cat-software",
     count: stats.infrastructureCount,
-    unit: "platforms",
+    unit: "Credit-capture platforms",
     blurb:
-      "The normalized registry of credit-capturing platforms referenced by the catalogue, each cross-walked onto the CoARA OI4RRA four-tier architecture.",
+      "The normalized registry of credit-capture platforms referenced by the catalogue, each cross-walked onto the CoARA OI4RRA four-tier architecture.",
   },
   {
     file: "reform_initiatives.yml",
     icon: "flag",
     colorVar: "--cat-research-support",
     count: stats.reformInitiativeCount,
-    unit: "initiatives",
+    unit: "Assessment reform initiatives",
     blurb:
-      "The international research assessment reform initiatives, such as DORA, CoARA and Hidden REF, and what each means for non-traditional outputs.",
+      "International initiatives such as DORA, CoARA and Hidden REF, and what each means for non-traditional outputs.",
   },
 ];
 ---
@@ -332,30 +332,24 @@ const archivedData = [
 
       <h3 class="archive-subhead">What's archived</h3>
       <p class="archive-subnote">
-        The registry's primary assets are three curated YAML files. They are the catalogue itself, not a by-product of
-        this website, and are designed for direct reuse, adaptation to other research domains, and machine consumption.
+        Each release archives the registry's primary assets: its software and three curated data YAML files. The YAML
+        files are the catalogue itself, for direct reuse, adaptation to other research domains, and machine
+        consumption. The software is <code>site/</code>, the application that publishes this catalogue, and{" "}
+        <code>scripts/validate_yaml.py</code>, the validator run against every change.
       </p>
 
       <div class="grid grid-3 archive-assets">
         {archivedData.map((asset) => (
           <div class="card archive-asset" style={`--asset-color: var(${asset.colorVar});`}>
-            <span class="archive-asset-icon" set:html={ICONS[asset.icon]} />
-            <p class="archive-asset-count">
-              {asset.count}<span class="archive-asset-unit">{asset.unit}</span>
-            </p>
+            <div class="archive-asset-head">
+              <span class="archive-asset-icon" set:html={ICONS[asset.icon]} />
+              <span class="archive-asset-count">{asset.count}</span>
+              <span class="archive-asset-unit">{asset.unit}</span>
+            </div>
             <code class="archive-asset-file">data/{asset.file}</code>
             <p class="archive-asset-blurb">{asset.blurb}</p>
           </div>
         ))}
-      </div>
-
-      <div class="archive-software">
-        <span class="archive-software-icon" set:html={ICONS.code} />
-        <p>
-          <strong>Supporting software is archived alongside the data, not in place of it.</strong> The same snapshot
-          carries <code>site/</code>, the Astro and React application that publishes this catalogue, and{" "}
-          <code>scripts/validate_yaml.py</code>, the schema and reference-integrity validator run against every change.
-        </p>
       </div>
 
       <div class="archive-actions">
@@ -443,7 +437,7 @@ const archivedData = [
       display: grid;
       grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr);
       gap: var(--space-7);
-      align-items: end;
+      align-items: center;
       margin-top: var(--space-2);
     }
 
@@ -456,7 +450,7 @@ const archivedData = [
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: var(--space-4);
+      gap: var(--space-6);
     }
 
     .preprint-cta-badge {
@@ -696,6 +690,14 @@ const archivedData = [
       color: var(--color-text-muted);
     }
 
+    .archive-subnote code {
+      padding: 0.1rem 0.35rem;
+      border-radius: var(--radius-sm);
+      background: var(--color-bg-subtle);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.82rem;
+    }
+
     .archive-assets {
       margin-bottom: var(--space-5);
     }
@@ -717,8 +719,17 @@ const archivedData = [
       height: 26px;
     }
 
+    /* Icon, count and unit share one line so the card doesn't stack three
+       short rows above its content. */
+    .archive-asset-head {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-3);
+    }
+
     .archive-asset-count {
-      margin: var(--space-2) 0 var(--space-2);
+      flex-shrink: 0;
       font-size: 1.9rem;
       font-weight: 800;
       line-height: 1;
@@ -726,10 +737,9 @@ const archivedData = [
     }
 
     .archive-asset-unit {
-      display: block;
-      margin-top: var(--space-1);
       font-size: var(--fs-small);
       font-weight: 600;
+      line-height: 1.3;
       color: var(--color-text-muted);
     }
 
@@ -749,44 +759,6 @@ const archivedData = [
       margin: 0;
       font-size: var(--fs-small);
       color: var(--color-text-muted);
-    }
-
-    /* Set apart from the asset grid on purpose: the software is archived in
-       the same snapshot but is not one of the primary assets. */
-    .archive-software {
-      display: flex;
-      align-items: flex-start;
-      gap: var(--space-3);
-      max-width: 780px;
-      margin-bottom: var(--space-5);
-      padding-top: var(--space-4);
-      border-top: 1px dashed var(--color-border);
-    }
-
-    .archive-software-icon {
-      display: inline-flex;
-      flex-shrink: 0;
-      margin-top: 0.15rem;
-      color: var(--color-text-muted);
-    }
-
-    .archive-software-icon :global(svg) {
-      width: 22px;
-      height: 22px;
-    }
-
-    .archive-software p {
-      margin: 0;
-      font-size: var(--fs-small);
-      color: var(--color-text-muted);
-    }
-
-    .archive-software code {
-      padding: 0.1rem 0.35rem;
-      border-radius: var(--radius-sm);
-      background: var(--color-bg-subtle);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 0.82rem;
     }
 
     .archive-actions {
