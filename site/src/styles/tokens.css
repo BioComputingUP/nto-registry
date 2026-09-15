@@ -359,9 +359,9 @@ img {
 
 .stat-label {
   color: var(--color-text-muted);
-  font-size: var(--fs-small);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.35;
   margin-top: var(--space-2);
 }
 
