@@ -23,9 +23,21 @@ function initials(name: string) {
     .slice(0, 3);
 }
 
-// Author list mirrors the paper's byline order. Photo credit: reused from
-// BioComputingUP/OSAI_ecosystem's about page for the two authors who overlap
-// with that project's team. ORCID iDs are independently verified via the
+// Author list mirrors the paper's byline order. Photo credit: Farrell and
+// Tosatto are reused from BioComputingUP/OSAI_ecosystem's about page. The
+// rest come from a public page that names the person, cropped square and
+// capped at 500px (never upscaled, so some are smaller):
+//   - Alloza: GitHub profile EvaAlloza (lists BSC / INB/ELIXIR-ES).
+//   - Bouhraoua, Zoubiri, Quaglia: biocomputingup.it/people.
+//   - Capella-Gutierrez: eudat.eu/cdi-governance/salvador-capella-gutierrez.
+//   - Goble: research.manchester.ac.uk/en/persons/carole.goble.
+//   - Hermjakob: ebi.ac.uk/people/person/henning-hermjakob.
+//   - Smith: embl.org/people/person/andrew-smith (page shows the same ORCID).
+//   - Sufi: software.ac.uk/our-people/shoaib-sufi.
+//   - Vergoulis: thanasis-vergoulis.com (linked from GitHub profile vergoulis).
+//   - Makaronidou: no public photo attributable to her was found, so the
+//     card falls back to initials. Do not guess one.
+// ORCID iDs are independently verified via the
 // public ORCID API (https://pub.orcid.org), cross-checked against each
 // person's listed employer/works to confirm the match — see AGENTS.md's
 // "never fabricate a URL/identifier" rule. Verification notes:
@@ -51,26 +63,31 @@ const authors: Author[] = [
     name: "Eva Alloza",
     affiliation: "Barcelona Supercomputing Center (BSC), Spain",
     orcid: "0000-0001-8385-9336",
+    photo: "img/authors/eva-alloza.jpg",
   },
   {
     name: "Adel Bouhraoua",
     affiliation: "University of Padova, Italy",
     orcid: "0000-0001-9531-6339",
+    photo: "img/authors/adel-bouhraoua.jpg",
   },
   {
     name: "Salvador Capella-Gutierrez",
     affiliation: "Barcelona Supercomputing Center (BSC), Spain",
     orcid: "0000-0002-0309-604X",
+    photo: "img/authors/salvador-capella-gutierrez.jpg",
   },
   {
     name: "Carole Goble",
     affiliation: "University of Manchester, United Kingdom",
     orcid: "0000-0003-1219-2137",
+    photo: "img/authors/carole-goble.jpg",
   },
   {
     name: "Henning Hermjakob",
     affiliation: "EMBL-EBI, United Kingdom",
     orcid: "0000-0001-8479-0262",
+    photo: "img/authors/henning-hermjakob.jpg",
   },
   {
     name: "Maria Makaronidou",
@@ -81,27 +98,32 @@ const authors: Author[] = [
     name: "Andrew Smith",
     affiliation: "ELIXIR Europe Hub, EMBL-EBI, United Kingdom",
     orcid: "0000-0002-6025-9271",
+    photo: "img/authors/andrew-smith.jpg",
   },
   {
     name: "Shoaib Sufi",
     affiliation: "University of Manchester, United Kingdom",
     orcid: "0000-0001-6390-2616",
+    photo: "img/authors/shoaib-sufi.jpg",
   },
   {
     name: "Thanasis Vergoulis",
     affiliation: "Athena Research & Innovation Center, Greece",
     orcid: "0000-0003-0555-4128",
+    photo: "img/authors/thanasis-vergoulis.jpg",
   },
   {
     name: "Mehdi Zoubiri",
     affiliation: "University of Padova, Italy",
     orcid: "0009-0009-3602-3558",
+    photo: "img/authors/mehdi-zoubiri.jpg",
   },
   {
     name: "Federica Quaglia",
     affiliation: "University of Padova, Italy",
     role: "Co-corresponding author",
     orcid: "0000-0002-0341-4888",
+    photo: "img/authors/federica-quaglia.jpg",
   },
   {
     name: "Silvio C.E. Tosatto",
